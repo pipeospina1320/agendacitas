@@ -1,11 +1,10 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "symfony/agendacitas",
+    "license": "proprietary",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle"
+            "": "src/"
         },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
