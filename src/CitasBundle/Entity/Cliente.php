@@ -68,8 +68,17 @@ class cliente {
     private $nombre_completo;
     
  
+   # public function __get($propiedad) {
+   #     if(property_exists($this, $propiedad)){
+   #         return $this->$propiedad;
+   #     }
+   # }
     
-   
+   # public function __set($propiedad, $valor){
+   #     if(property_exists($this, $propiedad)){
+   #         $this->$propiedad = $valor;
+   #     }
+   # }   
     
     /**
      * Get codigoCitasPk

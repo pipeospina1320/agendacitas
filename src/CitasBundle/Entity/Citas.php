@@ -42,26 +42,113 @@ class Citas {
      */
     private $codigoUsuarioFk;
 
-    
     /**
      * @ORM\ManyToOne(targetEntity="cliente", inversedBy="clientesRel")
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
-    protected $clienteRel; 
-    
+    protected $clienteRel;
+
     /**
      * @ORM\ManyToOne(targetEntity="usuario", inversedBy="usuarioRel")
      * @ORM\JoinColumn(name="codigo_usuario_fk", referencedColumnName="codigo_usuario_pk")
      */
-    protected $usuarioRel; 
-    
+    protected $usuarioRel;
+
     /**
      * Get codigoCitasPk
      *
      * @return int
      */
-    public function getcodigoCitasPk() {
-        return $this->$codigoCitasPk;
+    public function getCodigoCitasPk() {
+        return $this->codigoCitasPk;
+    }
+
+    /**
+     * Set horaCita
+     *
+     * @param \DateTime $horaCita
+     *
+     * @return Citas
+     */
+    public function setHoraCita($horaCita) {
+        $this->horaCita = $horaCita;
+
+        return $this;
+    }
+
+    /**
+     * Get horaCita
+     *
+     * @return \DateTime
+     */
+    public function getHoraCita() {
+        return $this->horaCita;
+    }
+
+    /**
+     * Set diaCita
+     *
+     * @param \DateTime $diaCita
+     *
+     * @return Citas
+     */
+    public function setDiaCita($diaCita) {
+        $this->diaCita = $diaCita;
+
+        return $this;
+    }
+
+    /**
+     * Get diaCita
+     *
+     * @return \DateTime
+     */
+    public function getDiaCita() {
+        return $this->diaCita;
+    }
+
+    /**
+     * Set asuntoCita
+     *
+     * @param \String $asuntoCita
+     *
+     * @return Citas
+     */
+    public function setAsuntoCita($asuntoCita) {
+        $this->asuntoCitaa = $asuntoCita;
+
+        return $this;
+    }
+
+    /**
+     * Get asuntoCita
+     *
+     * @return \String
+     */
+    public function getAsuntoCita() {
+        return $this->asuntoCita;
+    }
+
+    /**
+     * Set codigoClienteFk
+     *
+     * @param integer $codigoClienteFk
+     *
+     * @return Citas
+     */
+    public function setCodigoClienteFk($codigoClienteFk) {
+        $this->codigoClienteFk = $codigoClienteFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoClienteFk
+     *
+     * @return integer
+     */
+    public function getCodigoClienteFk() {
+        return $this->asuntoCita;
     }
 
 }
