@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="cliente")
- * @ORM\Entity(repositoryClass="CitasBundle\Repository\EmpleadoRepository")
+ * @ORM\Entity(repositoryClass="CitasBundle\Repository\ClienteRepository")
  */
-class cliente {
+class Cliente {
 
     /**
      * @ORM\Id
@@ -23,7 +23,7 @@ class cliente {
     private $codigoTipoDocumentoFk;
 
     /**
-     * @ORM\Column(name="num_documento", type="integer", nullable=true)
+     * @ORM\Column(name="num_documento", type="integer", length=15, nullable=true)
      */
     private $numDocumento;
 
@@ -46,47 +46,80 @@ class cliente {
      * @ORM\Column(name="segundo_apellido", type="string", length=200)
      */
     private $segundoApellido;
-    
+
     /**
      * @ORM\Column(name="telefono", type="string", length=200)
      */
     private $telefono;
-    
+
     /**
      * @ORM\Column(name="celular", type="string", length=200)
      */
     private $celular;
-   
-     /**
+
+    /**
      * @ORM\Column(name="direccion", type="string", length=200)
      */
     private $direccion;
-    
+
     /**
      * @ORM\Column(name="nombre_completo", type="string", length=200)
      */
     private $nombre_completo;
-    
- 
-   # public function __get($propiedad) {
-   #     if(property_exists($this, $propiedad)){
-   #         return $this->$propiedad;
-   #     }
-   # }
-    
-   # public function __set($propiedad, $valor){
-   #     if(property_exists($this, $propiedad)){
-   #         $this->$propiedad = $valor;
-   #     }
-   # }   
-    
+
+    # public function __get($propiedad) {
+    #     if(property_exists($this, $propiedad)){
+    #         return $this->$propiedad;
+    #     }
+    # }
+    # public function __set($propiedad, $valor){
+    #     if(property_exists($this, $propiedad)){
+    #         $this->$propiedad = $valor;
+    #     }
+    # }   
+
     /**
-     * Get codigoCitasPk
+     * Get codigoClientePk
      *
      * @return int
      */
-    public function getcodigoCitasPk() {
-        return $this->$codigoCitasPk;
+    public function getcodigoClientePk() {
+        return $this->codigoClientePk;
     }
 
+    /**
+     *  Set codigoTipoDocumentoFk
+     * 
+     *  @return Citas
+     */
+    public function setCodigoTipoDocumentoFk() {
+        $this->codigoTipoDocumentoFk = $codigoTipoDocumento;
+        return $this->codigoTipoDocumentoFk;
+    }
+
+    /**
+     * Get codigoTipoDocumentoFk
+     *
+     * @return \String
+     */
+    public function getCodigotipoDocumentoFk() {
+        return $this->codigoTipoDocumentoFk;
+    }
+
+    /**
+     * Set numDocumento
+     * 
+     * @return Citas
+     */
+    public function setNumdocumento(){
+        $this->numDocumento=$numDocumento;
+        return $this->numDocumento;
+    }
+    
+    /**
+     * Get numdocumento
+     * 
+     * 
+     */
+    
 }

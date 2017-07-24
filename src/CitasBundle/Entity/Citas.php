@@ -148,7 +148,30 @@ class Citas {
      * @return integer
      */
     public function getCodigoClienteFk() {
-        return $this->asuntoCita;
+        return $this->codigoClienteFk;
     }
 
+     /**
+     * Set codigoUsuarioFk
+     *
+     * @param integer $codigoUsuarioFk
+     *
+     * @return Citas
+     */
+    public function setCodigoUsuarioFk($codigoUsarioFk) {
+        $this->codigoUsuarioFk = $codigoUsarioFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoUsuarioFk
+     *
+     * @return integer
+     */
+    public function getCodigoUsuarioFk() {
+        return $this->codigoUsuarioFk;
+    }
+    
+   
 }
