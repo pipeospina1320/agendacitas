@@ -81,45 +81,230 @@ class Cliente {
     /**
      * Get codigoClientePk
      *
-     * @return int
+     * @return integer
      */
-    public function getcodigoClientePk() {
+    public function getCodigoClientePk() {
         return $this->codigoClientePk;
     }
 
     /**
-     *  Set codigoTipoDocumentoFk
-     * 
-     *  @return Citas
+     * Set codigoTipoDocumentoFk
+     *
+     * @param integer $codigoTipoDocumentoFk
+     *
+     * @return Cliente
      */
-    public function setCodigoTipoDocumentoFk() {
-        $this->codigoTipoDocumentoFk = $codigoTipoDocumento;
-        return $this->codigoTipoDocumentoFk;
+    public function setCodigoTipoDocumentoFk($codigoTipoDocumentoFk) {
+        $this->codigoTipoDocumentoFk = $codigoTipoDocumentoFk;
+
+        return $this;
     }
 
     /**
      * Get codigoTipoDocumentoFk
      *
-     * @return \String
+     * @return integer
      */
-    public function getCodigotipoDocumentoFk() {
+    public function getCodigoTipoDocumentoFk() {
         return $this->codigoTipoDocumentoFk;
     }
 
     /**
      * Set numDocumento
-     * 
-     * @return Citas
+     *
+     * @param integer $numDocumento
+     *
+     * @return Cliente
      */
-    public function setNumdocumento(){
-        $this->numDocumento=$numDocumento;
+    public function setNumDocumento($numDocumento) {
+        $this->numDocumento = $numDocumento;
+
+        return $this;
+    }
+
+    /**
+     * Get numDocumento
+     *
+     * @return integer
+     */
+    public function getNumDocumento() {
         return $this->numDocumento;
     }
-    
+
     /**
-     * Get numdocumento
-     * 
-     * 
+     * Set primerNombre
+     *
+     * @param string $primerNombre
+     *
+     * @return Cliente
      */
-    
+    public function setPrimerNombre($primerNombre) {
+        $this->primerNombre = $primerNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get primerNombre
+     *
+     * @return string
+     */
+    public function getPrimerNombre() {
+        return $this->primerNombre;
+    }
+
+    /**
+     * Set segundoNombre
+     *
+     * @param string $segundoNombre
+     *
+     * @return Cliente
+     */
+    public function setSegundoNombre($segundoNombre) {
+        $this->segundoNombre = $segundoNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get segundoNombre
+     *
+     * @return string
+     */
+    public function getSegundoNombre() {
+        return $this->segundoNombre;
+    }
+
+    /**
+     * Set primerApellido
+     *
+     * @param string $primerApellido
+     *
+     * @return Cliente
+     */
+    public function setPrimerApellido($primerApellido) {
+        $this->primerApellido = $primerApellido;
+
+        return $this;
+    }
+
+    /**
+     * Get primerApellido
+     *
+     * @return string
+     */
+    public function getPrimerApellido() {
+        return $this->primerApellido;
+    }
+
+    /**
+     * Set segundoApellido
+     *
+     * @param string $segundoApellido
+     *
+     * @return Cliente
+     */
+    public function setSegundoApellido($segundoApellido) {
+        $this->segundoApellido = $segundoApellido;
+
+        return $this;
+    }
+
+    /**
+     * Get segundoApellido
+     *
+     * @return string
+     */
+    public function getSegundoApellido() {
+        return $this->segundoApellido;
+    }
+
+    /**
+     * Set telefono
+     *
+     * @param string $telefono
+     *
+     * @return Cliente
+     */
+    public function setTelefono($telefono) {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get telefono
+     *
+     * @return string
+     */
+    public function getTelefono() {
+        return $this->telefono;
+    }
+
+    /**
+     * Set celular
+     *
+     * @param string $celular
+     *
+     * @return Cliente
+     */
+    public function setCelular($celular) {
+        $this->celular = $celular;
+
+        return $this;
+    }
+
+    /**
+     * Get celular
+     *
+     * @return string
+     */
+    public function getCelular() {
+        return $this->celular;
+    }
+
+    /**
+     * Set direccion
+     *
+     * @param string $direccion
+     *
+     * @return Cliente
+     */
+    public function setDireccion($direccion) {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return string
+     */
+    public function getDireccion() {
+        return $this->direccion;
+    }
+
+    /**
+     * Set nombreCompleto
+     *
+     * @param string $nombreCompleto
+     *
+     * @return Cliente
+     */
+    public function setNombreCompleto($nombreCompleto) {
+        $this->nombre_completo = $nombreCompleto;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreCompleto
+     *
+     * @return string
+     */
+    public function getNombreCompleto() {
+        return $this->nombre_completo;
+    }
+
 }

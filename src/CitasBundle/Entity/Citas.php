@@ -57,7 +57,7 @@ class Citas {
     /**
      * Get codigoCitasPk
      *
-     * @return int
+     * @return integer
      */
     public function getCodigoCitasPk() {
         return $this->codigoCitasPk;
@@ -110,12 +110,12 @@ class Citas {
     /**
      * Set asuntoCita
      *
-     * @param \String $asuntoCita
+     * @param string $asuntoCita
      *
      * @return Citas
      */
     public function setAsuntoCita($asuntoCita) {
-        $this->asuntoCitaa = $asuntoCita;
+        $this->asuntoCita = $asuntoCita;
 
         return $this;
     }
@@ -123,7 +123,7 @@ class Citas {
     /**
      * Get asuntoCita
      *
-     * @return \String
+     * @return string
      */
     public function getAsuntoCita() {
         return $this->asuntoCita;
@@ -151,15 +151,15 @@ class Citas {
         return $this->codigoClienteFk;
     }
 
-     /**
+    /**
      * Set codigoUsuarioFk
      *
      * @param integer $codigoUsuarioFk
      *
      * @return Citas
      */
-    public function setCodigoUsuarioFk($codigoUsarioFk) {
-        $this->codigoUsuarioFk = $codigoUsarioFk;
+    public function setCodigoUsuarioFk($codigoUsuarioFk) {
+        $this->codigoUsuarioFk = $codigoUsuarioFk;
 
         return $this;
     }
@@ -172,6 +172,49 @@ class Citas {
     public function getCodigoUsuarioFk() {
         return $this->codigoUsuarioFk;
     }
-    
-   
+
+    /**
+     * Set clienteRel
+     *
+     * @param \CitasBundle\Entity\cliente $clienteRel
+     *
+     * @return Citas
+     */
+    public function setClienteRel(\CitasBundle\Entity\cliente $clienteRel = null) {
+        $this->clienteRel = $clienteRel;
+
+        return $this;
+    }
+
+    /**
+     * Get clienteRel
+     *
+     * @return \CitasBundle\Entity\cliente
+     */
+    public function getClienteRel() {
+        return $this->clienteRel;
+    }
+
+    /**
+     * Set usuarioRel
+     *
+     * @param \CitasBundle\Entity\usuario $usuarioRel
+     *
+     * @return Citas
+     */
+    public function setUsuarioRel(\CitasBundle\Entity\usuario $usuarioRel = null) {
+        $this->usuarioRel = $usuarioRel;
+
+        return $this;
+    }
+
+    /**
+     * Get usuarioRel
+     *
+     * @return \CitasBundle\Entity\usuario
+     */
+    public function getUsuarioRel() {
+        return $this->usuarioRel;
+    }
+
 }
