@@ -176,11 +176,11 @@ class Citas {
     /**
      * Set clienteRel
      *
-     * @param \CitasBundle\Entity\cliente $clienteRel
+     * @param \CitasBundle\Entity\Cliente $clienteRel
      *
      * @return Citas
      */
-    public function setClienteRel(\CitasBundle\Entity\cliente $clienteRel = null) {
+    public function setClienteRel(\CitasBundle\Entity\Cliente $clienteRel = null) {
         $this->clienteRel = $clienteRel;
 
         return $this;
@@ -189,7 +189,7 @@ class Citas {
     /**
      * Get clienteRel
      *
-     * @return \CitasBundle\Entity\cliente
+     * @return \CitasBundle\Entity\Cliente
      */
     public function getClienteRel() {
         return $this->clienteRel;
@@ -198,11 +198,11 @@ class Citas {
     /**
      * Set usuarioRel
      *
-     * @param \CitasBundle\Entity\usuario $usuarioRel
+     * @param \CitasBundle\Entity\Usuario $usuarioRel
      *
      * @return Citas
      */
-    public function setUsuarioRel(\CitasBundle\Entity\usuario $usuarioRel = null) {
+    public function setUsuarioRel(\CitasBundle\Entity\Usuario $usuarioRel = null) {
         $this->usuarioRel = $usuarioRel;
 
         return $this;
@@ -211,7 +211,7 @@ class Citas {
     /**
      * Get usuarioRel
      *
-     * @return \CitasBundle\Entity\usuario
+     * @return \CitasBundle\Entity\Usuario
      */
     public function getUsuarioRel() {
         return $this->usuarioRel;

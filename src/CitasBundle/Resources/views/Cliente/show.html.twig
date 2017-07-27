@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cliente</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Codigoclientepk</th>
+                <td>{{ cliente.codigoClientePk }}</td>
+            </tr>
+            <tr>
+                <th>Codigotipodocumentofk</th>
+                <td>{{ cliente.codigoTipoDocumentoFk }}</td>
+            </tr>
+            <tr>
+                <th>Numdocumento</th>
+                <td>{{ cliente.numDocumento }}</td>
+            </tr>
+            <tr>
+                <th>Primernombre</th>
+                <td>{{ cliente.primerNombre }}</td>
+            </tr>
+            <tr>
+                <th>Segundonombre</th>
+                <td>{{ cliente.segundoNombre }}</td>
+            </tr>
+            <tr>
+                <th>Primerapellido</th>
+                <td>{{ cliente.primerApellido }}</td>
+            </tr>
+            <tr>
+                <th>Segundoapellido</th>
+                <td>{{ cliente.segundoApellido }}</td>
+            </tr>
+            <tr>
+                <th>Telefono</th>
+                <td>{{ cliente.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Celular</th>
+                <td>{{ cliente.celular }}</td>
+            </tr>
+            <tr>
+                <th>Direccion</th>
+                <td>{{ cliente.direccion }}</td>
+            </tr>
+            <tr>
+                <th>Nombre_completo</th>
+                <td>{{ cliente.nombrecompleto }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cliente_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('cliente_edit', { 'codigoClientePk': cliente.codigoClientePk }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

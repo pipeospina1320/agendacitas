@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cita</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Codigocitaspk</th>
+                <td>{{ cita.codigoCitasPk }}</td>
+            </tr>
+            <tr>
+                <th>Horacita</th>
+                <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Diacita</th>
+                <td>{% if cita.diaCita %}{{ cita.diaCita|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Asuntocita</th>
+                <td>{{ cita.asuntoCita }}</td>
+            </tr>
+            <tr>
+                <th>Codigoclientefk</th>
+                <td>{{ cita.codigoClienteFk }}</td>
+            </tr>
+            <tr>
+                <th>Codigousuariofk</th>
+                <td>{{ cita.codigoUsuarioFk }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('citas_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('citas_edit', { 'codigoCitasPk': cita.codigoCitasPk }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
