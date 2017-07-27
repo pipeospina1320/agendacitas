@@ -23,15 +23,15 @@
         {% endblock %} 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-
+    <header class="main-header">
+        {% include 'barraNavegacion.html.twig' %}
+    </header>
     <body class="hold-transition skin-blue sidebar-mini">
         {% block body %}
-            <header class="main-header">
-                {% include 'barraNavegacion.html.twig' %}
-            </header>
 
-        {% endblock %}
-        {% block content %}
+            {% block content %}
+
+            {% endblock %}
 
         {% endblock %}
     </body>
