@@ -7,7 +7,7 @@
         <tbody>
             <tr>
                 <th>Codigoclientepk</th>
-                <td>{{ usuario.codigoClientePk }}</td>
+                <td>{{ usuario.codigoUsuarioPk }}</td>
             </tr>
             <tr>
                 <th>Nombre</th>
@@ -21,7 +21,7 @@
             <a href="{{ path('usuario_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('usuario_edit', { 'codigoClientePk': usuario.codigoClientePk }) }}">Edit</a>
+            <a href="{{ path('usuario_edit', { 'codigoUsuarioPk': usuario.codigoUsuarioPk }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

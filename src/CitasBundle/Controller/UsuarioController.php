@@ -7,11 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Usuario controller.
- *
- * @Route("usuario")
- */
+
 class UsuarioController extends Controller
 {
     /**
@@ -34,7 +30,7 @@ class UsuarioController extends Controller
     /**
      * Creates a new usuario entity.
      *
-     * @Route("/new", name="usuario_new")
+     * @Route("citas/new", name="usuario_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -60,7 +56,7 @@ class UsuarioController extends Controller
     /**
      * Finds and displays a usuario entity.
      *
-     * @Route("/{codigoClientePk}", name="usuario_show")
+     * @Route("citas/{codigoUsuarioPk}", name="usuario_show")
      * @Method("GET")
      */
     public function showAction(Usuario $usuario)
@@ -76,7 +72,7 @@ class UsuarioController extends Controller
     /**
      * Displays a form to edit an existing usuario entity.
      *
-     * @Route("/{codigoClientePk}/edit", name="usuario_edit")
+     * @Route("citas/{codigoUsuarioPk}/edit", name="usuario_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Usuario $usuario)
@@ -101,7 +97,7 @@ class UsuarioController extends Controller
     /**
      * Deletes a usuario entity.
      *
-     * @Route("/{codigoClientePk}", name="usuario_delete")
+     * @Route("citas/{codigoUsuarioPk}", name="usuario_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Usuario $usuario)

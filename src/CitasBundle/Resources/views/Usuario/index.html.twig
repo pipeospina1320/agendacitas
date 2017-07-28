@@ -14,15 +14,15 @@
         <tbody>
         {% for usuario in usuarios %}
             <tr>
-                <td><a href="{{ path('usuario_show', { 'codigoClientePk': usuario.codigoClientePk }) }}">{{ usuario.codigoClientePk }}</a></td>
+                <td><a href="{{ path('usuario_show', { 'codigoUsuarioPk': usuario.codigoUsuarioPk }) }}">{{ usuario.codigoUsuarioPk }}</a></td>
                 <td>{{ usuario.nombre }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('usuario_show', { 'codigoClientePk': usuario.codigoClientePk }) }}">show</a>
+                            <a href="{{ path('usuario_show', { 'codigoUsuarioPk': usuario.codigoUsuarioPk }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('usuario_edit', { 'codigoClientePk': usuario.codigoClientePk }) }}">edit</a>
+                            <a href="{{ path('usuario_edit', { 'codigoUsuarioPk': usuario.codigoUsuarioPk }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
