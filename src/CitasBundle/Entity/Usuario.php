@@ -15,11 +15,11 @@ class Usuario
     /**
      * @var int
      *
-     * @ORM\Column(name="codigo_cliente_pk", type="integer" , length=10)
+     * @ORM\Column(name="codigo_usuario_pk", type="integer" , length=10)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $codigoClientePk;
+    private $codigoUsuarioPk;
 
     /**
      * @var string
@@ -29,14 +29,16 @@ class Usuario
     private $nombre;
 
 
+
+
     /**
-     * Get id
+     * Get codigoUsuarioPk
      *
-     * @return int
+     * @return integer
      */
-    public function getId()
+    public function getCodigoUsuarioPk()
     {
-        return $this->id;
+        return $this->codigoUsuarioPk;
     }
 
     /**
@@ -61,15 +63,5 @@ class Usuario
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Get codigoClientePk
-     *
-     * @return integer
-     */
-    public function getCodigoClientePk()
-    {
-        return $this->codigoClientePk;
     }
 }
