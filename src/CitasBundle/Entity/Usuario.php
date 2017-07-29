@@ -5,52 +5,63 @@ namespace CitasBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Usuario
+ *
  * @ORM\Table(name="usuario")
  * @ORM\Entity(repositoryClass="CitasBundle\Repository\UsuarioRepository")
  */
-class Usuario {
-
+class Usuario
+{
     /**
+     * @var int
+     *
+     * @ORM\Column(name="codigo_usuario_pk", type="integer" , length=10)
      * @ORM\Id
-     * @ORM\Column(name="codigo_usuario_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoUsuarioPk;
 
     /**
-     * @ORM\Column(name="nombre", type="string",length=200, nullable=true )
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
      */
-    private $nombreUsuario;
+    private $nombre;
+
+
+
 
     /**
      * Get codigoUsuarioPk
      *
      * @return integer
      */
-    public function getCodigoUsuarioPk() {
+    public function getCodigoUsuarioPk()
+    {
         return $this->codigoUsuarioPk;
     }
 
     /**
-     * Set nombreUsuario
+     * Set nombre
      *
-     * @param string $nombreUsuario
+     * @param string $nombre
      *
      * @return Usuario
      */
-    public function setNombreUsuario($nombreUsuario) {
-        $this->nombreUsuario = $nombreUsuario;
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
 
         return $this;
     }
 
     /**
-     * Get nombreUsuario
+     * Get nombre
      *
      * @return string
      */
-    public function getNombreUsuario() {
-        return $this->nombreUsuario;
+    public function getNombre()
+    {
+        return $this->nombre;
     }
-
 }
