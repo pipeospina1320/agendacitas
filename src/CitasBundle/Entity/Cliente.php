@@ -18,65 +18,54 @@ class Cliente {
     private $codigoClientePk;
 
     /**
-     * @ORM\Column(name="codigo_tipo_documento_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_tipo_documento_fk", type="integer", nullable=false)
      */
     private $codigoTipoDocumentoFk;
 
     /**
-     * @ORM\Column(name="num_documento", type="integer", length=15, nullable=true)
+     * @ORM\Column(name="num_documento", type="integer", length=15, nullable=false)
      */
     private $numDocumento;
 
     /**
-     * @ORM\Column(name="primer_nombre", type="string", length=200, nullable=true)
+     * @ORM\Column(name="primer_nombre", type="string", length=200, nullable=false)
      */
     private $primerNombre;
 
     /**
-     * @ORM\Column(name="segundo_nombre", type="string", length=200)
+     * @ORM\Column(name="segundo_nombre", type="string", length=200, nullable=true)
      */
     private $segundoNombre;
 
     /**
-     * @ORM\Column(name="primer_apellido", type="string", length=200, nullable=true)
+     * @ORM\Column(name="primer_apellido", type="string", length=200, nullable=false)
      */
     private $primerApellido;
 
     /**
-     * @ORM\Column(name="segundo_apellido", type="string", length=200)
+     * @ORM\Column(name="segundo_apellido", type="string", length=200, nullable=true)
      */
     private $segundoApellido;
 
     /**
-     * @ORM\Column(name="telefono", type="string", length=200)
+     * @ORM\Column(name="telefono", type="string", length=200, nullable=true)
      */
     private $telefono;
 
     /**
-     * @ORM\Column(name="celular", type="string", length=200)
+     * @ORM\Column(name="celular", type="string", length=200, nullable=true)
      */
     private $celular;
 
     /**
-     * @ORM\Column(name="direccion", type="string", length=200)
+     * @ORM\Column(name="direccion", type="string", length=200, nullable=true)
      */
     private $direccion;
 
     /**
-     * @ORM\Column(name="nombre_completo", type="string", length=200)
+     * @ORM\Column(name="nombre_completo", type="string", length=200,nullable=true)
      */
     private $nombre_completo;
-
-    # public function __get($propiedad) {
-    #     if(property_exists($this, $propiedad)){
-    #         return $this->$propiedad;
-    #     }
-    # }
-    # public function __set($propiedad, $valor){
-    #     if(property_exists($this, $propiedad)){
-    #         $this->$propiedad = $valor;
-    #     }
-    # }   
 
     /**
      * Get codigoClientePk

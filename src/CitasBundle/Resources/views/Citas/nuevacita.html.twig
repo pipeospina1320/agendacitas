@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body %}
-    <h1>Cliente creation</h1>
+    <h1>Cita creation</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -10,7 +10,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('cliente_index') }}">Back to the list</a>
+            <a href="{{ path('citas_index') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Clientes</h1>
 
-    <table>
+    <table width="500" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
         <thead>
             <tr>
                 <th>Codigoclientepk</th>
@@ -21,26 +21,26 @@
             </tr>
         </thead>
         <tbody>
-        {% for cliente in clientes %}
+        {% for arCliente in arClientes %}
             <tr>
-                <td><a href="{{ path('cliente_show', { 'codigoClientePk': cliente.codigoClientePk }) }}">{{ cliente.codigoClientePk }}</a></td>
-                <td>{{ cliente.codigoTipoDocumentoFk }}</td>
-                <td>{{ cliente.numDocumento }}</td>
-                <td>{{ cliente.primerNombre }}</td>
-                <td>{{ cliente.segundoNombre }}</td>
-                <td>{{ cliente.primerApellido }}</td>
-                <td>{{ cliente.segundoApellido }}</td>
-                <td>{{ cliente.telefono }}</td>
-                <td>{{ cliente.celular }}</td>
-                <td>{{ cliente.direccion }}</td>
-                <td>{{ cliente.nombrecompleto }}</td>
+                <td><a href="{{ path('cliente_show', { 'codigoClientePk': arCliente.codigoClientePk }) }}">{{ arCliente.codigoClientePk }}</a></td>
+                <td>{{ arCliente.codigoTipoDocumentoFk }}</td>
+                <td>{{ arCliente.numDocumento }}</td>
+                <td>{{ arCliente.primerNombre }}</td>
+                <td>{{ arCliente.segundoNombre }}</td>
+                <td>{{ arCliente.primerApellido }}</td>
+                <td>{{ arCliente.segundoApellido }}</td>
+                <td>{{ arCliente.telefono }}</td>
+                <td>{{ arCliente.celular }}</td>
+                <td>{{ arCliente.direccion }}</td>
+                <td>{{ arCliente.nombrecompleto }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('cliente_show', { 'codigoClientePk': cliente.codigoClientePk }) }}">show</a>
+                            <a href="{{ path('cliente_show', { 'codigoClientePk': arCliente.codigoClientePk }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('cliente_edit', { 'codigoClientePk': cliente.codigoClientePk }) }}">edit</a>
+                            <a href="{{ path('cliente_edit', { 'codigoClientePk': arCliente.codigoClientePk }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>
@@ -51,7 +51,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('cliente_new') }}">Create a new cliente</a>
+            <a href="{{ path('cliente_new') }}">Nuevo</a>
         </li>
     </ul>
 {% endblock %}

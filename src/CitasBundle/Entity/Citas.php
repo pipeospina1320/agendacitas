@@ -12,7 +12,7 @@ class Citas {
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_citas_pk", type="integer")
+     * @ORM\Column(name="codigo_citas_pk", type="integer", length=10)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoCitasPk;
@@ -33,23 +33,23 @@ class Citas {
     private $asuntoCita;
 
     /**
-     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true )
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true, length=10)
      */
     private $codigoClienteFk;
 
     /**
-     * @ORM\Column(name="codigo_usuario_fk", type="integer", nullable=true )
+     * @ORM\Column(name="codigo_usuario_fk", type="integer", nullable=true, length=10 )
      */
     private $codigoUsuarioFk;
 
     /**
-     * @ORM\ManyToOne(targetEntity="cliente", inversedBy="clientesRel")
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="clientesRel")
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
     protected $clienteRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="usuario", inversedBy="usuarioRel")
+     * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="usuarioRel")
      * @ORM\JoinColumn(name="codigo_usuario_fk", referencedColumnName="codigo_usuario_pk")
      */
     protected $usuarioRel;

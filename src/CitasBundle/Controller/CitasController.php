@@ -7,6 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class CitasController extends Controller {
 
@@ -29,11 +36,11 @@ class CitasController extends Controller {
     /**
      * Creates a new cita entity.
      *
-     * @Route("/new", name="citas_new")
+     * @Route("citas/nuevo", name="citas_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        $cita = new Cita();
+        $cita = new Citas();
         $form = $this->createForm('CitasBundle\Form\CitasType', $cita);
         $form->handleRequest($request);
 
@@ -42,10 +49,10 @@ class CitasController extends Controller {
             $em->persist($cita);
             $em->flush();
 
-            return $this->redirectToRoute('citas_show', array('codigoCitasPk' => $cita->getCodigocitaspk()));
+            return $this->redirectToRoute('citas_show', array('codigoCitasPk' => $cita->getCodigoCitasPk()));
         }
 
-        return $this->render('CitasBundle:Citas:new.html.twig', array(
+        return $this->render('CitasBundle:Citas:nuevacita.html.twig', array(
                     'cita' => $cita,
                     'form' => $form->createView(),
         ));
@@ -60,7 +67,7 @@ class CitasController extends Controller {
     public function showAction(Citas $cita) {
         $deleteForm = $this->createDeleteForm($cita);
 
-        return $this->render('CitasBundle:Citas:show.html.twig', array(
+        return $this->render('CitasBundle:Citas:lista.html.twig', array(
                     'cita' => $cita,
                     'delete_form' => $deleteForm->createView(),
         ));
@@ -80,7 +87,7 @@ class CitasController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('citas_edit', array('codigoCitasPk' => $cita->getCodigocitaspk()));
+            return $this->redirectToRoute('citas_edit', array('codigoCitasPk' => $cita->getCodigoCitasPk()));
         }
 
         return $this->render('CitasBundle:Citas:edit.html.twig', array(
@@ -118,7 +125,7 @@ class CitasController extends Controller {
      */
     private function createDeleteForm(Citas $cita) {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('citas_delete', array('codigoCitasPk' => $cita->getCodigocitaspk())))
+                        ->setAction($this->generateUrl('citas_delete', array('codigoCitasPk' => $cita->getCodigoCitasPk())))
                         ->setMethod('DELETE')
                         ->getForm()
         ;

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Cliente</h1>
+    <h1>Cliente show</h1>
 
-    <table>
+    <table width="50" border="0" cellspacing="0" cellpadding="" class="table table-striped">
         <tbody>
             <tr>
-                <th>Codigoclientepk</th>
+                <th>Id</th>
                 <td>{{ cliente.codigoClientePk }}</td>
             </tr>
             <tr>
@@ -54,14 +54,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('cliente_index') }}">Back to the list</a>
+            <a href="{{ path('cliente_index') }}">Volver al listado</a>
         </li>
         <li>
-            <a href="{{ path('cliente_edit', { 'codigoClientePk': cliente.codigoClientePk }) }}">Edit</a>
+            <a href="{{ path('cliente_edit', { 'codigoClientePk': cliente.codigoClientePk }) }}">Editar</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Borrar">
             {{ form_end(delete_form) }}
         </li>
     </ul>

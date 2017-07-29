@@ -3,16 +3,16 @@
 {% block body %}
     <h1>Citas list</h1>
 
-    <table>
+    <table width="500" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
         <thead>
             <tr>
-                <th>Codigocitaspk</th>
-                <th>Horacita</th>
-                <th>Diacita</th>
-                <th>Asuntocita</th>
-                <th>Codigoclientefk</th>
-                <th>Codigousuariofk</th>
-                <th>Actions</th>
+                <th>Id </th>
+                <th>Hora cita </th>
+                <th>Dia cita </th>
+                <th>Asunto cita </th>
+                <th>Cliente </th>
+                <th>Usuario </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
                             <a href="{{ path('citas_show', { 'codigoCitasPk': cita.codigoCitasPk }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('citas_edit', { 'codigoCitasPk': cita.codigoCitasPk }) }}">edit</a>
+                            <a href="{{ path('citas_edit', { 'codigoCitasPk': cita.codigoCitasPk }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>
@@ -41,7 +41,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('citas_new') }}">Create a new cita</a>
+            <a href="{{ path('citas_new') }}">Nueva cita</a>
         </li>
     </ul>
 {% endblock %}

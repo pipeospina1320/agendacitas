@@ -13,7 +13,7 @@ class CitasType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('horaCita')->add('diaCita')->add('asuntoCita')->add('codigoClienteFk')->add('codigoUsuarioFk')->add('clienteRel')->add('usuarioRel');
+        $builder->add("horaCita")->add("diaCita")->add("asuntoCita")->add("codigoClienteFk")->add("codigoUsuarioFk")->add("clienteRel")->add("usuarioRel");
     }
     
     /**

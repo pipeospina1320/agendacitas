@@ -16,23 +16,23 @@ class ClienteController extends Controller {
      * @Route("citas/clientes", name="cliente_index")
      * @Method("GET")
      */
-    public function indexAction() {
+    public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
-        $clientes = $em->getRepository('CitasBundle:Cliente')->findAll();
+        $arClientes = $em->getRepository('CitasBundle:Cliente')->findAll();
 
-        return $this->render('CitasBundle:cliente:index.html.twig', array(
-                    'clientes' => $clientes,
+        return $this->render('CitasBundle:Cliente:lista.html.twig', array(
+                    'arClientes' => $arClientes,
         ));
     }
 
     /**
      * Creates a new cliente entity.
      *
-     * @Route("/new", name="cliente_new")
+     * @Route("citas/nuevocliente", name="cliente_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request) {
+    public function nuevoAction(Request $request) {
         $cliente = new Cliente();
         $form = $this->createForm('CitasBundle\Form\ClienteType', $cliente);
         $form->handleRequest($request);
@@ -42,10 +42,10 @@ class ClienteController extends Controller {
             $em->persist($cliente);
             $em->flush();
 
-            return $this->redirectToRoute('cliente_show', array('codigoClientePk' => $cliente->getCodigoclientepk()));
+            return $this->redirectToRoute('cliente_show', array('codigoClientePk' => $cliente->getCodigoClientePk()));
         }
 
-        return $this->render('CitasBundle:cliente:new.html.twig', array(
+        return $this->render('CitasBundle:Cliente:nuevo.html.twig', array(
                     'cliente' => $cliente,
                     'form' => $form->createView(),
         ));
@@ -54,13 +54,13 @@ class ClienteController extends Controller {
     /**
      * Finds and displays a cliente entity.
      *
-     * @Route("/{codigoClientePk}", name="cliente_show")
+     * @Route("citas/{codigoClientePk}", name="cliente_show")
      * @Method("GET")
      */
-    public function showAction(Cliente $cliente) {
+    public function detalleAction(Cliente $cliente) {
         $deleteForm = $this->createDeleteForm($cliente);
 
-        return $this->render('CitasBundle:cliente:show.html.twig', array(
+        return $this->render('CitasBundle:Cliente:buscar.html.twig', array(
                     'cliente' => $cliente,
                     'delete_form' => $deleteForm->createView(),
         ));
@@ -69,7 +69,7 @@ class ClienteController extends Controller {
     /**
      * Displays a form to edit an existing cliente entity.
      *
-     * @Route("/{codigoClientePk}/edit", name="cliente_edit")
+     * @Route("citas/{codigoClientePk}/edit", name="cliente_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Cliente $cliente) {
@@ -80,10 +80,10 @@ class ClienteController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('cliente_edit', array('codigoClientePk' => $cliente->getCodigoclientepk()));
+            return $this->redirectToRoute('cliente_edit', array('codigoClientePk' => $cliente->getCodigoClientePk()));
         }
 
-        return $this->render('CitasBundle:cliente:edit.html.twig', array(
+        return $this->render('CitasBundle:Cliente:editar.html.twig', array(
                     'cliente' => $cliente,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
@@ -93,7 +93,7 @@ class ClienteController extends Controller {
     /**
      * Deletes a cliente entity.
      *
-     * @Route("/{codigoClientePk}", name="cliente_delete")
+     * @Route("citas/{codigoClientePk}", name="cliente_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Cliente $cliente) {
@@ -118,7 +118,7 @@ class ClienteController extends Controller {
      */
     private function createDeleteForm(Cliente $cliente) {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('cliente_delete', array('codigoClientePk' => $cliente->getCodigoclientepk())))
+                        ->setAction($this->generateUrl('cliente_delete', array('codigoClientePk' => $cliente->getCodigoClientePk())))
                         ->setMethod('DELETE')
                         ->getForm()
         ;

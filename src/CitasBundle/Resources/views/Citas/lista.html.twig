@@ -6,27 +6,27 @@
     <table>
         <tbody>
             <tr>
-                <th>Codigocitaspk</th>
+                <th>Id</th>
                 <td>{{ cita.codigoCitasPk }}</td>
             </tr>
             <tr>
-                <th>Horacita</th>
+                <th>Hora cita</th>
                 <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Diacita</th>
+                <th>Dia cita</th>
                 <td>{% if cita.diaCita %}{{ cita.diaCita|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Asuntocita</th>
+                <th>Asunto cita</th>
                 <td>{{ cita.asuntoCita }}</td>
             </tr>
             <tr>
-                <th>Codigoclientefk</th>
+                <th>Cliente</th>
                 <td>{{ cita.codigoClienteFk }}</td>
             </tr>
             <tr>
-                <th>Codigousuariofk</th>
+                <th>Usuario</th>
                 <td>{{ cita.codigoUsuarioFk }}</td>
             </tr>
         </tbody>
@@ -34,14 +34,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('citas_index') }}">Back to the list</a>
+            <a href="{{ path('citas_index') }}">Volver</a>
         </li>
         <li>
-            <a href="{{ path('citas_edit', { 'codigoCitasPk': cita.codigoCitasPk }) }}">Edit</a>
+            <a href="{{ path('citas_edit', { 'codigoCitasPk': cita.codigoCitasPk }) }}">Editar</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Borrar">
             {{ form_end(delete_form) }}
         </li>
     </ul>
