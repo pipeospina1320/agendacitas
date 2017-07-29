@@ -62,10 +62,6 @@ class Cliente {
      */
     private $direccion;
 
-    /**
-     * @ORM\Column(name="nombre_completo", type="string", length=200,nullable=true)
-     */
-    private $nombre_completo;
 
     /**
      * Get codigoClientePk
@@ -272,28 +268,6 @@ class Cliente {
      */
     public function getDireccion() {
         return $this->direccion;
-    }
-
-    /**
-     * Set nombreCompleto
-     *
-     * @param string $nombreCompleto
-     *
-     * @return Cliente
-     */
-    public function setNombreCompleto($nombreCompleto) {
-        $this->nombre_completo = $nombreCompleto;
-
-        return $this;
-    }
-
-    /**
-     * Get nombreCompleto
-     *
-     * @return string
-     */
-    public function getNombreCompleto() {
-        return $this->nombre_completo;
     }
 
 }

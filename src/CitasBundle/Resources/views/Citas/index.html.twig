@@ -20,7 +20,7 @@
             <tr>
                 <td><a href="{{ path('citas_show', { 'codigoCitasPk': cita.codigoCitasPk }) }}">{{ cita.codigoCitasPk }}</a></td>
                 <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i:s') }}{% endif %}</td>
-                <td>{% if cita.diaCita %}{{ cita.diaCita|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if cita.diaCita %}{{ cita.diaCita|date('d-m-Y') }}{% endif %}</td>
                 <td>{{ cita.asuntoCita }}</td>
                 <td>{{ cita.codigoClienteFk }}</td>
                 <td>{{ cita.codigoUsuarioFk }}</td>
