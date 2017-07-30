@@ -54,12 +54,15 @@ class Citas {
      */
     protected $usuarioRel;
 
+   
+
     /**
      * Get codigoCitasPk
      *
      * @return integer
      */
-    public function getCodigoCitasPk() {
+    public function getCodigoCitasPk()
+    {
         return $this->codigoCitasPk;
     }
 
@@ -70,7 +73,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setHoraCita($horaCita) {
+    public function setHoraCita($horaCita)
+    {
         $this->horaCita = $horaCita;
 
         return $this;
@@ -81,7 +85,8 @@ class Citas {
      *
      * @return \DateTime
      */
-    public function getHoraCita() {
+    public function getHoraCita()
+    {
         return $this->horaCita;
     }
 
@@ -92,7 +97,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setDiaCita($diaCita) {
+    public function setDiaCita($diaCita)
+    {
         $this->diaCita = $diaCita;
 
         return $this;
@@ -103,7 +109,8 @@ class Citas {
      *
      * @return \DateTime
      */
-    public function getDiaCita() {
+    public function getDiaCita()
+    {
         return $this->diaCita;
     }
 
@@ -114,7 +121,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setAsuntoCita($asuntoCita) {
+    public function setAsuntoCita($asuntoCita)
+    {
         $this->asuntoCita = $asuntoCita;
 
         return $this;
@@ -125,7 +133,8 @@ class Citas {
      *
      * @return string
      */
-    public function getAsuntoCita() {
+    public function getAsuntoCita()
+    {
         return $this->asuntoCita;
     }
 
@@ -136,7 +145,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setCodigoClienteFk($codigoClienteFk) {
+    public function setCodigoClienteFk($codigoClienteFk)
+    {
         $this->codigoClienteFk = $codigoClienteFk;
 
         return $this;
@@ -147,7 +157,8 @@ class Citas {
      *
      * @return integer
      */
-    public function getCodigoClienteFk() {
+    public function getCodigoClienteFk()
+    {
         return $this->codigoClienteFk;
     }
 
@@ -158,7 +169,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setCodigoUsuarioFk($codigoUsuarioFk) {
+    public function setCodigoUsuarioFk($codigoUsuarioFk)
+    {
         $this->codigoUsuarioFk = $codigoUsuarioFk;
 
         return $this;
@@ -169,7 +181,8 @@ class Citas {
      *
      * @return integer
      */
-    public function getCodigoUsuarioFk() {
+    public function getCodigoUsuarioFk()
+    {
         return $this->codigoUsuarioFk;
     }
 
@@ -180,7 +193,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setClienteRel(\CitasBundle\Entity\Cliente $clienteRel = null) {
+    public function setClienteRel(\CitasBundle\Entity\Cliente $clienteRel = null)
+    {
         $this->clienteRel = $clienteRel;
 
         return $this;
@@ -191,7 +205,8 @@ class Citas {
      *
      * @return \CitasBundle\Entity\Cliente
      */
-    public function getClienteRel() {
+    public function getClienteRel()
+    {
         return $this->clienteRel;
     }
 
@@ -202,7 +217,8 @@ class Citas {
      *
      * @return Citas
      */
-    public function setUsuarioRel(\CitasBundle\Entity\Usuario $usuarioRel = null) {
+    public function setUsuarioRel(\CitasBundle\Entity\Usuario $usuarioRel = null)
+    {
         $this->usuarioRel = $usuarioRel;
 
         return $this;
@@ -213,8 +229,8 @@ class Citas {
      *
      * @return \CitasBundle\Entity\Usuario
      */
-    public function getUsuarioRel() {
+    public function getUsuarioRel()
+    {
         return $this->usuarioRel;
     }
-
 }

@@ -9,22 +9,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class UsuarioController extends Controller
-{
+class UsuarioController extends Controller {
+
     /**
      * Lists all usuario entities.
      *
      * @Route("citas/usuario", name="usuario_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $usuarios = $em->getRepository('CitasBundle:Usuario')->findAll();
 
         return $this->render('CitasBundle:Usuario:index.html.twig', array(
-            'usuarios' => $usuarios,
+                    'usuarios' => $usuarios,
         ));
     }
 
@@ -34,8 +33,7 @@ class UsuarioController extends Controller
      * @Route("citas/new", name="usuario_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $usuario = new Usuario();
         $form = $this->createForm('CitasBundle\Form\UsuarioType', $usuario);
         $form->handleRequest($request);
@@ -49,8 +47,8 @@ class UsuarioController extends Controller
         }
 
         return $this->render('CitasBundle:Usuario:new.html.twig', array(
-            'usuario' => $usuario,
-            'form' => $form->createView(),
+                    'usuario' => $usuario,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -60,13 +58,12 @@ class UsuarioController extends Controller
      * @Route("citas/{codigoUsuarioPk}", name="usuario_show")
      * @Method("GET")
      */
-    public function showAction(Usuario $usuario)
-    {
+    public function showAction(Usuario $usuario) {
         $deleteForm = $this->createDeleteForm($usuario);
 
         return $this->render('CitasBundle:Usuario:show.html.twig', array(
-            'usuario' => $usuario,
-            'delete_form' => $deleteForm->createView(),
+                    'usuario' => $usuario,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -76,8 +73,7 @@ class UsuarioController extends Controller
      * @Route("citas/{codigoUsuarioPk}/edit", name="usuario_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Usuario $usuario)
-    {
+    public function editAction(Request $request, Usuario $usuario) {
         $deleteForm = $this->createDeleteForm($usuario);
         $editForm = $this->createForm('CitasBundle\Form\UsuarioType', $usuario);
         $editForm->handleRequest($request);
@@ -89,9 +85,9 @@ class UsuarioController extends Controller
         }
 
         return $this->render('CitasBundle:Usuario:edit.html.twig', array(
-            'usuario' => $usuario,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'usuario' => $usuario,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -101,8 +97,7 @@ class UsuarioController extends Controller
      * @Route("citas/{codigoUsuarioPk}", name="usuario_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Usuario $usuario)
-    {
+    public function deleteAction(Request $request, Usuario $usuario) {
         $form = $this->createDeleteForm($usuario);
         $form->handleRequest($request);
 
@@ -122,12 +117,12 @@ class UsuarioController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Usuario $usuario)
-    {
+    private function createDeleteForm(Usuario $usuario) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('usuario_delete', array('codigoUsuarioPk' => $usuario->getCodigoUsuarioPk())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('usuario_delete', array('codigoUsuarioPk' => $usuario->getCodigoUsuarioPk())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

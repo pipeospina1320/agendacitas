@@ -14,9 +14,8 @@ class Usuario {
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="codigo_usuario_pk", type="integer" , length=10)
      * @ORM\Id
+     * @ORM\Column(name="codigo_usuario_pk", type="integer" , length=10)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoUsuarioPk;
@@ -28,12 +27,15 @@ class Usuario {
      */
     private $nombre;
 
+    
+
     /**
      * Get codigoUsuarioPk
      *
      * @return integer
      */
-    public function getCodigoUsuarioPk() {
+    public function getCodigoUsuarioPk()
+    {
         return $this->codigoUsuarioPk;
     }
 
@@ -44,7 +46,8 @@ class Usuario {
      *
      * @return Usuario
      */
-    public function setNombre($nombre) {
+    public function setNombre($nombre)
+    {
         $this->nombre = $nombre;
 
         return $this;
@@ -55,8 +58,8 @@ class Usuario {
      *
      * @return string
      */
-    public function getNombre() {
+    public function getNombre()
+    {
         return $this->nombre;
     }
-
 }

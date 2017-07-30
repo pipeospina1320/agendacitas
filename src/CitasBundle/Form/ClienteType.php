@@ -22,8 +22,8 @@ class ClienteType extends AbstractType {
                 ->add('segundoNombre',TextType::class, array('required' => true))
                 ->add('primerApellido',TextType::class, array('required' => true))
                 ->add('segundoApellido',TextType::class, array('required' => true))
-                ->add('telefono',NumberType::class, array('required' => true))
-                ->add('celular',NumberType::class, array('required' => true))
+                ->add('telefono',TextType::class, array('required' => true))
+                ->add('celular',TextType::class, array('required' => true))
                 ->add('direccion', TextType::class, array('required' => true));
                
     }

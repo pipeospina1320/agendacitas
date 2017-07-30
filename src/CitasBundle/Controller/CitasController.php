@@ -20,7 +20,7 @@ class CitasController extends Controller {
     /**
      * Lists all cita entities.
      *
-     * @Route("citas/citas", name="citas_index")
+     * @Route("citas/", name="citas_index")
      * @Method("GET")
      */
     public function indexAction() {

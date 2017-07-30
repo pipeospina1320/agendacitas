@@ -63,12 +63,14 @@ class Cliente {
     private $direccion;
 
 
+
     /**
      * Get codigoClientePk
      *
      * @return integer
      */
-    public function getCodigoClientePk() {
+    public function getCodigoClientePk()
+    {
         return $this->codigoClientePk;
     }
 
@@ -79,7 +81,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setCodigoTipoDocumentoFk($codigoTipoDocumentoFk) {
+    public function setCodigoTipoDocumentoFk($codigoTipoDocumentoFk)
+    {
         $this->codigoTipoDocumentoFk = $codigoTipoDocumentoFk;
 
         return $this;
@@ -90,7 +93,8 @@ class Cliente {
      *
      * @return integer
      */
-    public function getCodigoTipoDocumentoFk() {
+    public function getCodigoTipoDocumentoFk()
+    {
         return $this->codigoTipoDocumentoFk;
     }
 
@@ -101,7 +105,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setNumDocumento($numDocumento) {
+    public function setNumDocumento($numDocumento)
+    {
         $this->numDocumento = $numDocumento;
 
         return $this;
@@ -112,7 +117,8 @@ class Cliente {
      *
      * @return integer
      */
-    public function getNumDocumento() {
+    public function getNumDocumento()
+    {
         return $this->numDocumento;
     }
 
@@ -123,7 +129,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setPrimerNombre($primerNombre) {
+    public function setPrimerNombre($primerNombre)
+    {
         $this->primerNombre = $primerNombre;
 
         return $this;
@@ -134,7 +141,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getPrimerNombre() {
+    public function getPrimerNombre()
+    {
         return $this->primerNombre;
     }
 
@@ -145,7 +153,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setSegundoNombre($segundoNombre) {
+    public function setSegundoNombre($segundoNombre)
+    {
         $this->segundoNombre = $segundoNombre;
 
         return $this;
@@ -156,7 +165,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getSegundoNombre() {
+    public function getSegundoNombre()
+    {
         return $this->segundoNombre;
     }
 
@@ -167,7 +177,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setPrimerApellido($primerApellido) {
+    public function setPrimerApellido($primerApellido)
+    {
         $this->primerApellido = $primerApellido;
 
         return $this;
@@ -178,7 +189,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getPrimerApellido() {
+    public function getPrimerApellido()
+    {
         return $this->primerApellido;
     }
 
@@ -189,7 +201,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setSegundoApellido($segundoApellido) {
+    public function setSegundoApellido($segundoApellido)
+    {
         $this->segundoApellido = $segundoApellido;
 
         return $this;
@@ -200,7 +213,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getSegundoApellido() {
+    public function getSegundoApellido()
+    {
         return $this->segundoApellido;
     }
 
@@ -211,7 +225,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setTelefono($telefono) {
+    public function setTelefono($telefono)
+    {
         $this->telefono = $telefono;
 
         return $this;
@@ -222,7 +237,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getTelefono() {
+    public function getTelefono()
+    {
         return $this->telefono;
     }
 
@@ -233,7 +249,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setCelular($celular) {
+    public function setCelular($celular)
+    {
         $this->celular = $celular;
 
         return $this;
@@ -244,7 +261,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getCelular() {
+    public function getCelular()
+    {
         return $this->celular;
     }
 
@@ -255,7 +273,8 @@ class Cliente {
      *
      * @return Cliente
      */
-    public function setDireccion($direccion) {
+    public function setDireccion($direccion)
+    {
         $this->direccion = $direccion;
 
         return $this;
@@ -266,8 +285,8 @@ class Cliente {
      *
      * @return string
      */
-    public function getDireccion() {
+    public function getDireccion()
+    {
         return $this->direccion;
     }
-
 }

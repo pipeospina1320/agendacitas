@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body %}
     <h1>Cliente show</h1>
@@ -44,10 +44,6 @@
             <tr>
                 <th>Direccion</th>
                 <td>{{ cliente.direccion }}</td>
-            </tr>
-            <tr>
-                <th>Nombre_completo</th>
-                <td>{{ cliente.nombrecompleto }}</td>
             </tr>
         </tbody>
     </table>
