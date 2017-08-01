@@ -16,16 +16,15 @@ class ClienteType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('codigoTipoDocumentoFk', TextType::class, array('required' => true))
+                ->add('codigoTipoDocumentoFk', NumberType::class, array('required' => true))
                 ->add('numDocumento', NumberType::class, array('required' => true))
-                ->add('primerNombre',TextType::class, array('required' => true))
-                ->add('segundoNombre',TextType::class, array('required' => true))
-                ->add('primerApellido',TextType::class, array('required' => true))
-                ->add('segundoApellido',TextType::class, array('required' => true))
-                ->add('telefono',TextType::class, array('required' => true))
-                ->add('celular',TextType::class, array('required' => true))
+                ->add('primerNombre', TextType::class, array('required' => true))
+                ->add('segundoNombre', TextType::class, array('required' => true))
+                ->add('primerApellido', TextType::class, array('required' => true))
+                ->add('segundoApellido', TextType::class, array('required' => true))
+                ->add('telefono', TextType::class, array('required' => true))
+                ->add('celular', TextType::class, array('required' => true))
                 ->add('direccion', TextType::class, array('required' => true));
-               
     }
 
     /**
@@ -33,8 +32,7 @@ class ClienteType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'CitasBundle\Entity\Cliente'
-        ));
+            'data_class' => 'CitasBundle\Entity\Cliente'));
     }
 
     /**

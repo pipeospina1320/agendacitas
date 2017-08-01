@@ -85,7 +85,7 @@ class UsuarioController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('usuario_edit', array('codigoUsuarioPk' => $usuario->getCodigousuariopk()));
+            return $this->redirectToRoute('usuario_edit', array('codigoUsuarioPk' => $usuario->getCodigoUsuariopk()));
         }
 
         return $this->render('CitasBundle:Usuario:edit.html.twig', array(
