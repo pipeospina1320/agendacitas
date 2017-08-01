@@ -5,15 +5,12 @@ namespace CitasBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Usuario
- *
  * @ORM\Table(name="usuario")
  * @ORM\Entity(repositoryClass="CitasBundle\Repository\UsuarioRepository")
  */
 class Usuario {
 
     /**
-     * @var int
      * @ORM\Id
      * @ORM\Column(name="codigo_usuario_pk", type="integer" , length=10)
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -27,15 +24,12 @@ class Usuario {
      */
     private $nombre;
 
-    
-
     /**
      * Get codigoUsuarioPk
      *
      * @return integer
      */
-    public function getCodigoUsuarioPk()
-    {
+    public function getCodigoUsuarioPk() {
         return $this->codigoUsuarioPk;
     }
 
@@ -46,8 +40,7 @@ class Usuario {
      *
      * @return Usuario
      */
-    public function setNombre($nombre)
-    {
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
 
         return $this;
@@ -58,8 +51,8 @@ class Usuario {
      *
      * @return string
      */
-    public function getNombre()
-    {
+    public function getNombre() {
         return $this->nombre;
     }
+
 }

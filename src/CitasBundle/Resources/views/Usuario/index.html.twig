@@ -6,13 +6,13 @@
     <table>
         <thead>
             <tr>
-                <th>Codigousuariopk</th>
+                <th>Id</th>
                 <th>Nombre</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for usuario in usuarios %}
+        {% for arUsuario in usuarios %}
             <tr>
                 <td><a href="{{ path('usuario_show', { 'codigoUsuarioPk': usuario.codigoUsuarioPk }) }}">{{ usuario.codigoUsuarioPk }}</a></td>
                 <td>{{ usuario.nombre }}</td>
@@ -33,7 +33,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('usuario_new') }}">Create a new usuario</a>
+            <a href="{{ path('usuario_new') }}">Nuevo Usuario</a>
         </li>
     </ul>
 {% endblock %}
