@@ -14,7 +14,7 @@ class UsuarioController extends Controller
     /**
      * Lists all usuario entities.
      *
-     * @Route("citas/usuario", name="usuario_index")
+     * @Route("usuario/", name="usuario_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -31,7 +31,7 @@ class UsuarioController extends Controller
     /**
      * Creates a new usuario entity.
      *
-     * @Route("/new", name="usuario_new")
+     * @Route("usuario/new", name="usuario_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -57,7 +57,7 @@ class UsuarioController extends Controller
     /**
      * Finds and displays a usuario entity.
      *
-     * @Route("/{codigoUsuarioPk}", name="usuario_show")
+     * @Route("usuario/{codigoUsuarioPk}", name="usuario_show")
      * @Method("GET")
      */
     public function showAction(Usuario $usuario)
@@ -73,7 +73,7 @@ class UsuarioController extends Controller
     /**
      * Displays a form to edit an existing usuario entity.
      *
-     * @Route("/{codigoUsuarioPk}/edit", name="usuario_edit")
+     * @Route("usuario/{codigoUsuarioPk}/edit", name="usuario_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Usuario $usuario)
@@ -98,7 +98,7 @@ class UsuarioController extends Controller
     /**
      * Deletes a usuario entity.
      *
-     * @Route("/{codigoUsuarioPk}", name="usuario_delete")
+     * @Route("usuario/{codigoUsuarioPk}", name="usuario_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Usuario $usuario)

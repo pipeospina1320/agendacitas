@@ -56,7 +56,7 @@ class CitasController extends Controller {
     /**
      * Finds and displays a cita entity.
      *
-     * @Route("/{codigoCitasPk}", name="citas_show")
+     * @Route("citas/{codigoCitasPk}", name="citas_show")
      * @Method("GET")
      */
     public function showAction(Citas $cita) {
@@ -71,7 +71,7 @@ class CitasController extends Controller {
     /**
      * Displays a form to edit an existing cita entity.
      *
-     * @Route("/{codigoCitasPk}/edit", name="citas_edit")
+     * @Route("citas/{codigoCitasPk}/edit", name="citas_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Citas $cita) {
@@ -95,7 +95,7 @@ class CitasController extends Controller {
     /**
      * Deletes a cita entity.
      *
-     * @Route("/{codigoCitasPk}", name="citas_delete")
+     * @Route("citas/{codigoCitasPk}", name="citas_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Citas $cita) {

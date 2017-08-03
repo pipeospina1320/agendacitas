@@ -1,38 +1,89 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" content="text/html">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Agenda Citas App{% endblock %}</title>
+<html lang="es">
+    <html>
+        <head>
 
-        {% block stylesheets %}
-            <link href="{{ asset('bootstrap-3.3.2-dist/css/bootstrap.css') }}" type="text/css" rel="stylesheet" media="screen"/>
-            <link href="{{ asset('css/jquery-ui.css') }}" type="text/css" rel="stylesheet" /> 
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="description" content="">
+            <meta name="author" content="">
+            <title>{% block title %}Agenda Citas App{% endblock %}</title>
 
-        {% endblock %}
-        {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('js/es-ES.js') }}"></script>
-            <script src="{{ asset('js/jquery.min.js') }}"></script>
-            <script src="{{ asset('js/moment.js') }}"></script>
-            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
-            <script src="{{ asset('js/underscore-min.js') }}"></script>
-            <script src="{{ asset('js/calendar.js') }}"></script>
+            {% block javascripts %}
+                <!-- /#wrapper -->
 
-        {% endblock %} 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <header class="main-header">
-        {% include 'barraNavegacion.html.twig' %}
-    </header>
-    <body class="hold-transition skin-blue sidebar-mini">
-        {% block body %}
+                <!-- jQuery -->
+                <script src="{{ asset('jquery/jquery.min.js') }}"></script>
 
-            {% block content %}
+                <!-- Bootstrap Core JavaScript -->
+                <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}"></script>
+
+                <!-- Metis Menu Plugin JavaScript -->
+                <script src="{{ asset('metisMenu/metisMenu.min.js')}}"></script>
+
+
+                <!-- Morris Charts JavaScript -->
+                <script src="{{ asset('raphael/raphael.min.js') }}"></script>
+                <script src="{{ asset('morrisjs/morris.min.js') }}"></script>
+                <script src="{{ asset ('data/morris-data.js') }}"></script>
+
+                <!-- DataTables JavaScript -->
+                <script src="{{ asset('datatables/js/jquery.dataTables.min.js')}}"></script>
+                <script src="{{ asset('datatables-plugins/dataTables.bootstrap.min.js')}}"></script>
+                <script src="{{ asset ('datatables-responsive/dataTables.responsive.js') }}"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#dataTables-example').DataTable({
+                            responsive: true
+                        });
+                    });
+                </script>
+
+                <!-- Custom Theme JavaScript -->
+                <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+            {% endblock %}    
+
+            {% block stylesheets %}
+
+                <!-- Bootstrap Core CSS -->
+                <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+                <!-- MetisMenu CSS -->
+                <link href="{{ asset('metisMenu/metisMenu.min.css') }}" rel="stylesheet">
+
+                <!-- Custom CSS -->
+                <link href="{{ asset('dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+                <!-- Morris Charts CSS -->
+                <link href="{{ asset('morrisjs/morris.css') }}" rel="stylesheet">
+
+                <!-- Custom Fonts -->
+                <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+                <!-- DataTables CSS -->
+                <link href="{{ asset('datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+
+                <!-- DataTables Responsive CSS -->
+                <link href="{{ asset('datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+
 
             {% endblock %}
+        </head>
 
-        {% endblock %}
-    </body>
-</html>
+        <header class="main-header">
+
+            {% include 'barraNavegacion.html.twig' %}
+
+        </header>
+
+        <body>
+            {% block body %}
+
+                {% block content %}
+
+                {% endblock %}
+
+            {% endblock %}
+        </body>
+    </html>

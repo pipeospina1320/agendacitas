@@ -14,7 +14,7 @@ class ClienteController extends Controller {
     /**
      * Lists all cliente entities.
      *
-     * @Route("citas/clientes", name="cliente_index")
+     * @Route("clientes/", name="cliente_index")
      * @Method("GET")
      */
     public function listaAction(Request $request) {
@@ -30,7 +30,7 @@ class ClienteController extends Controller {
     /**
      * Creates a new cliente entity.
      *
-     * @Route("citas/nuevocliente", name="cliente_new")
+     * @Route("clientes/nuevocliente", name="cliente_new")
      * @Method({"GET", "POST"})
      */
     public function nuevoAction(Request $request) {
@@ -55,7 +55,7 @@ class ClienteController extends Controller {
     /**
      * Finds and displays a cliente entity.
      *
-     * @Route("citas/{codigoClientePk}", name="cliente_show")
+     * @Route("clientes/{codigoClientePk}", name="cliente_show")
      * @Method("GET")
      */
     public function detalleAction(Cliente $cliente) {
@@ -70,7 +70,7 @@ class ClienteController extends Controller {
     /**
      * Displays a form to edit an existing cliente entity.
      *
-     * @Route("citas/{codigoClientePk}/edit", name="cliente_edit")
+     * @Route("clientes/{codigoClientePk}/edit", name="cliente_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Cliente $cliente) {
@@ -94,7 +94,7 @@ class ClienteController extends Controller {
     /**
      * Deletes a cliente entity.
      *
-     * @Route("citas/{codigoClientePk}", name="cliente_delete")
+     * @Route("clientes/{codigoClientePk}", name="cliente_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Cliente $cliente) {
