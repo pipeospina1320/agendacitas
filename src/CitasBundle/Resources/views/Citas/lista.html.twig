@@ -1,48 +1,54 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block body %}
-    <h1>Cita</h1>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Citas</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Lista
+                        </div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="citas">
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cita.codigoCitasPk }}</td>
-            </tr>
-            <tr>
-                <th>Hora cita</th>
-                <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Dia cita</th>
-                <td>{% if cita.diaCita %}{{ cita.diaCita|date('d-m-Y') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Asunto cita</th>
-                <td>{{ cita.asuntoCita }}</td>
-            </tr>
-            <tr>
-                <th>Cliente</th>
-                <td>{{ cita.codigoClienteFk }}</td>
-            </tr>
-            <tr>
-                <th>Usuario</th>
-                <td>{{ cita.codigoUsuarioFk }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('citas_index') }}">Volver</a>
-        </li>
-        <li>
-            <a href="{{ path('citas_edit', { 'codigoCitasPk': cita.codigoCitasPk }) }}">Editar</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Borrar">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+                                <thead>
+                                    <tr>
+                                        <th>Id </th>
+                                        <th>Hora cita </th>
+                                        <th>Dia cita </th>
+                                        <th>Asunto cita </th>
+                                        <th>Cliente </th>
+                                        <th>Usuario </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cita in citas %}
+                                        <tr>
+                                            <td><a href="{{ path('citas_show', { 'codigoCitasPk': cita.codigoCitasPk }) }}" target="blank">{{ cita.codigoCitasPk }}</a></td>
+                                            <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i:s') }}{% endif %}</td>
+                                            <td>{% if cita.diaCita %}{{ cita.diaCita|date('d-m-Y') }}{% endif %}</td>
+                                            <td>{{ cita.asuntoCita }}</td>
+                                            <td>{{ cita.clienteRel.primerNombre }}</td>
+                                            <td>{{ cita.usuarioRel.nombre }}</td>
+                                            <td>
+                                                <a class="fa fa-edit fa-align-center fa-1x" href="{{ path('citas_editar', { 'codigoCitasPk': cita.codigoCitasPk }) }}"></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a type="button" class="btn btn-default" href="{{ path('citas_nueva') }}">Nueva cita</a>
+        </div>
+    </div>
 {% endblock %}

@@ -1,16 +1,31 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <h1>Cita creation</h1>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Nueva Cita</h1>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Editar citas
+                </div>       
+                <div class="panel-body">
+   
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <input type="submit" value="Create" />
+                        {{ form_end(form) }}
+                 
+                </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('citas_index') }}">Back to the list</a>
-        </li>
-    </ul>
+            </div>
+            <ul>
+                <a href="{{ path('citas_lista') }}">Back to the list</a>
+            </ul>
+        </div>
+    </div>
 {% endblock %}

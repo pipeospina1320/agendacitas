@@ -15,56 +15,49 @@
                             Lista
                         </div>
                         <div class="panel-body">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="clientes">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Tipo Doc.</th>
-                                    <th>Documento</th>
-                                    <th>Primer nombre</th>
-                                    <th>Segundo nombre</th>
-                                    <th>Primera pellido</th>
-                                    <th>Segundo apellido</th>
-                                    <th>Telefono</th>
-                                    <th>Celular</th>
-                                    <th>Direccion</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for arCliente in arClientes %}
-                                    <tr class="odd gradeX">
-                                        <td><a href="{{ path('cliente_show', { 'codigoClientePk': arCliente.codigoClientePk }) }}">{{ arCliente.codigoClientePk }}</a></td>
-                                        <td>{{ arCliente.codigoTipoDocumentoFk }}</td>
-                                        <td>{{ arCliente.numDocumento }}</td>
-                                        <td>{{ arCliente.primerNombre }}</td>
-                                        <td>{{ arCliente.segundoNombre }}</td>
-                                        <td>{{ arCliente.primerApellido }}</td>
-                                        <td>{{ arCliente.segundoApellido }}</td>
-                                        <td>{{ arCliente.telefono }}</td>
-                                        <td>{{ arCliente.celular }}</td>
-                                        <td>{{ arCliente.direccion }}</td>
-                                        <td class="center">
-                                            <ul>
-                                                <li>
-                                                    <a href="{{ path('cliente_show', { 'codigoClientePk': arCliente.codigoClientePk }) }}">show</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ path('cliente_edit', { 'codigoClientePk': arCliente.codigoClientePk }) }}">Editar</a>
-                                                </li>
-                                            </ul>
-                                        </td>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="clientes">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Tipo Doc.</th>
+                                        <th>Documento</th>
+                                        <th>Primer nombre</th>
+                                        <th>Segundo nombre</th>
+                                        <th>Primera pellido</th>
+                                        <th>Segundo apellido</th>
+                                        <th>Telefono</th>
+                                        <th>Celular</th>
+                                        <th>Direccion</th>
+                                        <th></th>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% for arCliente in arClientes %}
+                                        <tr class="odd gradeX">
+                                            <td><a href="{{ path('cliente_show', { 'codigoClientePk': arCliente.codigoClientePk }) }}">{{ arCliente.codigoClientePk }}</a></td>
+                                            <td>{{ arCliente.codigoTipoDocumentoFk }}</td>
+                                            <td>{{ arCliente.numDocumento }}</td>
+                                            <td>{{ arCliente.primerNombre }}</td>
+                                            <td>{{ arCliente.segundoNombre }}</td>
+                                            <td>{{ arCliente.primerApellido }}</td>
+                                            <td>{{ arCliente.segundoApellido }}</td>
+                                            <td>{{ arCliente.telefono }}</td>
+                                            <td>{{ arCliente.celular }}</td>
+                                            <td>{{ arCliente.direccion }}</td>
+                                            <td class="center">
+                                                <a class="fa fa-edit fa-1x " href="{{ path('cliente_edit', { 'codigoClientePk': arCliente.codigoClientePk }) }}"></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                             </div>
                 </div>
             </div>
             <ul>
                 <li>
-                    <a href="{{ path('cliente_new') }}">Nuevo</a>
+                    <a href="{{ path('cliente_nuevo') }}">Nuevo</a>
                 </li>
             </ul>
         </div>

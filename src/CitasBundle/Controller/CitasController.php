@@ -15,7 +15,7 @@ class CitasController extends Controller {
     /**
      * Lists all cita entities.
      *
-     * @Route("citas/", name="citas_index")
+     * @Route("citas/", name="citas_lista")
      * @Method("GET")
      */
     public function indexAction() {
@@ -23,7 +23,7 @@ class CitasController extends Controller {
 
         $citas = $em->getRepository('CitasBundle:Citas')->findAll();
 
-        return $this->render('CitasBundle:Citas:index.html.twig', array(
+        return $this->render('CitasBundle:Citas:lista.html.twig', array(
                     'citas' => $citas,
         ));
     }
@@ -31,7 +31,7 @@ class CitasController extends Controller {
     /**
      * Creates a new cita entity.
      *
-     * @Route("citas/nuevo", name="citas_new")
+     * @Route("citas/nuevo", name="citas_nueva")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
@@ -62,7 +62,7 @@ class CitasController extends Controller {
     public function showAction(Citas $cita) {
         $deleteForm = $this->createDeleteForm($cita);
 
-        return $this->render('CitasBundle:Citas:lista.html.twig', array(
+        return $this->render('CitasBundle:Citas:show.html.twig', array(
                     'cita' => $cita,
                     'delete_form' => $deleteForm->createView(),
         ));
@@ -71,7 +71,7 @@ class CitasController extends Controller {
     /**
      * Displays a form to edit an existing cita entity.
      *
-     * @Route("citas/{codigoCitasPk}/edit", name="citas_edit")
+     * @Route("citas/{codigoCitasPk}/editar", name="citas_editar")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Citas $cita) {
@@ -82,10 +82,10 @@ class CitasController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('citas_edit', array('codigoCitasPk' => $cita->getCodigoCitasPk()));
+            return $this->redirectToRoute('citas_editar', array('codigoCitasPk' => $cita->getCodigoCitasPk()));
         }
 
-        return $this->render('CitasBundle:Citas:edit.html.twig', array(
+        return $this->render('CitasBundle:Citas:editar.html.twig', array(
                     'cita' => $cita,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
@@ -108,7 +108,7 @@ class CitasController extends Controller {
             $em->flush();
         }
 
-        return $this->redirectToRoute('citas_index');
+        return $this->redirectToRoute('citas_lista');
     }
 
     /**

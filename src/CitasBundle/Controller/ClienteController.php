@@ -14,7 +14,7 @@ class ClienteController extends Controller {
     /**
      * Lists all cliente entities.
      *
-     * @Route("clientes/", name="cliente_index")
+     * @Route("clientes/", name="cliente_lista")
      * @Method("GET")
      */
     public function listaAction(Request $request) {
@@ -30,7 +30,7 @@ class ClienteController extends Controller {
     /**
      * Creates a new cliente entity.
      *
-     * @Route("clientes/nuevocliente", name="cliente_new")
+     * @Route("clientes/nuevocliente", name="cliente_nuevo")
      * @Method({"GET", "POST"})
      */
     public function nuevoAction(Request $request) {
@@ -107,7 +107,7 @@ class ClienteController extends Controller {
             $em->flush();
         }
 
-        return $this->redirectToRoute('cliente_index');
+        return $this->redirectToRoute('cliente_lista');
     }
 
     /**
