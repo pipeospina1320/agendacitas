@@ -1,3 +1,8 @@
+inventario:
+    resource: "@InventarioBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 citas:
     resource: "@CitasBundle/Controller/"
     type:     annotation
