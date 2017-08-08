@@ -13,9 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Entity(repositoryClass="SeguridadBundle\Entity\UserRepository")
  * @DoctrineAssert\UniqueEntity(fields={"email"},message="Ya existe este correo") 
  */
-class User
-
-{
+class User implements UserInterface, \Serializable {
 
     /**
      * @ORM\Id
