@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new CitasBundle\CitasBundle(),
             new InventarioBundle\InventarioBundle(),
             new ContabilidadBundle\ContabilidadBundle(),
+            new SeguridadBundle\SeguridadBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

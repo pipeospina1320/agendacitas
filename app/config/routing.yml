@@ -12,3 +12,8 @@ citas:
     resource: "@CitasBundle/Controller/"
     type:     annotation
     prefix:   /
+
+seguridad:
+    resource: "@SeguridadBundle/Controller/"
+    type:     annotation
+    prefix:   /

@@ -1,0 +1,129 @@
+{% extends '::base_sin_menu.html.twig' %}
+{% block title %}Permiso documento detalle nuevo - Soga App{% endblock %}
+{% block content %}
+    <script type="text/javascript">
+        function ChequearTodos() 
+        {
+            var chks = ["ingreso", "nuevo", "editar","eliminar","autorizar",
+            "desautorizar","aprobar","desaprobar","anular","imprimir","desanular"];
+            var form= "form_"
+            var cant = chks.length;
+            for(i=0;i<cant;i++)
+            {
+                var seleccionar = form.concat(chks[i]);
+                if(document.getElementById(seleccionar).checked == true)
+                {
+                    document.getElementById(seleccionar).checked = false;
+                }
+                else
+                {
+                   document.getElementById(seleccionar).checked = true;
+                }
+            }
+        }
+    </script>
+    <section class="content-header">
+        <h1>
+            Seguridad
+            <small>Permiso: nuevo</small>
+        </h1>
+    </section>
+    <section class="content">         
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros de busqueda</div>
+            <div class="panel-body">
+                <label class="col-sm-2 control-label">Tipo:</label>
+                    <div class="col-sm-4">
+                        {{form_widget(form.TxtTipo, { 'attr': {'class': 'form-control'} }) }}
+                    </div>  
+                <div class="form-group form-group-sm">  
+                    <label class="col-sm-2 control-label">Modulo:</label>
+                    <div class="col-sm-4">   
+                        {{form_widget(form.TxtModulo, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                    </div>
+                </div>     
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Información general</div>
+            <div class="panel-body">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-3 control-label">
+                        Seleccionar todos:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="ChkSeleccionarTodos" OnClick="ChequearTodos();"/>
+                    </label>
+                </div>
+                <div class="form-group form-group-sm">  
+                    <div class="col-sm-4">
+                        {{ form_widget(form.ingreso) }}
+                    </div>
+                    <div class="col-sm-4">                  
+                        {{ form_widget(form.nuevo) }}
+                    </div>                    
+                    <div class="col-sm-4">
+                        {{ form_widget(form.editar) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">  
+                    <div class="col-sm-4">                  
+                        {{ form_widget(form.eliminar) }}
+                    </div>                    
+                    <div class="col-sm-4">
+                        {{ form_widget(form.autorizar) }}
+                    </div>
+                    <div class="col-sm-4">                  
+                        {{ form_widget(form.desautorizar) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">  
+                    <div class="col-sm-4">
+                        {{ form_widget(form.aprobar) }}
+                    </div>
+                    <div class="col-sm-4">                  
+                        {{ form_widget(form.desaprobar) }}
+                    </div>                    
+                    <div class="col-sm-4">
+                        {{ form_widget(form.anular) }}
+                    </div>
+                </div> 
+                <div class="form-group form-group-sm">  
+                    <div class="col-sm-4">                  
+                        {{ form_widget(form.imprimir) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.desanular) }}
+                    </div>
+                </div>                  
+            </div>
+        </div>  
+        <table class="table table-striped table-bordered table-condensed table-hover">
+            <tr>
+                <th>ID</th>            
+                <th>TIPO</th>
+                <th>MODULO</th>
+                <th>NOMBRE</th>            
+                <th><input type="checkbox" name="ChkSeleccionarTodos" OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+            </tr>       
+            {%for arDocumentos in arDocumentos %}
+                <tr>                
+                    <td>{{arDocumentos.codigoDocumentoPk}}</td> 
+                    <td>{{arDocumentos.tipo}}</td> 
+                    <td>{{arDocumentos.modulo}}</td>
+                    <td>{{arDocumentos.nombre}}</td>                    
+                    <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arDocumentos.codigoDocumentoPk }}" /></td>
+                </tr>
+            {%endfor%}                        
+        </table>                                          
+        <div class="modal-footer">      
+            <a class="btn btn-default btn-sm" onclick="window.close()">Cancelar</a>        
+            {{ form_widget(form.BtnGuardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+        </div>    
+        {{ form_end(form) }}
+        <br/><br/><br/><br/>
+    </section> 
+{% endblock %}
