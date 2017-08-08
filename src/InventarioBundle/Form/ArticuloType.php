@@ -31,15 +31,15 @@ class ArticuloType extends AbstractType {
                 ->add('descripcionArticulo', TextType::class, array('required' => true))
                 ->add('marcaArticuloRel', EntityType::class, array(
                     'class' => 'InventarioBundle:MarcaArticulo',
-                    'choice_label' => 'nombre'))
+                    'choice_label' => 'nombreMarcaArticulo'))
                 
                 ->add('grupoArticuloRel', EntityType::class, array(
                     'class' => 'InventarioBundle:GrupoArticulo',
-                    'choice_label' =>'nombre'))
+                    'choice_label' =>'nombreGrupoArticulo'))
                 
                 ->add('unidadManejoRel', EntityType::class, array(
                     'class' => 'InventarioBundle:UnidadManejo',
-                    'choice_label' => 'nombre'));
+                    'choice_label' => 'nombreUnidadManejo'));
     }
 
     /**

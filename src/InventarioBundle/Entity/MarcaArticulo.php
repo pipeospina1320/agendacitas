@@ -18,21 +18,23 @@ class MarcaArticulo {
      * @ORM\Column(name="codigo_marca_articulo_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $marcaArticuloPk;
+    private $codigoMarcaArticuloPk;
     
      /**
      * @ORM\Column(name="nombre_marca_articulo", type="string", nullable=true)
      */
     private $nombreMarcaArticulo;
 
+
+
     /**
-     * Get marcaArticuloPk
+     * Get codigoMarcaArticuloPk
      *
      * @return integer
      */
-    public function getMarcaArticuloPk()
+    public function getCodigoMarcaArticuloPk()
     {
-        return $this->marcaArticuloPk;
+        return $this->codigoMarcaArticuloPk;
     }
 
     /**

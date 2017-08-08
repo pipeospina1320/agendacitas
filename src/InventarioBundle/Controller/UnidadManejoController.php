@@ -2,7 +2,7 @@
 
 namespace InventarioBundle\Controller;
 
-use InventarioBundle\Entity\Articulo;
+use InventarioBundle\Entity\UnidadManejo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ArticuloController extends Controller {
 
     /**
-     * @Route("articulo/", name="articulo_lista")
+     * @Route("Undmanejo/", name="articulo_lista")
      */
     public function listaAction() {
         $em = $this->getDoctrine()->getManager();
@@ -24,7 +24,7 @@ class ArticuloController extends Controller {
     }
 
     /**
-     * @Route("articulo/nuevo", name="articulo_nuevo")
+     * @Route("Undmanejo/nuevo", name="articulo_nuevo")
      * @Method({"GET", "POST"})
      */
     public function nuevoAction(Request $request) {
@@ -49,7 +49,7 @@ class ArticuloController extends Controller {
     /**
      * Displays a form to edit an existing cliente entity.
      *
-     * @Route("articulo/{codigoArticuloPk}/editar", name="articulo_editar")
+     * @Route("Undmanejo/{codigoArticuloPk}/editar", name="articulo_editar")
      * @Method({"GET", "POST"})
      */
     public function editarAction(Request $request, Articulo $articulo) {

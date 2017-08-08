@@ -1,3 +1,8 @@
+contabilidad:
+    resource: "@ContabilidadBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 inventario:
     resource: "@InventarioBundle/Controller/"
     type:     annotation

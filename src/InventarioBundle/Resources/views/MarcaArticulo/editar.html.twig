@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block body %}
+{% block content %}
     <div id="wrapper">
         <div id="page-wrapper">
             <div class="row">
@@ -15,15 +15,23 @@
                             Lista
                         </div>
                         <div class="panel-body">
-                            {{ form_start(form) }}
-                            {{ form_widget(form) }}
-                            <input type="submit" value="Guardar" />
-                            {{ form_end(form) }}
-                        </div>
+
+                            {{ form_start(edit_form) }}
+                            {{ form_widget(edit_form) }}
+                            <input type="submit" value="Edit" />
+                            {{ form_end(edit_form) }}
+
+                        </div>    
                     </div>
                 </div>
             </div>
-            <a href="{{ path('cliente_lista') }}">Volver</a>
+            <ul>
+                <li>
+                    <a href="{{ path('marca_lista') }}">volver</a>
+                </li>
+
+            </ul>
         </div>
     </div>
+
 {% endblock %}

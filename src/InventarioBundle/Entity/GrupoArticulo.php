@@ -15,7 +15,7 @@ class GrupoArticulo {
      * @ORM\Column(name="codigo_grupo_articulo_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $grupoArticuloPk;
+    private $codigoGrupoArticuloPk;
 
     /**
      * @ORM\Column(name="nombre_grupo_articulo", type="string", nullable=true)
@@ -23,14 +23,16 @@ class GrupoArticulo {
     private $nombreGrupoArticulo;
 
 
+
+
     /**
-     * Get grupoArticuloPk
+     * Get codigoGrupoArticuloPk
      *
      * @return integer
      */
-    public function getGrupoArticuloPk()
+    public function getCodigoGrupoArticuloPk()
     {
-        return $this->grupoArticuloPk;
+        return $this->codigoGrupoArticuloPk;
     }
 
     /**

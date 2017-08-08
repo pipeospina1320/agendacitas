@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new CitasBundle\CitasBundle(),
             new InventarioBundle\InventarioBundle(),
+            new ContabilidadBundle\ContabilidadBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

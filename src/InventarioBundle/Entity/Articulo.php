@@ -61,10 +61,11 @@ class Articulo {
     private $unidadManejoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GrupoArticulo", inversedBy="grupoArticuloRel")
+     * @ORM\ManyToOne(targetEntity="GrupoArticulo", inversedBy="codigoGrupoArticuloPk")
      * @ORM\JoinColumn(name="codigo_grupo_articulo_fk", referencedColumnName="codigo_grupo_articulo_pk")
      */
     private $grupoArticuloRel;
+
 
 
     /**
@@ -99,6 +100,54 @@ class Articulo {
     public function getCodigoArticulo()
     {
         return $this->codigoArticulo;
+    }
+
+    /**
+     * Set manejaKardex
+     *
+     * @param boolean $manejaKardex
+     *
+     * @return Articulo
+     */
+    public function setManejaKardex($manejaKardex)
+    {
+        $this->manejaKardex = $manejaKardex;
+
+        return $this;
+    }
+
+    /**
+     * Get manejaKardex
+     *
+     * @return boolean
+     */
+    public function getManejaKardex()
+    {
+        return $this->manejaKardex;
+    }
+
+    /**
+     * Set estadoActivo
+     *
+     * @param boolean $estadoActivo
+     *
+     * @return Articulo
+     */
+    public function setEstadoActivo($estadoActivo)
+    {
+        $this->estadoActivo = $estadoActivo;
+
+        return $this;
+    }
+
+    /**
+     * Get estadoActivo
+     *
+     * @return boolean
+     */
+    public function getEstadoActivo()
+    {
+        return $this->estadoActivo;
     }
 
     /**
@@ -243,53 +292,5 @@ class Articulo {
     public function getGrupoArticuloRel()
     {
         return $this->grupoArticuloRel;
-    }
-
-    /**
-     * Set manejaKardex
-     *
-     * @param boolean $manejaKardex
-     *
-     * @return Articulo
-     */
-    public function setManejaKardex($manejaKardex)
-    {
-        $this->manejaKardex = $manejaKardex;
-
-        return $this;
-    }
-
-    /**
-     * Get manejaKardex
-     *
-     * @return boolean
-     */
-    public function getManejaKardex()
-    {
-        return $this->manejaKardex;
-    }
-
-    /**
-     * Set estadoActivo
-     *
-     * @param boolean $estadoActivo
-     *
-     * @return Articulo
-     */
-    public function setEstadoActivo($estadoActivo)
-    {
-        $this->estadoActivo = $estadoActivo;
-
-        return $this;
-    }
-
-    /**
-     * Get estadoActivo
-     *
-     * @return boolean
-     */
-    public function getEstadoActivo()
-    {
-        return $this->estadoActivo;
     }
 }

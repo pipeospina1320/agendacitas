@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Comprobante</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Codigocomprobantepk</th>
+                <td>{{ comprobante.codigoComprobantePk }}</td>
+            </tr>
+            <tr>
+                <th>Nombrecomprobante</th>
+                <td>{{ comprobante.nombreComprobante }}</td>
+            </tr>
+            <tr>
+                <th>Prefijocomprobante</th>
+                <td>{{ comprobante.prefijoComprobante }}</td>
+            </tr>
+            <tr>
+                <th>Ultimoconsecutivo</th>
+                <td>{{ comprobante.ultimoConsecutivo }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ comprobante.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Consecutivounico</th>
+                <td>{% if comprobante.consecutivoUnico %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('comprobante_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('comprobante_edit', { 'codigoComprobantePk': comprobante.codigoComprobantePk }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
