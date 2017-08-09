@@ -1,4 +1,4 @@
-{% extends '::base2.html.twig' %}
+{% extends '::base.html.twig' %}
 {% block title %}Detalle usuario - Soga App{% endblock %}
 {% block content %}
     <section class="content-header">
@@ -6,12 +6,7 @@
             Seguridad
             <small>Usuario: detalle</small>
         </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ path('brasa_general_inicio') }}"><i class="fa fa-dashboard"></i> Inicio</a></li>
-            <li><a href="{{ path('brasa_general_inicio') }}"><i class="fa fa-calendar"></i> Seguridad</a></li>
-            <li><a href="{{ path('brasa_general_inicio') }}"><i class="fa fa-bars"></i> Usuario</a></li>
-            <li class="active">Detalle</li>
-        </ol>
+      
     </section>    
     <section class="content">     
     <script>
@@ -125,7 +120,7 @@
             <!-- Botones Menu Items -->
             <div class="btn-toolbar" style="float: right">
                 <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('brs_seg_admin_usuario_detalle_nuevo_especial', {'codigoUsuario': arUsuario.id }) }}', 'Archivos', 500, 800)" >Nuevo</a>
+                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('usuario_detalle_nuevo_especial', {'codigoUsuario': arUsuario.id }) }}', 'Archivos', 500, 800)" >Nuevo</a>
                 </div>
                 <div class="btn-group">
                     {{ form_widget(form.BtnEliminarEspecial, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
@@ -157,7 +152,7 @@
             <!-- Botones Menu Items -->
             <div class="btn-toolbar" style="float: right">
                 <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('brs_seg_usuario_detalle_rol_nuevo', {'codigoUsuario': arUsuario.id }) }}', 'Archivos', 500, 800)" >Nuevo</a>
+                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('usuario_detalle_rol_nuevo', {'codigoUsuario': arUsuario.id }) }}', 'Archivos', 500, 800)" >Nuevo</a>
                 </div>
                 <div class="btn-group">
                     {{ form_widget(form.BtnEliminarRol, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
@@ -168,7 +163,7 @@
     </div>
     {{ form_rest(form) }}
     {{ form_end(form) }}
-    <a  class="btn btn-default btn-sm" href="{{ path('brs_seg_admin_usuario_lista') }}">Volver</a>
+    <a  class="btn btn-default btn-sm" href="{{ path('usuario_lista') }}">Volver</a>
     <br/><br/><br/><br/>
     </section>    
 {% endblock %}

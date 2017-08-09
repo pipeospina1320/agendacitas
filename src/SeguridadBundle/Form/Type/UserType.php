@@ -25,21 +25,23 @@ class UserType extends AbstractType {
                     'choice_label' => 'nombre',
                 ))
                 ->add('grupoRel', EntityType::class, array(
-                'class' => 'SeguridadBundle:SegGrupo',
-                'query_builder' => function (EntityRepository $er)  {
-                    return $er->createQueryBuilder('g')
-                    ->orderBy('g.nombre', 'ASC');},
-                'choice_label' => 'nombre',
-                'placeholder' => '',
-                'required'=>false))
+                    'class' => 'SeguridadBundle:SegGrupo',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('g')
+                                ->orderBy('g.nombre', 'ASC');
+                    },
+                    'choice_label' => 'nombre',
+                    'placeholder' => '',
+                    'required' => false))
                 ->add('usuarioActividadRel', EntityType::class, array(
-                'class' => 'SeguridadBundle:SegUsuarioActividad',
-                'query_builder' => function (EntityRepository $er)  {
-                    return $er->createQueryBuilder('ua')
-                    ->orderBy('ua.nombre', 'ASC');},
-                'choice_label' => 'nombre',
-                'placeholder' => '',
-                'required'=>false))
+                    'class' => 'SeguridadBundle:SegUsuarioActividad',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('ua')
+                                ->orderBy('ua.nombre', 'ASC');
+                    },
+                    'choice_label' => 'nombre',
+                    'placeholder' => '',
+                    'required' => false))
                 ->add('nombreCorto', TextType::class, array('required' => true))
                 ->add('username', TextType::class, array('required' => true))
                 ->add('email', TextType::class, array('required' => true))

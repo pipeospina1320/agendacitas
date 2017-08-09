@@ -23,16 +23,16 @@ class SegUsuariosController extends Controller {
     var $strDqlListaSegDocumento = "";
 
     /**
-     * @Route("/admin/usuario/lista/", name="brs_seg_admin_usuario_lista")
+     * @Route("usuario/lista/", name="usuario_lista")
      */
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('knp_paginator');
+        //$paginator = $this->get('knp_paginator');
         $form = $this->formularioLista();
         $form->handleRequest($request);
         $this->listar();
-        $arUsuarios = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 50);
-        $arGrupos = $paginator->paginate($em->getRepository("SeguridadBundle:SegGrupo")->findAll(), $request->query->get('page', 1), 50);
+        $arUsuarios = $em->getRepository("SeguridadBundle:User")->findAll();
+        $arGrupos = $em->getRepository("SeguridadBundle:SegGrupo")->findAll();
         return $this->render('SeguridadBundle:Usuarios:lista.html.twig', array(
                     'form' => $form->createView(),
                     'arUsuarios' => $arUsuarios,
@@ -41,12 +41,11 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/admin/usuario/nuevo/{codigoUsuario}", name="brs_seg_admin_usuario_nuevo")
+     * @Route("usuario/nuevo/{codigoUsuario}", name="usuario_nuevo")
      */
     public function nuevoAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
-        $objMensaje = new GeneralBundle\MisClases\Mensajes();
-        $arUsuario = new SeguridadBundle\Entity\User();
+        $arUsuario = new \SeguridadBundle\Entity\User();
         $form = $this->createForm(UserType::class, $arUsuario);
         if ($codigoUsuario != 0) {
             $arUsuario = $em->getRepository('SeguridadBundle:User')->find($codigoUsuario);
@@ -69,7 +68,7 @@ class SegUsuariosController extends Controller {
                 $em->getRepository('SeguridadBundle:SegPermisoGrupo')->asignarPermisosUsuario($arUsuario->getGrupoRel()->getCodigoGrupoPk(), $arUsuario);
             }
             $em->flush();
-            return $this->redirect($this->generateUrl('brs_seg_admin_usuario_lista'));
+            return $this->redirect($this->generateUrl('usuario_lista'));
         }
         return $this->render('SeguridadBundle:Usuarios:nuevo.html.twig', array(
                     'form' => $form->createView(),
@@ -78,7 +77,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/admin/usuario/detalle/{codigoUsuario}", name="brs_seg_admin_usuario_detalle")
+     * @Route("usuario/detalle/{codigoUsuario}", name="usuario_detalle")
      */
     public function detalleAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
@@ -89,7 +88,7 @@ class SegUsuariosController extends Controller {
                 ->getForm();
         $form->handleRequest($request);
 
-        $arUsuario = new SeguridadBundle\Entity\User();
+        $arUsuario = new \SeguridadBundle\Entity\User();
         $arUsuario = $em->getRepository('SeguridadBundle:User')->find($codigoUsuario);
         if ($form->isValid()) {
             if ($form->get('BtnEliminarEspecial')->isClicked()) {
@@ -129,11 +128,11 @@ class SegUsuariosController extends Controller {
                 return $this->redirect($this->generateUrl('brs_seg_admin_usuario_detalle', array('codigoUsuario' => $codigoUsuario)));
             }
         }
-        $arPermisosDocumentos = new SeguridadBundle\Entity\SegPermisoDocumento();
+        $arPermisosDocumentos = new \SeguridadBundle\Entity\SegPermisoDocumento();
         $arPermisosDocumentos = $em->getRepository('SeguridadBundle:SegPermisoDocumento')->findBy(array('codigoUsuarioFk' => $codigoUsuario));
-        $arPermisosEspeciales = new SeguridadBundle\Entity\SegUsuarioPermisoEspecial();
+        $arPermisosEspeciales = new \SeguridadBundle\Entity\SegUsuarioPermisoEspecial();
         $arPermisosEspeciales = $em->getRepository('SeguridadBundle:SegUsuarioPermisoEspecial')->findBy(array('codigoUsuarioFk' => $codigoUsuario));
-        $arUsuarioRoles = new SeguridadBundle\Entity\SegUsuarioRol();
+        $arUsuarioRoles = new \SeguridadBundle\Entity\SegUsuarioRol();
         $arUsuarioRoles = $em->getRepository('SeguridadBundle:SegUsuarioRol')->findBy(array('codigoUsuarioFk' => $codigoUsuario));
         return $this->render('SeguridadBundle:Usuarios:detalle.html.twig', array(
                     'arPermisosDocumentos' => $arPermisosDocumentos,
@@ -145,7 +144,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/seg/usuario/detalle/ver/{codigoUsuario}/", name="brs_seg_usuario_detalle_ver")
+     * @Route("usuario/detalle/ver/{codigoUsuario}/", name="")
      */
     public function detalleVerAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
@@ -275,11 +274,10 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/admin/usuario/detalle/permiso/especial/nuevo/{codigoUsuario}/", name="brs_seg_admin_usuario_detalle_nuevo_especial")
+     * @Route("usuario/detalle/permiso/especial/nuevo/{codigoUsuario}/", name="usuario_detalle_nuevo_especial")
      */
     public function detalleNuevoPermisoEspecialAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
-        $objMensaje = new GeneralBundle\MisClases\Mensajes();
         $form = $this->createFormBuilder()
                 ->add('guardar', SubmitType::class, array('label' => 'Guardar'))
                 ->getForm();
@@ -290,12 +288,12 @@ class SegUsuariosController extends Controller {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
                 if (count($arrSeleccionados) > 0) {
                     foreach ($arrSeleccionados AS $codigoPermisoEspecial) {
-                        $arUsuarioPermisoEspecialValidar = new SeguridadBundle\Entity\SegUsuarioPermisoEspecial();
+                        $arUsuarioPermisoEspecialValidar = new \SeguridadBundle\Entity\SegUsuarioPermisoEspecial();
                         $arUsuarioPermisoEspecialValidar = $em->getRepository('SeguridadBundle:SegUsuarioPermisoEspecial')->findBy(array('codigoUsuarioFk' => $codigoUsuario, 'codigoPermisoEspecialFk' => $codigoPermisoEspecial));
                         if (!$arUsuarioPermisoEspecialValidar) {
-                            $arPermisoEspecial = new SeguridadBundle\Entity\SegPermisoEspecial();
+                            $arPermisoEspecial = new \SeguridadBundle\Entity\SegPermisoEspecial();
                             $arPermisoEspecial = $em->getRepository('SeguridadBundle:SegPermisoEspecial')->find($codigoPermisoEspecial);
-                            $arUsuarioPermisoEspecial = new SeguridadBundle\Entity\SegUsuarioPermisoEspecial();
+                            $arUsuarioPermisoEspecial = new \SeguridadBundle\Entity\SegUsuarioPermisoEspecial();
                             $arUsuarioPermisoEspecial->setPermisoEspecialRel($arPermisoEspecial);
                             $arUsuarioPermisoEspecial->setUsuarioRel($arUsuario);
                             $arUsuarioPermisoEspecial->setPermitir(1);
@@ -314,7 +312,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/admin/usuario/detalle/permiso/documento/nuevo/{codigoUsuario}/", name="brs_seg_admin_usuario_detalle_nuevo_documento")
+     * @Route("usuario/detalle/permiso/documento/nuevo/{codigoUsuario}/", name="brs_seg_admin_usuario_detalle_nuevo_documento")
      */
     public function detalleNuevoPermisoDocumentoAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
@@ -370,7 +368,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/seg/usuario/detalle/permiso/documento/editar/{codigoPermisoDocumento}/", name="brs_seg_usuario_detalle_permiso_documento_editar")
+     * @Route("usuario/detalle/permiso/documento/editar/{codigoPermisoDocumento}/", name="brs_seg_usuario_detalle_permiso_documento_editar")
      */
     public function detallePermisoDocumentoEditarAction(Request $request, $codigoPermisoDocumento) {
         $objMensaje = new GeneralBundle\MisClases\Mensajes();
@@ -394,10 +392,10 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/seg/usuario/detalle/rol/nuevo/{codigoUsuario}/", name="brs_seg_usuario_detalle_rol_nuevo")
+     * @Route("usuario/detalle/rol/nuevo/{codigoUsuario}/", name="usuario_detalle_rol_nuevo")
      */
     public function detalleNuevoRolAction(Request $request, $codigoUsuario) {
-        $objMensaje = new GeneralBundle\MisClases\Mensajes();
+        
         $em = $this->getDoctrine()->getManager();
         $arRoles = $em->getRepository('SeguridadBundle:SegRoles')->findAll();
         $form = $this->createFormBuilder()
@@ -411,10 +409,10 @@ class SegUsuariosController extends Controller {
                     foreach ($arrSeleccionados AS $codigoRol) {
                         $arUsuario = $em->getRepository('SeguridadBundle:User')->find($codigoUsuario);
                         $arRol = $em->getRepository('SeguridadBundle:SegRoles')->find($codigoRol);
-                        $arUsuarioRolValidar = new SeguridadBundle\Entity\SegUsuarioRol();
+                        $arUsuarioRolValidar = new \SeguridadBundle\Entity\SegUsuarioRol();
                         $arUsuarioRolValidar = $em->getRepository('SeguridadBundle:SegUsuarioRol')->findBy(array('codigoUsuarioFk' => $codigoUsuario, 'codigoRolFk' => $codigoRol));
                         if (!$arUsuarioRolValidar) {
-                            $arUsuarioRol = new SeguridadBundle\Entity\SegUsuarioRol();
+                            $arUsuarioRol = new \SeguridadBundle\Entity\SegUsuarioRol();
                             $arUsuarioRol->setRolRel($arRol);
                             $arUsuarioRol->setUsuarioRel($arUsuario);
                             $em->persist($arUsuarioRol);
@@ -433,17 +431,17 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/admin/usuario/cambiar/clave/admin/{codigoUsuario}", name="brs_seg_admin_usuario_cambiar_clave")
+     * @Route("usuario/cambiar/clave/admin/{codigoUsuario}", name="admin_usuario_cambiar_clave")
      */
     public function cambiarClaveAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
         $formUsuario = $this->createFormBuilder()
-                ->setAction($this->generateUrl('brs_seg_admin_usuario_cambiar_clave', array('codigoUsuario' => $codigoUsuario)))
+                ->setAction($this->generateUrl('admin_usuario_cambiar_clave', array('codigoUsuario' => $codigoUsuario)))
                 ->add('password', PasswordType::class)
                 ->add('BtnGuardar', SubmitType::class, array('label' => 'Guardar'))
                 ->getForm();
         $formUsuario->handleRequest($request);
-        $arUsuario = new SeguridadBundle\Entity\User();
+        $arUsuario = new \SeguridadBundle\Entity\User();
         $arUsuario = $em->getRepository('SeguridadBundle:User')->find($codigoUsuario);
 
         if ($formUsuario->isValid()) {
@@ -453,7 +451,7 @@ class SegUsuariosController extends Controller {
             $arUsuario->setPassword($password);
             $em->persist($arUsuario);
             $em->flush();
-            return $this->redirect($this->generateUrl('brs_seg_admin_usuario_lista'));
+            return $this->redirect($this->generateUrl('usuario_lista'));
         }
         return $this->render('SeguridadBundle:Usuarios:cambiarClave.html.twig', array(
                     'arUsuario' => $arUsuario,
@@ -462,17 +460,17 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/user/usuario/cambiar/clave/usuario/{codigoUsuario}/", name="brs_seg_user_usuario_cambiar_clave")
+     * @Route("usuario/cambiar/clave/usuario/{codigoUsuario}/", name="usuario_cambiar_clave")
      */
     public function cambiarClaveUsuarioAction(Request $request, $codigoUsuario) {
         $em = $this->getDoctrine()->getManager();
         $formUsuario = $this->createFormBuilder()
-                ->setAction($this->generateUrl('brs_seg_user_usuario_cambiar_clave', array('codigoUsuario' => $codigoUsuario)))
+                ->setAction($this->generateUrl('usuario_cambiar_clave', array('codigoUsuario' => $codigoUsuario)))
                 ->add('password', PasswordType::class)
                 ->add('BtnGuardar', SubmitType::class, array('label' => 'Guardar'))
                 ->getForm();
         $formUsuario->handleRequest($request);
-        $arUsuario = new SeguridadBundle\Entity\User();
+        $arUsuario = new \SeguridadBundle\Entity\User();
         $arUsuario = $em->getRepository('SeguridadBundle:User')->find($codigoUsuario);
 
         if ($formUsuario->isValid()) {
@@ -483,7 +481,7 @@ class SegUsuariosController extends Controller {
             $arUsuario->setCambiarClave(0);
             $em->persist($arUsuario);
             $em->flush();
-            return $this->redirect($this->generateUrl('brs_seg_usuario_detalle_ver', array('codigoUsuario' => $codigoUsuario)));
+            return $this->redirect($this->generateUrl('usuario_lista', array('codigoUsuario' => $codigoUsuario)));
         }
         if ($arUsuario->getCambiarClave()) {
             $ruta = 'SeguridadBundle:Usuarios:cambiarClaveLogin.html.twig';
@@ -496,7 +494,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/user/usuario/nuevo/permiso/grupo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_nuevo")
+     * @Route("usuario/nuevo/permiso/grupo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_nuevo")
      */
     public function nuevoPermisoGrupoAction(Request $request, $codigoGrupo) {
         $em = $this->getDoctrine()->getManager();
@@ -518,7 +516,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/user/usuario/detalle/permiso/grupo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_detalle")
+     * @Route("usuario/detalle/permiso/grupo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_detalle")
      */
     public function detallePermisoGrupoAction(Request $request, $codigoGrupo) {
         $em = $this->getDoctrine()->getManager();
@@ -550,7 +548,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/user/usuario/detalle/permiso/grupo/documento/nuevo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_detalle_documento_nuevo")
+     * @Route("usuario/detalle/permiso/grupo/documento/nuevo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_detalle_documento_nuevo")
      */
     public function detalleNuevoPermisoGrupoDocumentoAction(Request $request, $codigoGrupo) {
         $em = $this->getDoctrine()->getManager();
@@ -631,7 +629,7 @@ class SegUsuariosController extends Controller {
     }
 
     /**
-     * @Route("/user/usuario/detalle/permiso/grupo/especial/nuevo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_detalle_especial_nuevo")
+     * @Route("usuario/detalle/permiso/grupo/especial/nuevo/{codigoGrupo}/", name="brs_seg_admin_permiso_grupo_detalle_especial_nuevo")
      */
     public function detalleNuevoPermisoGrupoEspecialAction(Request $request, $codigoGrupo) {
         $em = $this->getDoctrine()->getManager();

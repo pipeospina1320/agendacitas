@@ -1,129 +1,119 @@
-{% extends '::base2.html.twig' %}
+{% extends '::base.html.twig' %}
 {% block content %}
-    <section class="content-header">
-        <h1>
-            Seguridad
-            <small>Usuarios: lista</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ path('brasa_general_inicio') }}"><i class="fa fa-dashboard"></i> Inicio</a></li>
-            <li><a href="{{ path('brasa_general_inicio') }}"><i class="fa fa-calendar"></i> Seguridad</a></li>
-            <li><a href="{{ path('brasa_general_inicio') }}"><i class="fa fa-bars"></i> Usuario</a></li>            
-            <li class="active">Lista</li>
-        </ol>
-    </section>    
-    <section class="content">     
-        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
-        {{ form_errors(form) }}
-        <div class="panel panel-default">
-            <div class="panel-heading">Filtros de busqueda</div>
-            <div class="panel-body">
-                <div class="form-group form-group-sm">
-                    <label for="form_TxtNumero" class="col-sm-2 control-label">Numero:</label>
-                    <div class="col-sm-10">
-                        {{ form_widget(form.TxtNumero, { 'attr': {'class': 'form-control'} }) }}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Seguridad</h1>
+                </div>
+            </div>   
+            <section class="content">     
+                {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+                {{ form_errors(form) }}
+                <div class="panel panel-default">
+                    <div class="panel-heading">Filtros de busqueda</div>
+                    <div class="panel-body">
+                        <div class="form-group form-group-sm">
+                            <label for="form_TxtNumero" class="col-sm-2 control-label">Numero:</label>
+                            <div class="col-sm-10">
+                                {{ form_widget(form.TxtNumero, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                <!-- Fin Encabezado Movimiento -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#usuarios" data-toggle="tab">Usuarios</a></li>
+                    <li><a href="#grupos" data-toggle="tab">Grupos</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="usuarios">
+                        <!-- Menu Encabezado Movimiento -->
+                        <div id="usuarios" style="width: 100%"><br>
+                            <table  class="table table-striped table-bordered table-condensed table-hover">
+                                <tr>
+                                    <th>CÓDIGO</th>
+                                    <th>USUARIO</th>
+                                    <th>NOMBRE</th>
+                                    <th>CORREO</th>
+                                    <th>ROL</th>
+                                    <th>CARGO</th>
+                                    <th>ACTIVIDAD</th>
+                                    <th>GRUPO</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                {% for arUsuarios in arUsuarios %}
+                                    <tr>
+                                        <td><input type="hidden" name="LblCodigo[]" value="{{ arUsuarios.id }}">{{ arUsuarios.id }} </td>
+                                        <td>{{ arUsuarios.username  }}</td>
+                                        <td>{{ arUsuarios.nombreCorto  }}</td>
+                                        <td>{{ arUsuarios.email }}</td>
+                                        <td>{{ arUsuarios.rolRel.nombre }}</td>
+                                        <td>{{ arUsuarios.cargo }}</td>
+                                        <td>{{ arUsuarios.usuarioActividadRel.nombre | default() }}</td>
+                                        <td>{{ arUsuarios.grupoRel.nombre | default() }}</td>
+                                        <td style="text-align: center"><a class="btn btn-default btn-xs" id="{{ path('admin_usuario_cambiar_clave', { 'codigoUsuario': arUsuarios.id}) }}" style="float:left">Cambiar clave</a></td>                                                
+                                        <td style="text-align: center"><a href="{{ path('usuario_nuevo',{'codigoUsuario': arUsuarios.id})}}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>                
+                                        <td style="text-align: center"><a href="{{ path('usuario_detalle', { 'codigoUsuario': arUsuarios.id }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22></a></td>
+                                        <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arUsuarios.id }}" /></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                            <div class="btn-toolbar" style="float: left">
+                                <div class="btn-group">
+
+                                </div>
+                                <div class="btn-group">
+
+                                </div>
+                            </div>
+                            <div class="btn-toolbar" style="float: right">
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-sm" href="{{ path('usuario_nuevo', {'codigoUsuario': 0}) }}">Nuevo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="grupos">
+                        <!-- Menu Encabezado Movimiento -->
+                        <div id="grupos" style="width: 100%"><br>
+                            <table  class="table table-striped table-bordered table-condensed table-hover">
+                                <tr>
+                                    <th>CÓDIGO</th>
+                                    <th>NOMBRE</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+
+                            </table>
+                            <div class="btn-toolbar" style="float: left">
+                                <div class="btn-group">
+
+                                </div>
+                                <div class="btn-group">
+
+                                </div>
+                            </div>
+                            <div class="btn-toolbar" style="float: right">
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-sm" href="{{ path('brs_seg_admin_permiso_grupo_nuevo',{'codigoGrupo': 0})}}">Nuevo</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+                <br/><br/><br/><br/>
+            </section>  
         </div>
-        <!-- Fin Encabezado Movimiento -->
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#usuarios" data-toggle="tab">Usuarios</a></li>
-            <li><a href="#grupos" data-toggle="tab">Grupos</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="usuarios">
-                <!-- Menu Encabezado Movimiento -->
-                <div id="usuarios" style="width: 100%"><br>
-                    <table  class="table table-striped table-bordered table-condensed table-hover">
-                        <tr>
-                            <th>CÓDIGO</th>
-                            <th>USUARIO</th>
-                            <th>NOMBRE</th>
-                            <th>CORREO</th>
-                            <th>ROL</th>
-                            <th>CARGO</th>
-                            <th>ACTIVIDAD</th>
-                            <th>GRUPO</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        {% for arUsuarios in arUsuarios %}
-                            <tr>
-                                <td><input type="hidden" name="LblCodigo[]" value="{{ arUsuarios.id }}">{{ arUsuarios.id }} </td>
-                                <td>{{ arUsuarios.username  }}</td>
-                                <td>{{ arUsuarios.nombreCorto  }}</td>
-                                <td>{{ arUsuarios.email }}</td>
-                                <td>{{ arUsuarios.rolRel.nombre }}</td>
-                                <td>{{ arUsuarios.cargo }}</td>
-                                <td>{{ arUsuarios.usuarioActividadRel.nombre | default() }}</td>
-                                <td>{{ arUsuarios.grupoRel.nombre | default() }}</td>
-                                <td style="text-align: center"><a class="btn btn-default btn-xs" id="{{ path('brs_seg_admin_usuario_cambiar_clave', { 'codigoUsuario': arUsuarios.id}) }}" style="float:left">Cambiar clave</a></td>                                                
-                                <td style="text-align: center"><a href="{{ path('brs_seg_admin_usuario_nuevo',{'codigoUsuario': arUsuarios.id})}}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>                
-                                <td style="text-align: center"><a href="{{ path('brs_seg_admin_usuario_detalle', { 'codigoUsuario': arUsuarios.id }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22></a></td>
-                                <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arUsuarios.id }}" /></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                    <div class="btn-toolbar" style="float: left">
-                        <div class="btn-group">
-                            {{ knp_pagination_render(arUsuarios) }}
-                        </div>
-                        <div class="btn-group">
-                            <div class="btn btn-default btn-sm">Registros <span class="badge">{{ arUsuarios.getTotalItemCount }}</span></div>
-                        </div>
-                    </div>
-                    <div class="btn-toolbar" style="float: right">
-                        <div class="btn-group">
-                            <a class="btn btn-default btn-sm" href="{{ path('brs_seg_admin_usuario_nuevo', {'codigoUsuario': 0}) }}">Nuevo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="grupos">
-                <!-- Menu Encabezado Movimiento -->
-                <div id="grupos" style="width: 100%"><br>
-                    <table  class="table table-striped table-bordered table-condensed table-hover">
-                        <tr>
-                            <th>CÓDIGO</th>
-                            <th>NOMBRE</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        {% for arGrupos in arGrupos %}
-                            <tr>
-                                <td><input type="hidden" name="LblCodigo[]" value="{{ arGrupos.codigoGrupoPk }}">{{ arGrupos.codigoGrupoPk }} </td>
-                                <td>{{ arGrupos.nombre  }}</td>
-                                <td style="text-align: center"><a href="{{ path('brs_seg_admin_permiso_grupo_nuevo',{'codigoGrupo': arGrupos.codigoGrupoPk})}}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>                
-                                <td style="text-align: center"><a href="{{ path('brs_seg_admin_permiso_grupo_detalle',{'codigoGrupo': arGrupos.codigoGrupoPk})}}"><img src="{{ asset('imagenes/bootstrap/glyphicons_152_new_window.png') }}" width=22 height=22></a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                    <div class="btn-toolbar" style="float: left">
-                        <div class="btn-group">
-                            {{ knp_pagination_render(arGrupos) }}
-                        </div>
-                        <div class="btn-group">
-                            <div class="btn btn-default btn-sm">Registros <span class="badge">{{ arGrupos.getTotalItemCount }}</span></div>
-                        </div>
-                    </div>
-                    <div class="btn-toolbar" style="float: right">
-                        <div class="btn-group">
-                            <a class="btn btn-default btn-sm" href="{{ path('brs_seg_admin_permiso_grupo_nuevo',{'codigoGrupo': 0})}}">Nuevo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{ form_rest(form) }}
-        {{ form_end(form) }}
-        <br/><br/><br/><br/>
-    </section>    
+    </div>
 {% endblock %}

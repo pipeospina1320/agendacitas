@@ -66,7 +66,7 @@ class User implements UserInterface, \Serializable {
      * @ORM\Column(name="codigo_grupo_fk", type="integer", nullable=true)
      */
     private $codigoGrupoFk;
-    
+
     /**
      * @ORM\Column(name="codigo_usuario_actividad_fk", type="integer", nullable=true)
      */
@@ -108,7 +108,7 @@ class User implements UserInterface, \Serializable {
      * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
      */
     protected $grupoRel;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="SegUsuarioActividad", inversedBy="usersUsuarioActividadRel")
      * @ORM\JoinColumn(name="codigo_usuario_actividad_fk", referencedColumnName="codigo_usuario_actividad_pk")
@@ -130,24 +130,79 @@ class User implements UserInterface, \Serializable {
      */
     protected $permisosDocumentosUsuarioRel;
 
+    public function __construct() {
+        $this->cambiarClave = true;
+        $this->isActive = true;
+        $this->salt = md5(uniqid(null, true));
+    }
 
     /**
-     * Constructor
+     * @inheritDoc
      */
-    public function __construct()
-    {
-        $this->userUsuarioPermisoEspecialRel = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->usuariosRolesUsuarioRel = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->permisosDocumentosUsuarioRel = new \Doctrine\Common\Collections\ArrayCollection();
+    public function getUsername() {
+        return $this->username;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt() {
+        return $this->salt;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword() {
+        return $this->password;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles() {
+        return array($this->roles);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials() {
+        
+    }
+
+    public function isEnabled() {
+        return $this->isActive;
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize() {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized) {
+        list (
+                $this->id,
+                ) = unserialize($serialized);
+    }
+
+    public function equals(UserInterface $user) {
+        
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -155,35 +210,72 @@ class User implements UserInterface, \Serializable {
      * Set username
      *
      * @param string $username
-     *
-     * @return User
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
-
-        return $this;
     }
 
     /**
-     * Get username
+     * Set salt
      *
-     * @return string
+     * @param string $salt
      */
-    public function getUsername()
-    {
-        return $this->username;
+    public function setSalt($salt) {
+        $this->salt = $salt;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     */
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     */
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail() {
+        return $this->email;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     */
+    public function setIsActive($isActive) {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive() {
+        return $this->isActive;
     }
 
     /**
      * Set nombreCorto
      *
      * @param string $nombreCorto
-     *
      * @return User
      */
-    public function setNombreCorto($nombreCorto)
-    {
+    public function setNombreCorto($nombreCorto) {
         $this->nombreCorto = $nombreCorto;
 
         return $this;
@@ -192,107 +284,19 @@ class User implements UserInterface, \Serializable {
     /**
      * Get nombreCorto
      *
-     * @return string
+     * @return string 
      */
-    public function getNombreCorto()
-    {
+    public function getNombreCorto() {
         return $this->nombreCorto;
     }
 
     /**
-     * Set salt
+     * Get usuariosConfiguracionRel
      *
-     * @param string $salt
-     *
-     * @return User
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return User
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
+    public function getUsuariosConfiguracionRel() {
+        return $this->usuariosConfiguracionRel;
     }
 
     /**
@@ -302,8 +306,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return User
      */
-    public function setEmpresa($empresa)
-    {
+    public function setEmpresa($empresa) {
         $this->empresa = $empresa;
 
         return $this;
@@ -314,8 +317,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return string
      */
-    public function getEmpresa()
-    {
+    public function getEmpresa() {
         return $this->empresa;
     }
 
@@ -326,189 +328,10 @@ class User implements UserInterface, \Serializable {
      *
      * @return User
      */
-    public function setRoles($roles)
-    {
+    public function setRoles($roles) {
         $this->roles = $roles;
 
         return $this;
-    }
-
-    /**
-     * Get roles
-     *
-     * @return string
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
-     * Set codigoGrupoFk
-     *
-     * @param integer $codigoGrupoFk
-     *
-     * @return User
-     */
-    public function setCodigoGrupoFk($codigoGrupoFk)
-    {
-        $this->codigoGrupoFk = $codigoGrupoFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoGrupoFk
-     *
-     * @return integer
-     */
-    public function getCodigoGrupoFk()
-    {
-        return $this->codigoGrupoFk;
-    }
-
-    /**
-     * Set codigoUsuarioActividadFk
-     *
-     * @param integer $codigoUsuarioActividadFk
-     *
-     * @return User
-     */
-    public function setCodigoUsuarioActividadFk($codigoUsuarioActividadFk)
-    {
-        $this->codigoUsuarioActividadFk = $codigoUsuarioActividadFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoUsuarioActividadFk
-     *
-     * @return integer
-     */
-    public function getCodigoUsuarioActividadFk()
-    {
-        return $this->codigoUsuarioActividadFk;
-    }
-
-    /**
-     * Set tareasPendientes
-     *
-     * @param integer $tareasPendientes
-     *
-     * @return User
-     */
-    public function setTareasPendientes($tareasPendientes)
-    {
-        $this->tareasPendientes = $tareasPendientes;
-
-        return $this;
-    }
-
-    /**
-     * Get tareasPendientes
-     *
-     * @return integer
-     */
-    public function getTareasPendientes()
-    {
-        return $this->tareasPendientes;
-    }
-
-    /**
-     * Set notificacionesPendientes
-     *
-     * @param integer $notificacionesPendientes
-     *
-     * @return User
-     */
-    public function setNotificacionesPendientes($notificacionesPendientes)
-    {
-        $this->notificacionesPendientes = $notificacionesPendientes;
-
-        return $this;
-    }
-
-    /**
-     * Get notificacionesPendientes
-     *
-     * @return integer
-     */
-    public function getNotificacionesPendientes()
-    {
-        return $this->notificacionesPendientes;
-    }
-
-    /**
-     * Set cargo
-     *
-     * @param string $cargo
-     *
-     * @return User
-     */
-    public function setCargo($cargo)
-    {
-        $this->cargo = $cargo;
-
-        return $this;
-    }
-
-    /**
-     * Get cargo
-     *
-     * @return string
-     */
-    public function getCargo()
-    {
-        return $this->cargo;
-    }
-
-    /**
-     * Set cambiarClave
-     *
-     * @param boolean $cambiarClave
-     *
-     * @return User
-     */
-    public function setCambiarClave($cambiarClave)
-    {
-        $this->cambiarClave = $cambiarClave;
-
-        return $this;
-    }
-
-    /**
-     * Get cambiarClave
-     *
-     * @return boolean
-     */
-    public function getCambiarClave()
-    {
-        return $this->cambiarClave;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return User
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
     }
 
     /**
@@ -518,8 +341,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return User
      */
-    public function setRolRel(\SeguridadBundle\Entity\SegRoles $rolRel = null)
-    {
+    public function setRolRel(\SeguridadBundle\Entity\SegRoles $rolRel = null) {
         $this->rolRel = $rolRel;
 
         return $this;
@@ -530,57 +352,8 @@ class User implements UserInterface, \Serializable {
      *
      * @return \SeguridadBundle\Entity\SegRoles
      */
-    public function getRolRel()
-    {
+    public function getRolRel() {
         return $this->rolRel;
-    }
-
-    /**
-     * Set grupoRel
-     *
-     * @param \SeguridadBundle\Entity\SegGrupo $grupoRel
-     *
-     * @return User
-     */
-    public function setGrupoRel(\SeguridadBundle\Entity\SegGrupo $grupoRel = null)
-    {
-        $this->grupoRel = $grupoRel;
-
-        return $this;
-    }
-
-    /**
-     * Get grupoRel
-     *
-     * @return \SeguridadBundle\Entity\SegGrupo
-     */
-    public function getGrupoRel()
-    {
-        return $this->grupoRel;
-    }
-
-    /**
-     * Set usuarioActividadRel
-     *
-     * @param \SeguridadBundle\Entity\SegUsuarioActividad $usuarioActividadRel
-     *
-     * @return User
-     */
-    public function setUsuarioActividadRel(\SeguridadBundle\Entity\SegUsuarioActividad $usuarioActividadRel = null)
-    {
-        $this->usuarioActividadRel = $usuarioActividadRel;
-
-        return $this;
-    }
-
-    /**
-     * Get usuarioActividadRel
-     *
-     * @return \SeguridadBundle\Entity\SegUsuarioActividad
-     */
-    public function getUsuarioActividadRel()
-    {
-        return $this->usuarioActividadRel;
     }
 
     /**
@@ -590,8 +363,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return User
      */
-    public function addUserUsuarioPermisoEspecialRel(\SeguridadBundle\Entity\SegUsuarioPermisoEspecial $userUsuarioPermisoEspecialRel)
-    {
+    public function addUserUsuarioPermisoEspecialRel(\SeguridadBundle\Entity\SegUsuarioPermisoEspecial $userUsuarioPermisoEspecialRel) {
         $this->userUsuarioPermisoEspecialRel[] = $userUsuarioPermisoEspecialRel;
 
         return $this;
@@ -602,8 +374,7 @@ class User implements UserInterface, \Serializable {
      *
      * @param \SeguridadBundle\Entity\SegUsuarioPermisoEspecial $userUsuarioPermisoEspecialRel
      */
-    public function removeUserUsuarioPermisoEspecialRel(\SeguridadBundle\Entity\SegUsuarioPermisoEspecial $userUsuarioPermisoEspecialRel)
-    {
+    public function removeUserUsuarioPermisoEspecialRel(\SeguridadBundle\Entity\SegUsuarioPermisoEspecial $userUsuarioPermisoEspecialRel) {
         $this->userUsuarioPermisoEspecialRel->removeElement($userUsuarioPermisoEspecialRel);
     }
 
@@ -612,8 +383,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUserUsuarioPermisoEspecialRel()
-    {
+    public function getUserUsuarioPermisoEspecialRel() {
         return $this->userUsuarioPermisoEspecialRel;
     }
 
@@ -624,8 +394,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return User
      */
-    public function addUsuariosRolesUsuarioRel(\SeguridadBundle\Entity\SegUsuarioRol $usuariosRolesUsuarioRel)
-    {
+    public function addUsuariosRolesUsuarioRel(\SeguridadBundle\Entity\SegUsuarioRol $usuariosRolesUsuarioRel) {
         $this->usuariosRolesUsuarioRel[] = $usuariosRolesUsuarioRel;
 
         return $this;
@@ -636,8 +405,7 @@ class User implements UserInterface, \Serializable {
      *
      * @param \SeguridadBundle\Entity\SegUsuarioRol $usuariosRolesUsuarioRel
      */
-    public function removeUsuariosRolesUsuarioRel(\SeguridadBundle\Entity\SegUsuarioRol $usuariosRolesUsuarioRel)
-    {
+    public function removeUsuariosRolesUsuarioRel(\SeguridadBundle\Entity\SegUsuarioRol $usuariosRolesUsuarioRel) {
         $this->usuariosRolesUsuarioRel->removeElement($usuariosRolesUsuarioRel);
     }
 
@@ -646,8 +414,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUsuariosRolesUsuarioRel()
-    {
+    public function getUsuariosRolesUsuarioRel() {
         return $this->usuariosRolesUsuarioRel;
     }
 
@@ -658,8 +425,7 @@ class User implements UserInterface, \Serializable {
      *
      * @return User
      */
-    public function addPermisosDocumentosUsuarioRel(\SeguridadBundle\Entity\SegPermisoDocumento $permisosDocumentosUsuarioRel)
-    {
+    public function addPermisosDocumentosUsuarioRel(\SeguridadBundle\Entity\SegPermisoDocumento $permisosDocumentosUsuarioRel) {
         $this->permisosDocumentosUsuarioRel[] = $permisosDocumentosUsuarioRel;
 
         return $this;
@@ -670,8 +436,7 @@ class User implements UserInterface, \Serializable {
      *
      * @param \SeguridadBundle\Entity\SegPermisoDocumento $permisosDocumentosUsuarioRel
      */
-    public function removePermisosDocumentosUsuarioRel(\SeguridadBundle\Entity\SegPermisoDocumento $permisosDocumentosUsuarioRel)
-    {
+    public function removePermisosDocumentosUsuarioRel(\SeguridadBundle\Entity\SegPermisoDocumento $permisosDocumentosUsuarioRel) {
         $this->permisosDocumentosUsuarioRel->removeElement($permisosDocumentosUsuarioRel);
     }
 
@@ -680,8 +445,206 @@ class User implements UserInterface, \Serializable {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPermisosDocumentosUsuarioRel()
-    {
+    public function getPermisosDocumentosUsuarioRel() {
         return $this->permisosDocumentosUsuarioRel;
     }
+
+    /**
+     * Set tareasPendientes
+     *
+     * @param integer $tareasPendientes
+     *
+     * @return User
+     */
+    public function setTareasPendientes($tareasPendientes) {
+        $this->tareasPendientes = $tareasPendientes;
+
+        return $this;
+    }
+
+    /**
+     * Get tareasPendientes
+     *
+     * @return integer
+     */
+    public function getTareasPendientes() {
+        return $this->tareasPendientes;
+    }
+
+    /**
+     * Set cargo
+     *
+     * @param string $cargo
+     *
+     * @return User
+     */
+    public function setCargo($cargo) {
+        $this->cargo = $cargo;
+
+        return $this;
+    }
+
+    /**
+     * Get cargo
+     *
+     * @return string
+     */
+    public function getCargo() {
+        return $this->cargo;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     *
+     * @return User
+     */
+    public function setFecha($fecha) {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime
+     */
+    public function getFecha() {
+        return $this->fecha;
+    }
+
+    /**
+     * Set cambiarClave
+     *
+     * @param boolean $cambiarClave
+     *
+     * @return User
+     */
+    public function setCambiarClave($cambiarClave) {
+        $this->cambiarClave = $cambiarClave;
+
+        return $this;
+    }
+
+    /**
+     * Get cambiarClave
+     *
+     * @return boolean
+     */
+    public function getCambiarClave() {
+        return $this->cambiarClave;
+    }
+
+    /**
+     * Set codigoGrupoFk
+     *
+     * @param integer $codigoGrupoFk
+     *
+     * @return User
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk) {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoGrupoFk
+     *
+     * @return integer
+     */
+    public function getCodigoGrupoFk() {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * Set grupoRel
+     *
+     * @param \SeguridadBundle\Entity\SegGrupo $grupoRel
+     *
+     * @return User
+     */
+    public function setGrupoRel(\SeguridadBundle\Entity\SegGrupo $grupoRel = null) {
+        $this->grupoRel = $grupoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get grupoRel
+     *
+     * @return \SeguridadBundle\Entity\SegGrupo
+     */
+    public function getGrupoRel() {
+        return $this->grupoRel;
+    }
+
+    /**
+     * Set notificacionesPendientes
+     *
+     * @param integer $notificacionesPendientes
+     *
+     * @return User
+     */
+    public function setNotificacionesPendientes($notificacionesPendientes) {
+        $this->notificacionesPendientes = $notificacionesPendientes;
+
+        return $this;
+    }
+
+    /**
+     * Get notificacionesPendientes
+     *
+     * @return integer
+     */
+    public function getNotificacionesPendientes() {
+        return $this->notificacionesPendientes;
+    }
+
+    /**
+     * Set codigoUsuarioActividadFk
+     *
+     * @param integer $codigoUsuarioActividadFk
+     *
+     * @return User
+     */
+    public function setCodigoUsuarioActividadFk($codigoUsuarioActividadFk) {
+        $this->codigoUsuarioActividadFk = $codigoUsuarioActividadFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoUsuarioActividadFk
+     *
+     * @return integer
+     */
+    public function getCodigoUsuarioActividadFk() {
+        return $this->codigoUsuarioActividadFk;
+    }
+
+    /**
+     * Set usuarioActividadRel
+     *
+     * @param \SeguridadBundle\Entity\SegUsuarioActividad $usuarioActividadRel
+     *
+     * @return User
+     */
+    public function setUsuarioActividadRel(\SeguridadBundle\Entity\SegUsuarioActividad $usuarioActividadRel = null) {
+        $this->usuarioActividadRel = $usuarioActividadRel;
+
+        return $this;
+    }
+
+    /**
+     * Get usuarioActividadRel
+     *
+     * @return \SeguridadBundle\Entity\SegUsuarioActividad
+     */
+    public function getUsuarioActividadRel() {
+        return $this->usuarioActividadRel;
+    }
+
 }
