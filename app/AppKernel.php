@@ -14,11 +14,13 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            //new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new CitasBundle\CitasBundle(),
             new InventarioBundle\InventarioBundle(),
             new ContabilidadBundle\ContabilidadBundle(),
             new SeguridadBundle\SeguridadBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

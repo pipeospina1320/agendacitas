@@ -26,7 +26,9 @@
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.*",
         "twig/twig": "^1.0||^2.0",
-        "BlackrockDigital/startbootstrap-sb-admin-2": "^3.0"
+        "BlackrockDigital/startbootstrap-sb-admin-2": "^3.0",
+        "phpoffice/phpexcel": "dev-develop",
+        "knplabs/knp-paginator-bundle": "^2.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

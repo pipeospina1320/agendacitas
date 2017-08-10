@@ -31,12 +31,13 @@ class SegUsuariosController extends Controller {
         $form = $this->formularioLista();
         $form->handleRequest($request);
         $this->listar();
-        $arUsuarios = $em->getRepository("SeguridadBundle:User")->findAll();
-        $arGrupos = $em->getRepository("SeguridadBundle:SegGrupo")->findAll();
+        $arUsuarios = $em->getRepository('SeguridadBundle:User')->findAll();
+        //$arUsuarios = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 50);
+        //$arGrupos = $paginator->paginate($em->getRepository("SeguridadBundle:SegGrupo")->findAll(), $request->query->get('page', 1), 50);
         return $this->render('SeguridadBundle:Usuarios:lista.html.twig', array(
                     'form' => $form->createView(),
                     'arUsuarios' => $arUsuarios,
-                    'arGrupos' => $arGrupos
+                    //'arGrupos' => $arGrupos
         ));
     }
 
