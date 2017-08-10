@@ -27,17 +27,17 @@ class SegUsuariosController extends Controller {
      */
     public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        //$paginator = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $form = $this->formularioLista();
         $form->handleRequest($request);
         $this->listar();
-        $arUsuarios = $em->getRepository('SeguridadBundle:User')->findAll();
-        //$arUsuarios = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 50);
-        //$arGrupos = $paginator->paginate($em->getRepository("SeguridadBundle:SegGrupo")->findAll(), $request->query->get('page', 1), 50);
+        //$arUsuarios = $em->getRepository('SeguridadBundle:User')->findAll();
+        $arUsuarios = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 50);
+        $arGrupos = $paginator->paginate($em->getRepository("SeguridadBundle:SegGrupo")->findAll(), $request->query->get('page', 1), 50);
         return $this->render('SeguridadBundle:Usuarios:lista.html.twig', array(
                     'form' => $form->createView(),
                     'arUsuarios' => $arUsuarios,
-                    //'arGrupos' => $arGrupos
+                    'arGrupos' => $arGrupos
         ));
     }
 
