@@ -16,7 +16,6 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "BlackrockDigital/startbootstrap-sb-admin-2": "^3.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
@@ -69,19 +68,6 @@
         "branch-alias": {
             "dev-master": "3.3-dev"
         }
-    },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "BlackrockDigital/startbootstrap-sb-admin-2",
-                "version": "3.3.7+1",
-                "source": {
-                    "url": "https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git",
-                    "type": "git",
-                    "reference": "v3.3.7+1"
-                }
-            }
-        }
-    ]
+    }
+
 }

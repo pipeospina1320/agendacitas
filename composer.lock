@@ -7,16 +7,7 @@
     "hash": "3233eedc2f03315450049358d2b6ad57",
     "content-hash": "51487ed594efa5550d681cc9724c92c0",
     "packages": [
-        {
-            "name": "BlackrockDigital/startbootstrap-sb-admin-2",
-            "version": "3.3.7+1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git",
-                "reference": "v3.3.7+1"
-            },
-            "type": "library"
-        },
+
         {
             "name": "composer/ca-bundle",
             "version": "1.0.7",
