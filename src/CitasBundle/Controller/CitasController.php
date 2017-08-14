@@ -47,28 +47,41 @@ class CitasController extends Controller {
                 $arrControles = $request->request->All();
                 if ($arrControles['txtCedula'] != '') {
                     $arTercero = new \CitasBundle\Entity\Cliente();
-                    $arHoraInicio = new \GeneralBundle\Entity\Configuracion();
+                    $arHoras = new \GeneralBundle\Entity\Configuracion();
                     $arTercero = $em->getRepository('CitasBundle:Cliente')->findOneBy(array('numDocumento' => $arrControles['txtCedula']));
                     if (count($arTercero) > 0) {
-                        $arHoraInicio = $em->getRepository('GeneralBundle:Configuracion')->find('horaApertura');
-                        $arHoraCierre = $em->getRepository('GeneralBundle:Configuracion')->find('horaCierre');
+                        $arHoras = $em->getRepository('GeneralBundle:Configuracion')->findOneBy(array('codigoConfiguracionPk'=>'1'));
+                        
                         $horaCita = $form->get('horaCita')->getData();
                         
+                        if($horaCita > $arHoras->getHoraCierre())
+                        {
+                            echo "hora menor a la hora de cierre";
+                        }
+                        if($horaCita < $arHoras->getHoraApertura())
+                        {
+                            echo "hora mayor a la hora cierre";
+                        }
                         
-                        if($horaCita > $arHoraInicio ){
+                        if($horaCita > $arHoras->getHoraApertura() && $horaCita < $arHoras->getHoraCierre())
+                        {
                             
-                        $arCita->setClienteRel($arTercero);
-                        //$arCita->setHoraCita($horaCita);
-                        
-                        $em->persist($arCita);
-                        $em->flush();
+                            $arCita->setClienteRel($arTercero);
+                            //$arCita->setHoraCita($horaCita);
+
+                            $em->persist($arCita);
+                            $em->flush();
 
 
-                        return $this->redirectToRoute('citas_lista', array('codigoCitasPk' => $arCita->getCodigoCitasPk()));
-                        } else {
+                            return $this->redirectToRoute('citas_lista', array('codigoCitasPk' => $arCita->getCodigoCitasPk()));
+                        } 
+                        else 
+                        {
                             echo  "err";
                         }
-                    } else {
+                    }
+                    else 
+                    {
                         echo "El cliente no existe";
                     }
                 } else {
