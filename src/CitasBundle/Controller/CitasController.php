@@ -8,8 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-
-
 class CitasController extends Controller {
 
     /**
@@ -18,7 +16,7 @@ class CitasController extends Controller {
      * @Route("citas/", name="citas_lista")
      * @Method("GET")
      */
-    public function indexAction() {
+    public function listaAction() {
         $em = $this->getDoctrine()->getManager();
 
         $citas = $em->getRepository('CitasBundle:Citas')->findAll();
@@ -34,37 +32,54 @@ class CitasController extends Controller {
      * @Route("citas/nuevo", name="citas_nueva")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request) {
-        $cita = new Citas();
-        $form = $this->createForm('CitasBundle\Form\CitasType', $cita);
+    public function nuevoAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $arCita = new Citas();
+        
+        $form = $this->createForm('CitasBundle\Form\CitasType', $arCita);
         $form->handleRequest($request);
+        /* if ($form->isSubmitted() && $form->isValid()) {
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($arCita);
+          $em->flush(); */
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $arrControles = $request->request->All();
+                if ($arrControles['txtCedula'] != '') {
+                    $arTercero = new \CitasBundle\Entity\Cliente();
+                    $arHoraInicio = new \GeneralBundle\Entity\Configuracion();
+                    $arTercero = $em->getRepository('CitasBundle:Cliente')->findOneBy(array('numDocumento' => $arrControles['txtCedula']));
+                    if (count($arTercero) > 0) {
+                        $arHoraInicio = $em->getRepository('GeneralBundle:Configuracion')->find('horaApertura');
+                        $arHoraCierre = $em->getRepository('GeneralBundle:Configuracion')->find('horaCierre');
+                        $horaCita = $form->get('horaCita')->getData();
+                        
+                        
+                        if($horaCita > $arHoraInicio ){
+                            
+                        $arCita->setClienteRel($arTercero);
+                        //$arCita->setHoraCita($horaCita);
+                        
+                        $em->persist($arCita);
+                        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cita);
-            $em->flush();
 
-            return $this->redirectToRoute('citas_show', array('codigoCitasPk' => $cita->getCodigoCitasPk()));
+                        return $this->redirectToRoute('citas_lista', array('codigoCitasPk' => $arCita->getCodigoCitasPk()));
+                        } else {
+                            echo  "err";
+                        }
+                    } else {
+                        echo "El cliente no existe";
+                    }
+                } else {
+                    echo "El campo cliente es obligatorio";
+                }
+            }
         }
 
-        return $this->render('CitasBundle:Citas:nuevacita.html.twig', array(
-                    'cita' => $cita,
+        return $this->render('CitasBundle:Citas:nuevo.html.twig', array(
+                    'arCita' => $arCita,
                     'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a cita entity.
-     *
-     * @Route("citas/{codigoCitasPk}", name="citas_show")
-     * @Method("GET")
-     */
-    public function showAction(Citas $cita) {
-        $deleteForm = $this->createDeleteForm($cita);
-
-        return $this->render('CitasBundle:Citas:show.html.twig', array(
-                    'cita' => $cita,
-                    'delete_form' => $deleteForm->createView(),
         ));
     }
 

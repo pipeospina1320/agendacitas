@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new SeguridadBundle\SeguridadBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new GeneralBundle\GeneralBundle(),
+            new EmpleadoBundle\EmpleadoBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

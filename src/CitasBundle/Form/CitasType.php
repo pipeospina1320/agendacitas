@@ -21,16 +21,16 @@ class CitasType extends AbstractType {
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-                ->add('horaCita', TimeType::class, array('required' => true))
-                ->add('diaCita', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
-                ->add('asuntoCita', TextType::class, array('required' => true))
-                ->add('clienteRel', EntityType::class, array(
+         $builder
+              ->add('horaCita', TimeType::class, array('required' => true))
+               ->add('diaCita', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
+                ->add('asuntoCita', TextType::class, array('required' => true));
+             /* ->add('clienteRel', EntityType::class, array(
                     'class' => 'CitasBundle:Cliente',
                     'choice_label' => 'primerNombre'))
-                ->add('usuarioRel', EntityType::class, array(
-                    'class' => 'CitasBundle:Usuario',
-                    'choice_label' => 'nombre'));
+                ->add('empleadoRel', EntityType::class, array(
+                    'class' => 'EmpleadoBundle:Empleado',
+                    'choice_label' => 'nombre')); */
     }
 
     /**

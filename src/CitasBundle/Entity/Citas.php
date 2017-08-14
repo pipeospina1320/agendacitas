@@ -38,9 +38,9 @@ class Citas {
     private $codigoClienteFk;
 
     /**
-     * @ORM\Column(name="codigo_usuario_fk", type="integer", nullable=true, length=10 )
+     * @ORM\Column(name="codigo_empleado_fk", type="integer", nullable=true, length=10 )
      */
-    private $codigoUsuarioFk;
+    private $codigoEmpleadoFk;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="clientesRel")
@@ -49,12 +49,12 @@ class Citas {
     protected $clienteRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="usuarioRel")
-     * @ORM\JoinColumn(name="codigo_usuario_fk", referencedColumnName="codigo_usuario_pk")
+     * @ORM\ManyToOne(targetEntity="\EmpleadoBundle\Entity\Empleado", inversedBy="empleadoRel")
+     * @ORM\JoinColumn(name="codigo_empleado_fk", referencedColumnName="codigo_empleado_pk")
      */
-    protected $usuarioRel;
+    protected $empleadoRel;
 
-   
+
 
     /**
      * Get codigoCitasPk
@@ -163,27 +163,27 @@ class Citas {
     }
 
     /**
-     * Set codigoUsuarioFk
+     * Set codigoEmpleadoFk
      *
-     * @param integer $codigoUsuarioFk
+     * @param integer $codigoEmpleadoFk
      *
      * @return Citas
      */
-    public function setCodigoUsuarioFk($codigoUsuarioFk)
+    public function setCodigoEmpleadoFk($codigoEmpleadoFk)
     {
-        $this->codigoUsuarioFk = $codigoUsuarioFk;
+        $this->codigoEmpleadoFk = $codigoEmpleadoFk;
 
         return $this;
     }
 
     /**
-     * Get codigoUsuarioFk
+     * Get codigoEmpleadoFk
      *
      * @return integer
      */
-    public function getCodigoUsuarioFk()
+    public function getCodigoEmpleadoFk()
     {
-        return $this->codigoUsuarioFk;
+        return $this->codigoEmpleadoFk;
     }
 
     /**
@@ -211,26 +211,26 @@ class Citas {
     }
 
     /**
-     * Set usuarioRel
+     * Set empleadoRel
      *
-     * @param \CitasBundle\Entity\Usuario $usuarioRel
+     * @param \EmpleadoBundle\Entity\Empleado $empleadoRel
      *
      * @return Citas
      */
-    public function setUsuarioRel(\CitasBundle\Entity\Usuario $usuarioRel = null)
+    public function setEmpleadoRel(\EmpleadoBundle\Entity\Empleado $empleadoRel = null)
     {
-        $this->usuarioRel = $usuarioRel;
+        $this->empleadoRel = $empleadoRel;
 
         return $this;
     }
 
     /**
-     * Get usuarioRel
+     * Get empleadoRel
      *
-     * @return \CitasBundle\Entity\Usuario
+     * @return \EmpleadoBundle\Entity\Empleado
      */
-    public function getUsuarioRel()
+    public function getEmpleadoRel()
     {
-        return $this->usuarioRel;
+        return $this->empleadoRel;
     }
 }

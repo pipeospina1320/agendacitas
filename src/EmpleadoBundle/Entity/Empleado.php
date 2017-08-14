@@ -1,21 +1,21 @@
 <?php
 
-namespace CitasBundle\Entity;
+namespace EmpleadoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="usuario")
- * @ORM\Entity(repositoryClass="CitasBundle\Repository\UsuarioRepository")
+ * @ORM\Table(name="empleado")
+ * @ORM\Entity(repositoryClass="EmpleadoBundle\Repository\EmpleadoRepository")
  */
-class Usuario {
+class Empleado {
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_usuario_pk", type="integer" , length=10)
+     * @ORM\Column(name="codigo_empleado_pk", type="integer" , length=10)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $codigoUsuarioPk;
+    private $codigoEmpleadoPk;
 
     /**
      * @var string
@@ -24,13 +24,17 @@ class Usuario {
      */
     private $nombre;
 
+   
+
+
     /**
-     * Get codigoUsuarioPk
+     * Get codigoEmpleadoPk
      *
      * @return integer
      */
-    public function getCodigoUsuarioPk() {
-        return $this->codigoUsuarioPk;
+    public function getCodigoEmpleadoPk()
+    {
+        return $this->codigoEmpleadoPk;
     }
 
     /**
@@ -38,9 +42,10 @@ class Usuario {
      *
      * @param string $nombre
      *
-     * @return Usuario
+     * @return Empleado
      */
-    public function setNombre($nombre) {
+    public function setNombre($nombre)
+    {
         $this->nombre = $nombre;
 
         return $this;
@@ -51,8 +56,8 @@ class Usuario {
      *
      * @return string
      */
-    public function getNombre() {
+    public function getNombre()
+    {
         return $this->nombre;
     }
-
 }

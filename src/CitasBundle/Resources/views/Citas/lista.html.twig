@@ -30,12 +30,13 @@
                                 <tbody>
                                     {% for cita in citas %}
                                         <tr>
-                                            <td><a href="{{ path('citas_show', { 'codigoCitasPk': cita.codigoCitasPk }) }}" target="blank">{{ cita.codigoCitasPk }}</a></td>
-                                            <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i:s') }}{% endif %}</td>
+{#                                            <td><a href="{{ path('citas_show', { 'codigoCitasPk': cita.codigoCitasPk }) }}" target="blank">{{ cita.codigoCitasPk }}</a></td>#}
+                                            <td><a>{{ cita.codigoCitasPk }}</a></td>
+                                            <td>{% if cita.horaCita %}{{ cita.horaCita|date('H:i') }}{% endif %}</td>
                                             <td>{% if cita.diaCita %}{{ cita.diaCita|date('d-m-Y') }}{% endif %}</td>
                                             <td>{{ cita.asuntoCita }}</td>
                                             <td>{{ cita.clienteRel.primerNombre }}</td>
-                                            <td>{{ cita.usuarioRel.nombre }}</td>
+{#                                            <td>{{ cita.empleadoRel.nombre }}</td>#}
                                             <td>
                                                 <a class="fa fa-edit fa-align-center fa-1x" href="{{ path('citas_editar', { 'codigoCitasPk': cita.codigoCitasPk }) }}"></a>
                                             </td>

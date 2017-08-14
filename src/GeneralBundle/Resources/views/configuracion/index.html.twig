@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <h1>Configuracions list</h1>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codigoconfiguracionpk</th>
+                        <th>Tipodocumento</th>
+                        <th>Horaapertura</th>
+                        <th>Horacierre</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for configuracion in configuracions %}
+                        <tr>
+                            <td><a href="{{ path('configuracion_show', { 'codigoConfiguracionPk': configuracion.codigoConfiguracionPk }) }}">{{ configuracion.codigoConfiguracionPk }}</a></td>
+                            <td>{{ configuracion.tipoDocumento }}</td>
+                            <td>{% if configuracion.horaApertura %}{{ configuracion.horaApertura | date("H:i")  }}{% endif %}</td>
+                            <td>{% if configuracion.horaCierre %}{{ configuracion.horaCierre | date("H:i")  }}{% endif %}</td>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('configuracion_show', { 'codigoConfiguracionPk': configuracion.codigoConfiguracionPk }) }}">show</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

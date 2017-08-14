@@ -1,12 +1,12 @@
 <?php
 
-namespace CitasBundle\Form;
+namespace EmpleadoBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UsuarioType extends AbstractType
+class EmpleadoType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -22,7 +22,7 @@ class UsuarioType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CitasBundle\Entity\Usuario'
+            'data_class' => 'EmpleadoBundle\Entity\Empleado'
         ));
     }
 
@@ -31,7 +31,7 @@ class UsuarioType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'citasbundle_usuario';
+        return 'empleadobundle_empleado';
     }
 
 

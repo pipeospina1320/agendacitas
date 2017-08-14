@@ -34,20 +34,20 @@ class ClienteController extends Controller {
      * @Method({"GET", "POST"})
      */
     public function nuevoAction(Request $request) {
-        $cliente = new Cliente();
-        $form = $this->createForm('CitasBundle\Form\ClienteType', $cliente);
+        $arClientes = new Cliente();
+        $form = $this->createForm('CitasBundle\Form\ClienteType', $arClientes);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($cliente);
+            $em->persist($arClientes);
             $em->flush();
 
-            return $this->redirectToRoute('cliente_show', array('codigoClientePk' => $cliente->getCodigoClientePk()));
+            return $this->redirectToRoute('cliente_show', array('codigoClientePk' => $arClientes->getCodigoClientePk()));
         }
 
         return $this->render('CitasBundle:Cliente:nuevo.html.twig', array(
-                    'cliente' => $cliente,
+                    'arClientes' => $arClientes,
                     'form' => $form->createView(),
         ));
     }
