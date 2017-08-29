@@ -33,7 +33,7 @@ class ConfiguracionController extends Controller
      * @Route("configuracion/{codigoConfiguracionPk}", name="configuracion_show")
      * @Method("GET")
      */
-    public function showAction(Configuracion $configuracion)
+    public function mostrarAction(Configuracion $configuracion)
     {
 
         return $this->render('GeneralBundle:Configuracion:show.html.twig', array(

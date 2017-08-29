@@ -1,0 +1,60 @@
+{% extends '::base_sin_menu.html.twig' %}
+{% block title %}Item nuevo - Soga App{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Inventario
+            <small>movimiento: nuevo item</small>
+        </h1>
+    </section>    
+    <section class="content">
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}  
+          <div class="panel panel-default">
+        <div class="panel-heading">Filtros de busqueda</div>
+        <div class="panel-body">                
+            <div class="form-group form-group-sm">  
+                <label for="form_TxtNombreArticulo" class="col-sm-3 control-label">Nombre:</label>
+                <div class="col-sm-9">                  
+                    {{ form_widget(form.TxtNombreArticulo , { 'attr': {'class': 'form-control','autofocus':'autofocus', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}
+                </div>                   
+            </div>                       
+            <div class="form-group form-group-sm">  
+                <label for="form_TxtCodigoArticulo" class="col-sm-3 control-label">Codigo:</label>
+                <div class="col-sm-9">                  
+                    {{ form_widget(form.TxtCodigoArticulo, { 'attr': {'class': 'form-control'} }) }}
+                </div>      
+            </div>   
+            <div class="form-group form-group-sm">
+                <div class="col-sm-offset-2 col-sm-10">
+                    {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+                </div>
+            </div>                                                    
+        </div>
+    </div> 
+        <table class="table table-striped table-bordered table-condensed">
+            <tr>
+                <th>CODIGO</th>
+                <th>NOMBRE</th>
+                <th>MARCA</th>            
+                <th>% IVA</th>            
+                <th></th>
+            </tr>
+            {% for arArticulo in arArticulo %}
+                <tr>
+                    <td>{{ arArticulo.codigoArticuloPk  }}<input type="hidden" name="LblCodigoConcepto[]" value="{{ arArticulo.codigoArticuloPk }}"></td>
+                    <td>{{ arArticulo.nombreArticulo }}</td>
+{#                    <td>{{ arArticulo.marcaRel.nombre |default('') }}</td>#}
+{#                    <td style="text-align: right">{{ arArticulo.porcentajeIva | number_format(0, '.', ',') }}</td>                                                #}
+                    <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arArticulo.codigoArticuloPk }}" /></td>
+                </tr>
+            {% endfor %}
+        </table>    
+
+        <div class="modal-footer">            
+            {{ form_widget(form.BtnGuardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+        </div>
+        {{ form_end(form) }}
+        <br/><br/><br/><br/>
+    </section>
+{% endblock %}

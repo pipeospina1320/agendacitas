@@ -7,6 +7,7 @@ imports:
     - { resource: "@ContabilidadBundle/Resources/config/services.yml" }
     - { resource: "@SeguridadBundle/Resources/config/services.yml" }
     - { resource: "@GeneralBundle/Resources/config/services.yml" }
+    - { resource: "@FacturacionBundle/Resources/config/services.yml" }
     - { resource: "@EmpleadoBundle/Resources/config/services.yml" }
     
 

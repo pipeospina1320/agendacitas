@@ -12,4 +12,37 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticuloRepository extends EntityRepository
 {
+    public function listaDql($strNombre = "", $strCodigo = "") {
+        $dql   = "SELECT i FROM InventarioBundle:Articulo i WHERE i.codigoArticuloPk <> 0";        
+        if($strCodigo != "") {
+            $dql .= " AND i.codigoArticuloPk = " . $strCodigo;
+        }
+        if($strNombre != "") {
+            $dql .= " AND i.nombreArticulo like '%" . $strNombre. "%'";
+        }
+        $dql .= " ORDER BY i.nombreArticulo ASC";
+        return $dql;
+    } 
+
+    public function regenerar() {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('UPDATE InventarioBundle:Articulo i set i.cantidadExistencia = 0, i.cantidadDisponible = 0');
+        $numActualizaciones = $query->execute();        
+        $arItems = new \Brasa\InventarioBundle\Entity\InvItem();        
+        $arItems = $em->getRepository('InventarioBundle:Articulo')->findAll();
+        foreach ($arItems as $arItem) {
+                $dql = "SELECT SUM(md.cantidadOperada) as cantidadOperada FROM InventarioBundle:InvMovimientoDetalle md "
+                        . "WHERE md.codigoItemFk = " . $arItem->getCodigoItemPk() . " AND md.estadoAutorizado = 1";
+                $query = $em->createQuery($dql);
+                $arResultados = $query->getSingleResult();            
+                if($arResultados['cantidadOperada']) {
+                    $arItemAct = new \InventarioBundle\Entity\Articulo();        
+                    $arItemAct = $em->getRepository('InventarioBundle:Articulo')->find($arItem->getCodigoItemPk());  
+                    $arItemAct->setCantidadExistencia($arResultados['cantidadOperada']);
+                    $arItemAct->setCantidadDisponible($arResultados['cantidadOperada']);
+                    $em->persist($arItemAct);
+                }
+        }
+        $em->flush();
+    }            
 }

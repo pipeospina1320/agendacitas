@@ -21,7 +21,37 @@ class Articulo {
      * @ORM\Column(name="codigo_articulo", type="string", nullable=true)
      */
     private $codigoArticulo;
-    
+
+    /**
+     * @ORM\Column(name="codigo_marca_articulo_fk", type="integer", length=11, nullable=true)
+     */
+    private $codigoMarcaArticuloFk;
+
+    /**
+     * @ORM\Column(name="codigo_grupo_articulo_fk", type="integer",length=11, nullable=true)
+     */
+    private $codigoGrupodArticuloFk;
+
+    /**
+     * @ORM\Column(name="codigo_unidad_manejo_fk", type="integer",length=11, nullable=true)
+     */
+    private $codigoUnidadManejoFk;
+
+    /**
+     * @ORM\Column(name="codigo_tarifa_iva_fk", type="integer",length=11, nullable=true)
+     */
+    private $codigoTarifaIvaFk;
+
+    /**
+     * @ORM\Column(name="descripcion_articulo", type="string", nullable=true)
+     */
+    private $descripcionArticulo;
+
+    /**
+     * @ORM\Column(name="iva_incluido", type="boolean", nullable=true)
+     */
+    private $ivaIncluido = true;
+
     /**
      * @ORM\Column(name="maneja_kardex", type="boolean", nullable=true)
      */
@@ -31,8 +61,7 @@ class Articulo {
      * @ORM\Column(name="estado_activo", type="boolean", nullable=true)
      */
     private $estadoActivo = true;
-    
-    
+
     /**
      * @ORM\Column(name="codigo_barras", type="string", nullable=true)
      */
@@ -44,9 +73,19 @@ class Articulo {
     private $nombreArticulo;
 
     /**
-     * @ORM\Column(name="descripcion_articulo", type="string", nullable=true)
+     * @ORM\Column(name="precio_1", type="string", nullable=true)
      */
-    private $descripcionArticulo;
+    private $precio1;
+
+    /**
+     * @ORM\Column(name="precio_2", type="string", nullable=true)
+     */
+    private $precio2;
+
+    /**
+     * @ORM\Column(name="precio_3", type="string", nullable=true)
+     */
+    private $precio3;
 
     /**
      * @ORM\ManyToOne(targetEntity="MarcaArticulo", inversedBy="marcaArticuloRel")
@@ -66,7 +105,13 @@ class Articulo {
      */
     private $grupoArticuloRel;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="ContabilidadBundle\Entity\TarifaIva", inversedBy="tarifaIvaRel")
+     * @ORM\JoinColumn(name="codigo_tarifa_iva_fk", referencedColumnName="codigo_tarifa_iva_pk")
+     */
+    private $tarifaIvaRel;
 
+    
 
     /**
      * Get codigoArticuloPk
@@ -100,6 +145,150 @@ class Articulo {
     public function getCodigoArticulo()
     {
         return $this->codigoArticulo;
+    }
+
+    /**
+     * Set codigoMarcaArticuloFk
+     *
+     * @param integer $codigoMarcaArticuloFk
+     *
+     * @return Articulo
+     */
+    public function setCodigoMarcaArticuloFk($codigoMarcaArticuloFk)
+    {
+        $this->codigoMarcaArticuloFk = $codigoMarcaArticuloFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoMarcaArticuloFk
+     *
+     * @return integer
+     */
+    public function getCodigoMarcaArticuloFk()
+    {
+        return $this->codigoMarcaArticuloFk;
+    }
+
+    /**
+     * Set codigoGrupodArticuloFk
+     *
+     * @param integer $codigoGrupodArticuloFk
+     *
+     * @return Articulo
+     */
+    public function setCodigoGrupodArticuloFk($codigoGrupodArticuloFk)
+    {
+        $this->codigoGrupodArticuloFk = $codigoGrupodArticuloFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoGrupodArticuloFk
+     *
+     * @return integer
+     */
+    public function getCodigoGrupodArticuloFk()
+    {
+        return $this->codigoGrupodArticuloFk;
+    }
+
+    /**
+     * Set codigoUnidadManejoFk
+     *
+     * @param integer $codigoUnidadManejoFk
+     *
+     * @return Articulo
+     */
+    public function setCodigoUnidadManejoFk($codigoUnidadManejoFk)
+    {
+        $this->codigoUnidadManejoFk = $codigoUnidadManejoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoUnidadManejoFk
+     *
+     * @return integer
+     */
+    public function getCodigoUnidadManejoFk()
+    {
+        return $this->codigoUnidadManejoFk;
+    }
+
+    /**
+     * Set codigoTarifaIvaFk
+     *
+     * @param integer $codigoTarifaIvaFk
+     *
+     * @return Articulo
+     */
+    public function setCodigoTarifaIvaFk($codigoTarifaIvaFk)
+    {
+        $this->codigoTarifaIvaFk = $codigoTarifaIvaFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoTarifaIvaFk
+     *
+     * @return integer
+     */
+    public function getCodigoTarifaIvaFk()
+    {
+        return $this->codigoTarifaIvaFk;
+    }
+
+    /**
+     * Set descripcionArticulo
+     *
+     * @param string $descripcionArticulo
+     *
+     * @return Articulo
+     */
+    public function setDescripcionArticulo($descripcionArticulo)
+    {
+        $this->descripcionArticulo = $descripcionArticulo;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionArticulo
+     *
+     * @return string
+     */
+    public function getDescripcionArticulo()
+    {
+        return $this->descripcionArticulo;
+    }
+
+    /**
+     * Set ivaIncluido
+     *
+     * @param boolean $ivaIncluido
+     *
+     * @return Articulo
+     */
+    public function setIvaIncluido($ivaIncluido)
+    {
+        $this->ivaIncluido = $ivaIncluido;
+
+        return $this;
+    }
+
+    /**
+     * Get ivaIncluido
+     *
+     * @return boolean
+     */
+    public function getIvaIncluido()
+    {
+        return $this->ivaIncluido;
     }
 
     /**
@@ -199,27 +388,75 @@ class Articulo {
     }
 
     /**
-     * Set descripcionArticulo
+     * Set precio1
      *
-     * @param string $descripcionArticulo
+     * @param string $precio1
      *
      * @return Articulo
      */
-    public function setDescripcionArticulo($descripcionArticulo)
+    public function setPrecio1($precio1)
     {
-        $this->descripcionArticulo = $descripcionArticulo;
+        $this->precio1 = $precio1;
 
         return $this;
     }
 
     /**
-     * Get descripcionArticulo
+     * Get precio1
      *
      * @return string
      */
-    public function getDescripcionArticulo()
+    public function getPrecio1()
     {
-        return $this->descripcionArticulo;
+        return $this->precio1;
+    }
+
+    /**
+     * Set precio2
+     *
+     * @param string $precio2
+     *
+     * @return Articulo
+     */
+    public function setPrecio2($precio2)
+    {
+        $this->precio2 = $precio2;
+
+        return $this;
+    }
+
+    /**
+     * Get precio2
+     *
+     * @return string
+     */
+    public function getPrecio2()
+    {
+        return $this->precio2;
+    }
+
+    /**
+     * Set precio3
+     *
+     * @param string $precio3
+     *
+     * @return Articulo
+     */
+    public function setPrecio3($precio3)
+    {
+        $this->precio3 = $precio3;
+
+        return $this;
+    }
+
+    /**
+     * Get precio3
+     *
+     * @return string
+     */
+    public function getPrecio3()
+    {
+        return $this->precio3;
     }
 
     /**
@@ -292,5 +529,29 @@ class Articulo {
     public function getGrupoArticuloRel()
     {
         return $this->grupoArticuloRel;
+    }
+
+    /**
+     * Set tarifaIvaRel
+     *
+     * @param \ContabilidadBundle\Entity\TarifaIva $tarifaIvaRel
+     *
+     * @return Articulo
+     */
+    public function setTarifaIvaRel(\ContabilidadBundle\Entity\TarifaIva $tarifaIvaRel = null)
+    {
+        $this->tarifaIvaRel = $tarifaIvaRel;
+
+        return $this;
+    }
+
+    /**
+     * Get tarifaIvaRel
+     *
+     * @return \ContabilidadBundle\Entity\TarifaIva
+     */
+    public function getTarifaIvaRel()
+    {
+        return $this->tarifaIvaRel;
     }
 }

@@ -25,10 +25,19 @@ class ArticuloType extends AbstractType {
                
                 ->add('codigoArticulo', TextType::class, array('required' => true))
                 ->add('manejaKardex', CheckboxType::class, array('required' => true))
+                ->add('ivaIncluido', CheckboxType::class, array('required' => true))
                 ->add('estadoActivo', CheckboxType::class, array('required' => true))
                 ->add('codigoBarras', TextType::class, array('required' => true))
                 ->add('nombreArticulo', TextType::class, array('required' => true))
+                ->add('precio1', NumberType::class, array('required' => true))
+                ->add('precio2', NumberType::class, array('required' => true))
+                ->add('precio3', NumberType::class, array('required' => true))
                 ->add('descripcionArticulo', TextType::class, array('required' => true))
+                
+                ->add('tarifaIvaRel', EntityType::class, array(
+                    'class' => 'ContabilidadBundle:TarifaIva',
+                    'choice_label' => 'nombreTarifaIva'))
+                
                 ->add('marcaArticuloRel', EntityType::class, array(
                     'class' => 'InventarioBundle:MarcaArticulo',
                     'choice_label' => 'nombreMarcaArticulo'))

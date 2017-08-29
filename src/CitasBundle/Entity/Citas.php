@@ -43,7 +43,7 @@ class Citas {
     private $codigoEmpleadoFk;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="clientesRel")
+     * @ORM\ManyToOne(targetEntity="\GeneralBundle\Entity\Cliente", inversedBy="clientesRel")
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
     protected $clienteRel;
@@ -53,6 +53,7 @@ class Citas {
      * @ORM\JoinColumn(name="codigo_empleado_fk", referencedColumnName="codigo_empleado_pk")
      */
     protected $empleadoRel;
+
 
 
 
@@ -189,11 +190,11 @@ class Citas {
     /**
      * Set clienteRel
      *
-     * @param \CitasBundle\Entity\Cliente $clienteRel
+     * @param \GeneralBundle\Entity\Cliente $clienteRel
      *
      * @return Citas
      */
-    public function setClienteRel(\CitasBundle\Entity\Cliente $clienteRel = null)
+    public function setClienteRel(\GeneralBundle\Entity\Cliente $clienteRel = null)
     {
         $this->clienteRel = $clienteRel;
 
@@ -203,7 +204,7 @@ class Citas {
     /**
      * Get clienteRel
      *
-     * @return \CitasBundle\Entity\Cliente
+     * @return \GeneralBundle\Entity\Cliente
      */
     public function getClienteRel()
     {

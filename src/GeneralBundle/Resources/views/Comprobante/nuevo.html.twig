@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Nuevo Comprobante</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Lista
+                        </div>
+                        <div class="panel-body">
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <input type="submit" value="Guardar" />
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-default" href="{{ path('comprobante_lista') }}">Volver</a>
+        </div>
+    </div>
+{% endblock %}

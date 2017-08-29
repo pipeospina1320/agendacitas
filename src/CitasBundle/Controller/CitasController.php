@@ -21,7 +21,7 @@ class CitasController extends Controller {
 
         $citas = $em->getRepository('CitasBundle:Citas')->findAll();
 
-        return $this->render('CitasBundle:Citas:lista.html.twig', array(
+        return $this->render('CitasBundle:Citas:calendario.html.twig', array(
                     'citas' => $citas,
         ));
     }
@@ -35,53 +35,32 @@ class CitasController extends Controller {
     public function nuevoAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $arCita = new Citas();
-        
         $form = $this->createForm('CitasBundle\Form\CitasType', $arCita);
         $form->handleRequest($request);
-        /* if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
-          $em->persist($arCita);
-          $em->flush(); */
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $arrControles = $request->request->All();
                 if ($arrControles['txtCedula'] != '') {
-                    $arTercero = new \CitasBundle\Entity\Cliente();
+                    $arTercero = new \GeneralBundle\Entity\Cliente();
                     $arHoras = new \GeneralBundle\Entity\Configuracion();
-                    $arTercero = $em->getRepository('CitasBundle:Cliente')->findOneBy(array('numDocumento' => $arrControles['txtCedula']));
+                    $arTercero = $em->getRepository('GeneralBundle:Cliente')->findOneBy(array('numDocumento' => $arrControles['txtCedula']));
                     if (count($arTercero) > 0) {
-                        $arHoras = $em->getRepository('GeneralBundle:Configuracion')->findOneBy(array('codigoConfiguracionPk'=>'1'));
-                        
+                        $arHoras = $em->getRepository('GeneralBundle:Configuracion')->findOneBy(array('codigoConfiguracionPk' => '1'));
                         $horaCita = $form->get('horaCita')->getData();
-                        
-                        if($horaCita > $arHoras->getHoraCierre())
-                        {
-                            echo "hora menor a la hora de cierre";
-                        }
-                        if($horaCita < $arHoras->getHoraApertura())
-                        {
-                            echo "hora mayor a la hora cierre";
-                        }
-                        
-                        if($horaCita > $arHoras->getHoraApertura() && $horaCita < $arHoras->getHoraCierre())
-                        {
-                            
+                        if ($horaCita >= $arHoras->getHoraApertura() && $horaCita <= $arHoras->getHoraCierre()) {
                             $arCita->setClienteRel($arTercero);
-                            //$arCita->setHoraCita($horaCita);
 
                             $em->persist($arCita);
                             $em->flush();
 
 
                             return $this->redirectToRoute('citas_lista', array('codigoCitasPk' => $arCita->getCodigoCitasPk()));
-                        } 
-                        else 
-                        {
-                            echo  "err";
+                        } else {
+                            $arHoraInicio = $arHoras->getHoraApertura()->format('H:i');
+                            $arHoraCierre = $arHoras->getHoraCierre()->format('h:i');
+                            echo "la cita debe ser entre las " . $arHoraInicio . " y las " . $arHoraInicio . "";
                         }
-                    }
-                    else 
-                    {
+                    } else {
                         echo "El cliente no existe";
                     }
                 } else {
