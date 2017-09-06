@@ -11,6 +11,8 @@
     <script src="{{ asset ('js/calendar.js') }}"></script>
 
     <link href="{{ asset('bootstrap/css/calendar.css') }}" rel="stylesheet">
+    
+    <link href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet">
 
     <link href="{{ asset('bootstrap/css/bootstrap-datetimepicker.min.css') }}"  rel="stylesheet">
 
@@ -84,7 +86,7 @@
                             modal_type: 'iframe',
 
                             //obtenemos los eventos de la base de datos
-                            events_source: 'citasController.php',
+                            events_source: '{{asset ('citas/')}}',
 
                             // mostramos el calendario en el mes
                             view: 'month',
@@ -123,7 +125,7 @@
                                 $.each(events, function (key, val)
                                 {
                                     $(document.createElement('li'))
-                                            .html('<a href="' + val.url + '">' + val.title + '</a>')
+                                            .html('<a href="' + val.url + '">' + val.asuntoCita + '</a>')
                                             .appendTo(list);
                                 });
                             },
@@ -186,21 +188,6 @@
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                     </div>
 
-                                    <div class="col-sm-5">
-                                        <div class="col-lg-3">
-                                            <div class="input-group">
-                                                <input id="txtCedula"  name="txtCedula"  type="text" class="form-control" value="{{ arCita.clienteRel.numDocumento | default('')}}"/>
-                                            </div>
-                                        </div>    
-                                        <div class="col-lg-8">
-                                            <div class="input-group">                                      
-                                                <input id="txtNombreCorto"  name="txtNombreCorto"  type="text" class="form-control" value="{{ arCliente.clienteRel.primerNombre | default('') }}" readOnly="ReadOnly" />
-                                                <span class="input-group-btn">                                        
-                                                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_cliente', { 'campoNit': 'txtCedula', 'campoNombre': 'txtNombreCorto' }) }}', 'buscarCliente', 600, 900)">Buscar</a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <br>
 

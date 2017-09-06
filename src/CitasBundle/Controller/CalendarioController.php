@@ -10,127 +10,102 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CalendarioController extends Controller {
 
-    /**
-     * Lists all cita entities.
-     *
-     * @Route("calendario/", name="calendario_lista")
-     * @Method("GET")
-     */
-    public function listaAction() {
-        $em = $this->getDoctrine()->getManager();
-
-        $citas = $em->getRepository('CitasBundle:Citas')->findAll();
-
-        return $this->render('CitasBundle:Calendario:calendario.html.twig', array(
-                    'citas' => $citas,
-        ));
-    }
-
-    /**
-     * Creates a new cita entity.
-     *
-     * @Route("citas/nuevo", name="citas_nueva")
-     * @Method({"GET", "POST"})
-     */
-    public function nuevoAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $arCita = new Citas();
-        $form = $this->createForm('CitasBundle\Form\CitasType', $arCita);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $arrControles = $request->request->All();
-                if ($arrControles['txtCedula'] != '') {
-                    $arTercero = new \GeneralBundle\Entity\Cliente();
-                    $arHoras = new \GeneralBundle\Entity\Configuracion();
-                    $arTercero = $em->getRepository('GeneralBundle:Cliente')->findOneBy(array('numDocumento' => $arrControles['txtCedula']));
-                    if (count($arTercero) > 0) {
-                        $arHoras = $em->getRepository('GeneralBundle:Configuracion')->findOneBy(array('codigoConfiguracionPk' => '1'));
-                        $horaCita = $form->get('horaCita')->getData();
-                        if ($horaCita >= $arHoras->getHoraApertura() && $horaCita <= $arHoras->getHoraCierre()) {
-                            $arCita->setClienteRel($arTercero);
-
-                            $em->persist($arCita);
-                            $em->flush();
-
-
-                            return $this->redirectToRoute('citas_lista', array('codigoCitasPk' => $arCita->getCodigoCitasPk()));
-                        } else {
-                            $arHoraInicio = $arHoras->getHoraApertura()->format('H:i');
-                            $arHoraCierre = $arHoras->getHoraCierre()->format('h:i');
-                            echo "la cita debe ser entre las " . $arHoraInicio . " y las " . $arHoraInicio . "";
-                        }
-                    } else {
-                        echo "El cliente no existe";
-                    }
-                } else {
-                    echo "El campo cliente es obligatorio";
-                }
-            }
-        }
-
-        return $this->render('CitasBundle:Citas:nuevo.html.twig', array(
-                    'arCita' => $arCita,
-                    'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing cita entity.
-     *
-     * @Route("citas/{codigoCitasPk}/editar", name="citas_editar")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, Citas $cita) {
-        $deleteForm = $this->createDeleteForm($cita);
-        $editForm = $this->createForm('CitasBundle\Form\CitasType', $cita);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('citas_editar', array('codigoCitasPk' => $cita->getCodigoCitasPk()));
-        }
-
-        return $this->render('CitasBundle:Citas:editar.html.twig', array(
-                    'cita' => $cita,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a cita entity.
-     *
-     * @Route("citas/{codigoCitasPk}", name="citas_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, Citas $cita) {
-        $form = $this->createDeleteForm($cita);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($cita);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('citas_lista');
-    }
-
-    /**
-     * Creates a form to delete a cita entity.
-     *
-     * @param Citas $cita The cita entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Citas $cita) {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('citas_delete', array('codigoCitasPk' => $cita->getCodigoCitasPk())))
-                        ->setMethod('DELETE')
-                        ->getForm()
-        ;
-    }
+	var $nombre_dias = array('Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado');
+	function calendario(){
+		
+	}
+	
+	function mostrarBarra(){
+		//proximamente
+		?>
+        <div id="barcal">
+        </div>
+        <?php
+	}
+	
+	function mostrar(){
+		$mes=date('m',time());
+		$anio=date('Y',time());
+		//dias mes anterior
+		if($mes==1){ $mes_anterior=12; $anio_anterior = $anio-1; }
+		else{ $mes_anterior = $mes-1; $anio_anterior = $anio; }
+		
+		$ultimo_dia_mes_anterior = date('t',mktime(0,0,0,$mes_anterior,1,$anio_anterior));
+		
+		$dia=1;
+		if(strlen($mes)==1) $mes='0'.$mes;
+		?>
+		<table id="minical" cellpadding="0" cellspacing="0">
+        <thead>
+		 <tr >
+		  <th><?php echo $this->nombre_dias[0]?></th>
+		  <th><?php echo $this->nombre_dias[1]?></th>
+		  <th><?php echo $this->nombre_dias[2]?></th>
+		  <th><?php echo $this->nombre_dias[3]?></th>
+		  <th><?php echo $this->nombre_dias[4]?></th>
+		  <th><?php echo $this->nombre_dias[5]?></th>
+		  <th><?php echo $this->nombre_dias[6]?></th>
+		 </tr>
+        </thead>
+        <tbody>
+		<?php
+	
+		
+		$numero_primer_dia = date('w', mktime(0,0,0,$mes,$dia,$anio)); //numero dia en semana
+		
+		$ultimo_dia = date('t', mktime(0,0,0,$mes,$dia,$anio));
+		
+		$diferencia_mes_anterior = $ultimo_dia_mes_anterior - ($numero_primer_dia-1);
+		
+		$total_dias=$numero_primer_dia+$ultimo_dia;
+		$diames=1;
+		//$j dias totales (dias que empieza a contarse el 1Âº + los dias del mes)
+		$j=1;
+		while($j<=$total_dias){
+			//if($j%2==0) echo "<tr class=\"odd\"> \n";
+			//else 
+			echo "<tr> \n";
+			//$i contador dias por semana
+			$i=0;
+			$k=1; //dias proximo mes
+			while($i<7){
+				if($j<=$numero_primer_dia){
+					echo "<td class=\"disabled\"> \n";
+					echo "<div class=\"headbox\"> \n";
+					echo $diferencia_mes_anterior;
+					echo "</div>";
+					echo "<div class=\"bodybox\"></div> \n";
+					echo "</td> \n";
+					$diferencia_mes_anterior++;
+				}elseif($diames>$ultimo_dia){
+					echo "<td class=\"disabled\"> \n";
+					echo "<div class=\"headbox\"> \n";
+					echo $k;
+					echo "</div>";
+					echo "<div class=\"bodybox\"></div> \n";
+					echo"</td> \n";
+					$k++; //dias proximo mes
+				}else{
+					if($diames<10) $diames_con_cero='0'.$diames;
+					else $diames_con_cero=$diames;
+	
+					echo "<td>";
+					echo "<div class=\"headbox\"> \n";
+					echo $diames;
+					echo "</div> \n";
+					echo "<div class=\"bodybox\"></div> \n";
+					echo "</td> \n";
+					$diames++;
+				}
+				$i++;
+				$j++;
+			}
+			echo "</tr> \n";
+		}
+		?>
+         </tbody>
+		</table>
+		<?php
+	}
 
 }

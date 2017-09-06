@@ -10,4 +10,15 @@ namespace FacturacionBundle\Repository;
  */
 class FacturaDetalleRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    public function eliminarSeleccionados($arrSeleccionados) {
+        if (count($arrSeleccionados) > 0) {
+            $em = $this->getEntityManager();
+            foreach ($arrSeleccionados AS $codigo) {
+                $arRegistro = $em->getRepository('FacturacionBundle:FacturaDetalle')->find($codigo);
+                $em->remove($arRegistro);
+            }
+            $em->flush();
+        }
+    }
 }

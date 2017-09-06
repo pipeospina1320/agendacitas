@@ -24,8 +24,11 @@ class FormaPago {
      * @ORM\Column(name="nombre_forma_pago", type="string", nullable=true)
      */
     private $nombreFormaPago;
-
-
+    
+    /**
+     * @ORM\Column(name="pazo_dias", type="integer", nullable=true)
+     */
+    private $plazoDias;
 
 
    
@@ -76,5 +79,29 @@ class FormaPago {
     public function getNombreFormaPago()
     {
         return $this->nombreFormaPago;
+    }
+
+    /**
+     * Set plazoDias
+     *
+     * @param integer $plazoDias
+     *
+     * @return FormaPago
+     */
+    public function setPlazoDias($plazoDias)
+    {
+        $this->plazoDias = $plazoDias;
+
+        return $this;
+    }
+
+    /**
+     * Get plazoDias
+     *
+     * @return integer
+     */
+    public function getPlazoDias()
+    {
+        return $this->plazoDias;
     }
 }

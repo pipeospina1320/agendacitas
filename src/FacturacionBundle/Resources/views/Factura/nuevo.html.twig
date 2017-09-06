@@ -27,7 +27,7 @@
                         <label class="col-md-1 control-label">Cliente</label>
                         <div class="col-md-2">
                             <div class="input-group"> 
-                                <input id="txtCedula"  name="txtCedula"  type="text" class="form-control" value="{{ arFactura.clienteRel.numDocumento | default('')}}"/>
+                                <input id="txtCedula"  name="txtCedula"  type="text" class="form-control" value="{{ arFactura.clienteRel.numDocumento | default('')}}" required="true"/>
                             </div>
                         </div>
                         <div class="col-md-2">

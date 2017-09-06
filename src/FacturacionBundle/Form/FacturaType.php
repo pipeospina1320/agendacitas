@@ -25,11 +25,18 @@ class FacturaType extends AbstractType {
                 
                 ->add('comprobanteRel', EntityType::class, array(
                     'class' => 'GeneralBundle:Comprobante',
-                    'choice_label' => 'nombreComprobante'))
+                    'choice_label' => 'nombreComprobante',
+                    'required' => true))
                 
                 ->add('centroCostoRel', EntityType::class, array(
                     'class' =>'GeneralBundle:CentroCosto',
-                    'choice_label' => 'nombreCentroCosto'))
+                    'choice_label' => 'nombreCentroCosto',
+                    'required' => true))
+                
+                ->add('formaPagoRel', EntityType::class, array(
+                    'class' =>'GeneralBundle:FormaPago',
+                    'choice_label' => 'nombreFormaPago',
+                    'required' => true))
 
                 ->add('codigoVendedorFk', TextType::class, array('required' => true))
                 

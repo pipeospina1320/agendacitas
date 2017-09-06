@@ -21,18 +21,18 @@ class FacturaDetalleType extends AbstractType {
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-       /* $builder
-                
-                 ->add('articuloRel', EntityType::class, array(
-                    'class' =>'InventarioBundle:Articulo',
-                    'choice_label' => 'nombreArticulo'))
-                
-                ->add('cantidad', TextType::class, array('required' => true))*/
+        $builder
 
-                
-                ;
+                /* ->add('articuloRel', EntityType::class, array(
+                  'class' =>'InventarioBundle:Articulo',
+                  'choice_label' => 'nombreArticulo')) */
+                ->add('cantidad', TextType::class, array('required' => true))
+                ->add('BtnActualizarArticulo', SubmitType::class)
+                ->add('BtnEliminarDetalle', SubmitType::class )
+                ->add('BtnEditar', SubmitType::class)
+
+        ;
     }
-
 
     public function getBlockPrefix() {
         return 'form';

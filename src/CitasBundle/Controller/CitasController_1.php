@@ -19,35 +19,7 @@ class CitasController extends Controller {
     public function listaAction() {
         $em = $this->getDoctrine()->getManager();
 
-//        $citas = $em->getRepository('CitasBundle:Citas')->obtenerCitas();
-        $arCitas = $em->getRepository('CitasBundle:Citas')->findAll();
-//        $query = $em->createQuery('SELECT * FROM citas'); {
-
-            // creamos un array
-            $datos = array();
-
-            //guardamos en un array multidimensional todos los datos de la consulta
-            $i = 0;
-
-            // Ejecutamos nuestra sentencia sql
-//            $e = $conexion->query($sql);
-
-        foreach ($arCitas as $arCita){
-                $datos[$i] = $arCita;
-                $i++;
-        }
-//            while ($row = $e->fetch_array()) { // realizamos un ciclo while para traer los eventos encontrados en la base de dato
-//                // Alimentamos el array con los datos de los eventos
-//            
-//            }
-
-            // Transformamos los datos encontrado en la BD al formato JSON
-            $citas = json_encode(
-                    array(
-                        "success" => 1,
-                        "result" => $datos
-                    )
-            );
+        $citas = $em->getRepository('CitasBundle:Citas')->findAll();
 
         return $this->render('CitasBundle:Citas:calendario.html.twig', array(
                     'citas' => $citas,

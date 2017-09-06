@@ -28,6 +28,16 @@ class Citas {
     private $diaCita;
 
     /**
+     * @ORM\Column(name="start", type="string", nullable=true)
+     */
+    private $start;
+    
+    /**
+     * @ORM\Column(name="end", type="string", nullable=true)
+     */
+    private $end;
+    
+    /**
      * @ORM\Column(name="asunto_cita", type="string", length=200, nullable=true)
      */
     private $asuntoCita;
@@ -233,5 +243,53 @@ class Citas {
     public function getEmpleadoRel()
     {
         return $this->empleadoRel;
+    }
+
+    /**
+     * Set start
+     *
+     * @param string $start
+     *
+     * @return Citas
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * Get start
+     *
+     * @return string
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set end
+     *
+     * @param string $end
+     *
+     * @return Citas
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Get end
+     *
+     * @return string
+     */
+    public function getEnd()
+    {
+        return $this->end;
     }
 }

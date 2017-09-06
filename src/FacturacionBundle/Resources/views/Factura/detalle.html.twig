@@ -69,7 +69,58 @@
                     </div>
                 </div>
             </section>
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+            <section class="content"> 
+                <div class="panel panel-default">
+                    <div class="panel-heading">Datos articulo</div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-responsive table-bordered">
+                                <tr>
+                                    <td>Codigo:</td>
+                                    <td>Bodega</td>
+                                    <td>UND</td>
+                                    <td>Cantidad</td>
+                                    <td>Valor Unitario</td>
+                                    <td>% Dscto</td>
+                                    <td>Sub-Total unitario</td>
+                                    <td>% iva</td>
+                                    <td>Neto unitario</td>
 
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        <input id="TxtCodigoArticulo"  name="TxtCodigoArticulo[]"  type="text"  value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" required="true"/>
+                                        <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_articulo', { 'campoCodigo': 'TxtCodigoArticulo', 'campoNombre': 'TxtNombreArticulo' }) }}', 'buscarItem', 600, 900)">...</a>
+                                    </td>
+                                    <td><input name="TxtBodega[]" type="choice_label" value="" /></td>
+                                    <td align="center"><input name="UndManejo[]" value="{{ arArticulo.codigoUnidadManejoFk }}" readOnly="ReadOnly"/></td>
+                                    <td align="center"><input name="TxtCantidad[]" type="number" value="{{ arFacturaDetalle.cantidad | default('') }}" /></td>
+                                    <td><input name="VrUnitario[]" type="number" value="{{ arFacturaDetalle.vrUnitario | default('')}}"/></td>
+                                    <td><input name="Dscto[]" type="number" value="{{arFacturaDetalle.dscto | default('')}}"/></td>
+                                    <td><input name="SubTotalUnitario[]" type="number" value="{{arFacturaDetalle.sunTotalUnitario | default('')}}"/></td>
+                                    <td><input name="iva[]" type="number" value="{{arFacturaDetalle.iva | default('')}}"/></td>
+                                    <td><input name="TotalNeto[]" type="number" value="{{arFacturaDetalle.totalNeto | default('')}}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-1">
+                                        <input id="TxtNombreArticulo"  name="TxtNombreArticulo"  type="text" value="{{ arCliente.clienteRel.primerNombre | default('') }}" readOnly="ReadOnly" />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            {{form_widget(form.BtnActualizarArticulo)}}
+                        </div>
+                    </div>
+                </div>
+            </section>
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#registros" data-toggle="tab">Registros</a></li>
                 <li><a href="#imputacion" data-toggle="tab">Imputacion Contable</a></li>
@@ -94,7 +145,7 @@
                                         <td>{{ arFacturaDetalle.codigoFacturaDetallePk}}<input type="hidden" name="LblCodigo[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}"></td>
                                         <td>{{ arFacturaDetalle.articuloRel.nombreArticulo}}</td>
                                         <td>{{ arFacturaDetalle.cantidad }}</td>
-                                        <td></td>
+                                        <td>{{ form_widget(form.BtnEditar) }}</td>
                                         <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}" /></td>
                                     </tr>
                                 {% endfor%}
@@ -102,8 +153,12 @@
                         </div>
                         {% if arFactura.estadoImpreso == 0 %}
                             <div class="btn-group">
-                                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_articulo', {'codigoFactura':arFactura.codigoFacturaPk,'campoCodigo':'TxtCodigoArticulo','campoNombre': 'TxtNombreArticulo' })}}', 'AgregarNuevoDetalle', 600, 900)">Buscar Art</a>
+                                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('factura_detalle_articulo', {'codigoFactura':arFactura.codigoFacturaPk,'campoCodigo': 'form_TxtCodigoItem', 'campoNombre': 'form_TxtNombreItem' })}}', 'buscarItem', 600, 900)">Buscar Art</a>
                             </div>
+                            <div class="btn-group">
+                                {{ form_widget(form.BtnEliminarDetalle) }}
+                            </div>
+
                         {% endif %}
                         <div class="btn-group">
 
