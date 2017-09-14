@@ -26,6 +26,7 @@
                                         <th>Iva</th>
                                         <th>Total</th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>  
                                 <tbody>
@@ -36,11 +37,14 @@
                                             <td>{% if arFactura.fechaMovimiento %}{{ arFactura.fechaMovimiento|date('d-m-Y') }}{% endif %}</td>
                                             <td>{{ arFactura.comprobanteRel.nombreComprobante  }}</td>
                                             <td>{{ arFactura.clienteRel.primerNombre }}</td>
-                                            <td>{{ arFactura.valorSubtotal}}</td>
-                                            <td>{{ arFactura.valorIva}}</td>
+                                            <td>{{ arFactura.vrSubtotal}}</td>
+                                            <td>{{ arFactura.vrIva}}</td>
                                             <td>{{ arFactura.valorTotal}}</td>
                                             <td>
                                                 <a class="fa fa-edit fa-align-center fa-1x" href="{{ path('factura_editar', { 'codigoFactura': arFactura.codigoFacturaPk }) }}"></a>
+                                            </td>
+                                            <td>
+                                                <a class="fa fa-share fa-align-center fa-1x" href="{{ path('factura_detalle', { 'codigoFactura': arFactura.codigoFacturaPk }) }}"></a>
                                             </td>
                                         </tr>
                                     {% endfor %}

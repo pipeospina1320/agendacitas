@@ -43,22 +43,27 @@ class Articulo {
     private $codigoTarifaIvaFk;
 
     /**
+     * @ORM\Column(name="existencia", type="float")
+     */
+    private $existencia;
+
+    /**
      * @ORM\Column(name="descripcion_articulo", type="string", nullable=true)
      */
     private $descripcionArticulo;
 
     /**
-     * @ORM\Column(name="iva_incluido", type="boolean", nullable=true)
+     * @ORM\Column(name="iva_incluido", type="boolean")
      */
     private $ivaIncluido = true;
 
     /**
-     * @ORM\Column(name="maneja_kardex", type="boolean", nullable=true)
+     * @ORM\Column(name="maneja_kardex", type="boolean")
      */
     private $manejaKardex = true;
 
     /**
-     * @ORM\Column(name="estado_activo", type="boolean", nullable=true)
+     * @ORM\Column(name="estado_activo", type="boolean")
      */
     private $estadoActivo = true;
 
@@ -111,7 +116,6 @@ class Articulo {
      */
     private $tarifaIvaRel;
 
-    
 
     /**
      * Get codigoArticuloPk
@@ -241,6 +245,30 @@ class Articulo {
     public function getCodigoTarifaIvaFk()
     {
         return $this->codigoTarifaIvaFk;
+    }
+
+    /**
+     * Set existencia
+     *
+     * @param float $existencia
+     *
+     * @return Articulo
+     */
+    public function setExistencia($existencia)
+    {
+        $this->existencia = $existencia;
+
+        return $this;
+    }
+
+    /**
+     * Get existencia
+     *
+     * @return float
+     */
+    public function getExistencia()
+    {
+        return $this->existencia;
     }
 
     /**

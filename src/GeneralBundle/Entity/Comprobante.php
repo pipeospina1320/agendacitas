@@ -37,6 +37,21 @@ class Comprobante {
     private $ultimoConsecutivo;
 
     /**
+     * @ORM\Column(name="afecta_inventario", type="boolean")
+     */
+    private $afectaInventario;
+
+    /**
+     * @ORM\Column(name="suma", type="boolean")
+     */
+    private $suma;
+
+    /**
+     * @ORM\Column(name="resta", type="boolean")
+     */
+    private $resta;
+
+    /**
      * @ORM\Column(name="descripcion", type="string", nullable=true)
      */
     private $descripcion;
@@ -52,7 +67,7 @@ class Comprobante {
      * @ORM\JoinColumn(name="codigo_tipo_comprobante_fk", referencedColumnName="codigo_tipo_comprobante_pk")
      */
     private $tipoComprobanteRel;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="ValorSugerido", inversedBy="valorSugeridoRel")
      * @ORM\JoinColumn(name="codigo_valor_sugerido_fk", referencedColumnName="codigo_valor_sugerido_pk")
@@ -64,16 +79,12 @@ class Comprobante {
      */
     private $consecutivoUnico = true;
 
-   
-
-
     /**
      * Get codigoComprobantePk
      *
      * @return integer
      */
-    public function getCodigoComprobantePk()
-    {
+    public function getCodigoComprobantePk() {
         return $this->codigoComprobantePk;
     }
 
@@ -84,8 +95,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setNombreComprobante($nombreComprobante)
-    {
+    public function setNombreComprobante($nombreComprobante) {
         $this->nombreComprobante = $nombreComprobante;
 
         return $this;
@@ -96,8 +106,7 @@ class Comprobante {
      *
      * @return string
      */
-    public function getNombreComprobante()
-    {
+    public function getNombreComprobante() {
         return $this->nombreComprobante;
     }
 
@@ -108,8 +117,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setPrefijoComprobante($prefijoComprobante)
-    {
+    public function setPrefijoComprobante($prefijoComprobante) {
         $this->prefijoComprobante = $prefijoComprobante;
 
         return $this;
@@ -120,8 +128,7 @@ class Comprobante {
      *
      * @return string
      */
-    public function getPrefijoComprobante()
-    {
+    public function getPrefijoComprobante() {
         return $this->prefijoComprobante;
     }
 
@@ -132,8 +139,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setUltimoConsecutivo($ultimoConsecutivo)
-    {
+    public function setUltimoConsecutivo($ultimoConsecutivo) {
         $this->ultimoConsecutivo = $ultimoConsecutivo;
 
         return $this;
@@ -144,9 +150,74 @@ class Comprobante {
      *
      * @return string
      */
-    public function getUltimoConsecutivo()
-    {
+    public function getUltimoConsecutivo() {
         return $this->ultimoConsecutivo;
+    }
+
+    /**
+     * Set afectaInventario
+     *
+     * @param boolean $afectaInventario
+     *
+     * @return Comprobante
+     */
+    public function setAfectaInventario($afectaInventario) {
+        $this->afectaInventario = $afectaInventario;
+
+        return $this;
+    }
+
+    /**
+     * Get afectaInventario
+     *
+     * @return boolean
+     */
+    public function getAfectaInventario() {
+        return $this->afectaInventario;
+    }
+
+    /**
+     * Set suma
+     *
+     * @param boolean $suma
+     *
+     * @return Comprobante
+     */
+    public function setSuma($suma) {
+        $this->suma = $suma;
+
+        return $this;
+    }
+
+    /**
+     * Get suma
+     *
+     * @return boolean
+     */
+    public function getSuma() {
+        return $this->suma;
+    }
+
+    /**
+     * Set resta
+     *
+     * @param boolean $resta
+     *
+     * @return Comprobante
+     */
+    public function setResta($resta) {
+        $this->resta = $resta;
+
+        return $this;
+    }
+
+    /**
+     * Get resta
+     *
+     * @return boolean
+     */
+    public function getResta() {
+        return $this->resta;
     }
 
     /**
@@ -156,8 +227,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setDescripcion($descripcion)
-    {
+    public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
 
         return $this;
@@ -168,8 +238,7 @@ class Comprobante {
      *
      * @return string
      */
-    public function getDescripcion()
-    {
+    public function getDescripcion() {
         return $this->descripcion;
     }
 
@@ -180,8 +249,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setConsecutivoUnico($consecutivoUnico)
-    {
+    public function setConsecutivoUnico($consecutivoUnico) {
         $this->consecutivoUnico = $consecutivoUnico;
 
         return $this;
@@ -192,8 +260,7 @@ class Comprobante {
      *
      * @return boolean
      */
-    public function getConsecutivoUnico()
-    {
+    public function getConsecutivoUnico() {
         return $this->consecutivoUnico;
     }
 
@@ -204,8 +271,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setClaseComprobanteRel(\GeneralBundle\Entity\ClaseComprobante $claseComprobanteRel = null)
-    {
+    public function setClaseComprobanteRel(\GeneralBundle\Entity\ClaseComprobante $claseComprobanteRel = null) {
         $this->claseComprobanteRel = $claseComprobanteRel;
 
         return $this;
@@ -216,8 +282,7 @@ class Comprobante {
      *
      * @return \GeneralBundle\Entity\ClaseComprobante
      */
-    public function getClaseComprobanteRel()
-    {
+    public function getClaseComprobanteRel() {
         return $this->claseComprobanteRel;
     }
 
@@ -228,8 +293,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setTipoComprobanteRel(\GeneralBundle\Entity\TipoComprobante $tipoComprobanteRel = null)
-    {
+    public function setTipoComprobanteRel(\GeneralBundle\Entity\TipoComprobante $tipoComprobanteRel = null) {
         $this->tipoComprobanteRel = $tipoComprobanteRel;
 
         return $this;
@@ -240,8 +304,7 @@ class Comprobante {
      *
      * @return \GeneralBundle\Entity\TipoComprobante
      */
-    public function getTipoComprobanteRel()
-    {
+    public function getTipoComprobanteRel() {
         return $this->tipoComprobanteRel;
     }
 
@@ -252,8 +315,7 @@ class Comprobante {
      *
      * @return Comprobante
      */
-    public function setValorSugeridoRel(\GeneralBundle\Entity\ValorSugerido $valorSugeridoRel = null)
-    {
+    public function setValorSugeridoRel(\GeneralBundle\Entity\ValorSugerido $valorSugeridoRel = null) {
         $this->valorSugeridoRel = $valorSugeridoRel;
 
         return $this;
@@ -264,8 +326,8 @@ class Comprobante {
      *
      * @return \GeneralBundle\Entity\ValorSugerido
      */
-    public function getValorSugeridoRel()
-    {
+    public function getValorSugeridoRel() {
         return $this->valorSugeridoRel;
     }
+
 }

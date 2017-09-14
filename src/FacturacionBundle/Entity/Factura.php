@@ -61,17 +61,33 @@ class Factura {
     private $numeroDocumento;
 
     /**
-     * @ORM\Column(name="valor_iva", type="integer", nullable=true)
+     * @ORM\Column(name="vr_subtotal", type="integer", nullable=true)
      */
-    private $valorIva;
+    private $vrSubtotal;
 
-    /**
-     * @ORM\Column(name="valor_subtotal", type="integer", nullable=true)
+        /**
+     * @ORM\Column(name="vr_dscto", type="integer", length=11, nullable=true)
      */
-    private $valorSubtotal;
-
+    private $vrDscto;
+    
     /**
-     * @ORM\Column(name="valor_total", type="integer", nullable=true)
+     * @ORM\Column(name="vr_subtotal_descto" , type="integer", nullable=true)
+     */
+    private $vrSubtotalDescto;
+    
+    /**
+     * @ORM\Column(name="vr_base_iva", type="integer", nullable=true)
+     */
+    private $vrBaseIva;
+    
+    /**
+     * @ORM\Column(name="vr_iva", type="integer", nullable=true)
+     */
+    private $vrIva;
+    
+    
+    /**
+     * @ORM\Column(name="vr_total", type="integer", nullable=true)
      */
     private $valorTotal;
 
@@ -123,6 +139,7 @@ class Factura {
      * @ORM\JoinColumn(name="codigo_centro_costo_fk", referencedColumnName="codigo_centro_costo_pk")
      */
     protected $centroCostoRel;
+
 
 
 
@@ -329,51 +346,123 @@ class Factura {
     }
 
     /**
-     * Set valorIva
+     * Set vrSubtotal
      *
-     * @param integer $valorIva
+     * @param integer $vrSubtotal
      *
      * @return Factura
      */
-    public function setValorIva($valorIva)
+    public function setVrSubtotal($vrSubtotal)
     {
-        $this->valorIva = $valorIva;
+        $this->vrSubtotal = $vrSubtotal;
 
         return $this;
     }
 
     /**
-     * Get valorIva
+     * Get vrSubtotal
      *
      * @return integer
      */
-    public function getValorIva()
+    public function getVrSubtotal()
     {
-        return $this->valorIva;
+        return $this->vrSubtotal;
     }
 
     /**
-     * Set valorSubtotal
+     * Set vrDscto
      *
-     * @param integer $valorSubtotal
+     * @param integer $vrDscto
      *
      * @return Factura
      */
-    public function setValorSubtotal($valorSubtotal)
+    public function setVrDscto($vrDscto)
     {
-        $this->valorSubtotal = $valorSubtotal;
+        $this->vrDscto = $vrDscto;
 
         return $this;
     }
 
     /**
-     * Get valorSubtotal
+     * Get vrDscto
      *
      * @return integer
      */
-    public function getValorSubtotal()
+    public function getVrDscto()
     {
-        return $this->valorSubtotal;
+        return $this->vrDscto;
+    }
+
+    /**
+     * Set vrSubtotalDescto
+     *
+     * @param integer $vrSubtotalDescto
+     *
+     * @return Factura
+     */
+    public function setVrSubtotalDescto($vrSubtotalDescto)
+    {
+        $this->vrSubtotalDescto = $vrSubtotalDescto;
+
+        return $this;
+    }
+
+    /**
+     * Get vrSubtotalDescto
+     *
+     * @return integer
+     */
+    public function getVrSubtotalDescto()
+    {
+        return $this->vrSubtotalDescto;
+    }
+
+    /**
+     * Set vrBaseIva
+     *
+     * @param integer $vrBaseIva
+     *
+     * @return Factura
+     */
+    public function setVrBaseIva($vrBaseIva)
+    {
+        $this->vrBaseIva = $vrBaseIva;
+
+        return $this;
+    }
+
+    /**
+     * Get vrBaseIva
+     *
+     * @return integer
+     */
+    public function getVrBaseIva()
+    {
+        return $this->vrBaseIva;
+    }
+
+    /**
+     * Set vrIva
+     *
+     * @param integer $vrIva
+     *
+     * @return Factura
+     */
+    public function setVrIva($vrIva)
+    {
+        $this->vrIva = $vrIva;
+
+        return $this;
+    }
+
+    /**
+     * Get vrIva
+     *
+     * @return integer
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
     }
 
     /**

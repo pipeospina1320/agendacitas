@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ComprobanteType extends AbstractType {
 
@@ -16,6 +17,9 @@ class ComprobanteType extends AbstractType {
         $builder->add('nombreComprobante')
                 ->add('prefijoComprobante')
                 ->add('ultimoConsecutivo')
+                ->add('afectaInventario', CheckboxType::class, array('required' => false))
+                ->add('suma', CheckboxType::class, array('required' => false))
+                ->add('resta', CheckboxType::class, array('required' => false))
                 ->add('descripcion')
                 ->add('consecutivoUnico')
                 ->add('claseComprobanteRel', EntityType::class, array(

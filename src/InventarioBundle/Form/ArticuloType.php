@@ -24,7 +24,7 @@ class ArticuloType extends AbstractType {
         $builder
                
                 ->add('codigoArticulo', TextType::class, array('required' => true))
-                ->add('manejaKardex', CheckboxType::class, array('required' => true))
+                ->add('manejaKardex', CheckboxType::class, array('required'  => false))
                 ->add('ivaIncluido', CheckboxType::class, array('required' => true))
                 ->add('estadoActivo', CheckboxType::class, array('required' => true))
                 ->add('codigoBarras', TextType::class, array('required' => true))

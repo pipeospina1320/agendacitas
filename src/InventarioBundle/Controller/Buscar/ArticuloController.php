@@ -64,4 +64,13 @@ class ArticuloController extends Controller {
         $this->strCodigo = $form->get('TxtCodigoArticulo')->getData();
     }
 
+    /**
+     * @Route("burcar/", name="buscar_articulo_dql")
+     */
+    public function buscarAction($campoCodigo, $campoNombre) {
+        $em = $this->getDoctrine()->getManager();
+        $this->strDqlLista = $em->getRepository('InventarioBundle:Articulo')->listaDQL(
+                $this->strNombre, $this->strCodigo);
+    }
+
 }

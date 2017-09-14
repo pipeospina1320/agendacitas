@@ -27,39 +27,60 @@ class FacturaDetalle {
     private $codigoFacturaFk;
 
     /**
-     * @ORM\Column(name="codigo_articulo_fk", type="integer", length=11, nullable=true)
+     * @ORM\Column(name="codigo_articulo_fk", type="integer", nullable=true)
      */
     private $codigoArticuloFk;
 
     /**
-     * @ORM\Column(name="cantidad", type="integer", length=11, nullable=true)
+     * @ORM\Column(name="cantidad", type="float", nullable=true)
      */
     private $cantidad;
 
     /**
-     * @ORM\Column(name="vr_Unitario", type="integer", length=11, nullable=true)
+     * @ORM\Column(name="vr_unitario", type="float", nullable=true)
      */
     private $vrUnitario;
 
-    /**
-     * @ORM\Column(name="dscto", type="integer", length=11, nullable=true)
+        /**
+     * @ORM\Column(name="porcentaje_dscto", type="float", nullable=true)
      */
-    private $dscto;
+    private $porDscto;
+    
+    /**
+     * @ORM\Column(name="vr_dscto", type="float", nullable=true)
+     */
+    private $vrDscto;
 
     /**
-     * @ORM\Column(name="sub_total_unitario", type="integer", length=11, nullable=true)
+     * @ORM\Column(name="vr_sub_total_unitario", type="float", nullable=true)
      */
-    private $subTotalUnitario;
+    private $vrSubTotalUnitario;
+ 
+    
+    /**
+     * @ORM\Column(name="vr_subtotal", type="float", nullable=true)
+     */
+    private $vrSubTotal;
+   
+        /**
+     * @ORM\Column(name="porcentaje_iva", type="float", length=11, nullable=true)
+     */
+    private $porIva;
+    
+    /**
+     * @ORM\Column(name="vr_iva", type="float", length=11, nullable=true)
+     */
+    private $vrIva;
 
     /**
-     * @ORM\Column(name="iva", type="integer", length=11, nullable=true)
+     * @ORM\Column(name="vr_total_neto_unitario", type="float", length=11, nullable=true)
      */
-    private $iva;
-
-    /**
-     * @ORM\Column(name="total_neto", type="integer", length=11, nullable=true)
+    private $vrTotalNetoUnitario;
+    
+        /**
+     * @ORM\Column(name="vr_total_neto", type="float", length=11, nullable=true)
      */
-    private $totalNeto;
+    private $vrTotalNeto;
 
     /**
      * @ORM\ManyToOne(targetEntity="Factura", inversedBy="FacturaRel")
@@ -72,6 +93,7 @@ class FacturaDetalle {
      * @ORM\JoinColumn(name="codigo_articulo_fk", referencedColumnName="codigo_articulo_pk")
      */
     protected $articuloRel;
+
 
 
     /**
@@ -135,7 +157,7 @@ class FacturaDetalle {
     /**
      * Set cantidad
      *
-     * @param integer $cantidad
+     * @param float $cantidad
      *
      * @return FacturaDetalle
      */
@@ -149,7 +171,7 @@ class FacturaDetalle {
     /**
      * Get cantidad
      *
-     * @return integer
+     * @return float
      */
     public function getCantidad()
     {
@@ -159,7 +181,7 @@ class FacturaDetalle {
     /**
      * Set vrUnitario
      *
-     * @param integer $vrUnitario
+     * @param float $vrUnitario
      *
      * @return FacturaDetalle
      */
@@ -173,7 +195,7 @@ class FacturaDetalle {
     /**
      * Get vrUnitario
      *
-     * @return integer
+     * @return float
      */
     public function getVrUnitario()
     {
@@ -181,99 +203,195 @@ class FacturaDetalle {
     }
 
     /**
-     * Set dscto
+     * Set porDscto
      *
-     * @param integer $dscto
+     * @param float $porDscto
      *
      * @return FacturaDetalle
      */
-    public function setDscto($dscto)
+    public function setPorDscto($porDscto)
     {
-        $this->dscto = $dscto;
+        $this->porDscto = $porDscto;
 
         return $this;
     }
 
     /**
-     * Get dscto
+     * Get porDscto
      *
-     * @return integer
+     * @return float
      */
-    public function getDscto()
+    public function getPorDscto()
     {
-        return $this->dscto;
+        return $this->porDscto;
     }
 
     /**
-     * Set subTotalUnitario
+     * Set vrDscto
      *
-     * @param integer $subTotalUnitario
+     * @param float $vrDscto
      *
      * @return FacturaDetalle
      */
-    public function setSubTotalUnitario($subTotalUnitario)
+    public function setVrDscto($vrDscto)
     {
-        $this->subTotalUnitario = $subTotalUnitario;
+        $this->vrDscto = $vrDscto;
 
         return $this;
     }
 
     /**
-     * Get subTotalUnitario
+     * Get vrDscto
      *
-     * @return integer
+     * @return float
      */
-    public function getSubTotalUnitario()
+    public function getVrDscto()
     {
-        return $this->subTotalUnitario;
+        return $this->vrDscto;
     }
 
     /**
-     * Set iva
+     * Set vrSubTotalUnitario
      *
-     * @param integer $iva
+     * @param float $vrSubTotalUnitario
      *
      * @return FacturaDetalle
      */
-    public function setIva($iva)
+    public function setVrSubTotalUnitario($vrSubTotalUnitario)
     {
-        $this->iva = $iva;
+        $this->vrSubTotalUnitario = $vrSubTotalUnitario;
 
         return $this;
     }
 
     /**
-     * Get iva
+     * Get vrSubTotalUnitario
      *
-     * @return integer
+     * @return float
      */
-    public function getIva()
+    public function getVrSubTotalUnitario()
     {
-        return $this->iva;
+        return $this->vrSubTotalUnitario;
     }
 
     /**
-     * Set totalNeto
+     * Set vrSubTotal
      *
-     * @param integer $totalNeto
+     * @param float $vrSubTotal
      *
      * @return FacturaDetalle
      */
-    public function setTotalNeto($totalNeto)
+    public function setVrSubTotal($vrSubTotal)
     {
-        $this->totalNeto = $totalNeto;
+        $this->vrSubTotal = $vrSubTotal;
 
         return $this;
     }
 
     /**
-     * Get totalNeto
+     * Get vrSubTotal
      *
-     * @return integer
+     * @return float
      */
-    public function getTotalNeto()
+    public function getVrSubTotal()
     {
-        return $this->totalNeto;
+        return $this->vrSubTotal;
+    }
+
+    /**
+     * Set porIva
+     *
+     * @param float $porIva
+     *
+     * @return FacturaDetalle
+     */
+    public function setPorIva($porIva)
+    {
+        $this->porIva = $porIva;
+
+        return $this;
+    }
+
+    /**
+     * Get porIva
+     *
+     * @return float
+     */
+    public function getPorIva()
+    {
+        return $this->porIva;
+    }
+
+    /**
+     * Set vrIva
+     *
+     * @param float $vrIva
+     *
+     * @return FacturaDetalle
+     */
+    public function setVrIva($vrIva)
+    {
+        $this->vrIva = $vrIva;
+
+        return $this;
+    }
+
+    /**
+     * Get vrIva
+     *
+     * @return float
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
+    }
+
+    /**
+     * Set vrTotalNetoUnitario
+     *
+     * @param float $vrTotalNetoUnitario
+     *
+     * @return FacturaDetalle
+     */
+    public function setVrTotalNetoUnitario($vrTotalNetoUnitario)
+    {
+        $this->vrTotalNetoUnitario = $vrTotalNetoUnitario;
+
+        return $this;
+    }
+
+    /**
+     * Get vrTotalNetoUnitario
+     *
+     * @return float
+     */
+    public function getVrTotalNetoUnitario()
+    {
+        return $this->vrTotalNetoUnitario;
+    }
+
+    /**
+     * Set vrTotalNeto
+     *
+     * @param float $vrTotalNeto
+     *
+     * @return FacturaDetalle
+     */
+    public function setVrTotalNeto($vrTotalNeto)
+    {
+        $this->vrTotalNeto = $vrTotalNeto;
+
+        return $this;
+    }
+
+    /**
+     * Get vrTotalNeto
+     *
+     * @return float
+     */
+    public function getVrTotalNeto()
+    {
+        return $this->vrTotalNeto;
     }
 
     /**

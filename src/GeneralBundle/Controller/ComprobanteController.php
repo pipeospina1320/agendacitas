@@ -83,7 +83,7 @@ class ComprobanteController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('comprobante_edit', array('codigoComprobantePk' => $comprobante->getCodigocomprobantepk()));
+            return $this->redirectToRoute('comprobante_editar', array('codigoComprobantePk' => $comprobante->getCodigocomprobantepk()));
         }
 
         return $this->render('GeneralBundle:Comprobante:editar.html.twig', array(

@@ -1,6 +1,7 @@
 {% extends '::base_sin_menu.html.twig' %}
-{% block title %}Buscar item - Soga App{% endblock %}
+{% block title %}Buscar Articulo{% endblock %}
 {% block content %}
+
     <script language="javascript">
         function selTercero(codigo, nombre, campoCodigo, campoNombre)
         {
@@ -20,9 +21,11 @@
         <div class="panel-body">                
             <div class="form-group form-group-sm">  
                 <label for="form_TxtNombreArticulo" class="col-sm-3 control-label">Nombre:</label>
+           
                 <div class="col-sm-9">                  
                     {{ form_widget(form.TxtNombreArticulo , { 'attr': {'class': 'form-control','autofocus':'autofocus', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}
-                </div>                   
+                </div>  
+
             </div>                       
             <div class="form-group form-group-sm">  
                 <label for="form_TxtCodigoItem" class="col-sm-3 control-label">Codigo:</label>
