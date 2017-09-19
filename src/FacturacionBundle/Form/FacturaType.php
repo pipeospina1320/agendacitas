@@ -47,21 +47,8 @@ class FacturaType extends AbstractType {
                
                 ;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver) {
-        $resolver->setDefaults(array(
-            'data_class' => 'FacturacionBundle\Entity\Factura'
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix() {
-        return 'facturacionbundle_factura';
+ public function getBlockPrefix() {
+        return 'form';
     }
 
 }

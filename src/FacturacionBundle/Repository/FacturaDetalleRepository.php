@@ -111,7 +111,7 @@ class FacturaDetalleRepository extends \Doctrine\ORM\EntityRepository {
         return $respuesta;
     }
 
-    public function validarSalida($codigoMovimiento, $codigo, $cantidad) {
+    public function validarSalida($periodo, $codigo, $cantidad, $fecha) {
         $em = $this->getEntityManager();
         $respuesta = "";
 //        //Valida si tiene registros
@@ -134,7 +134,7 @@ class FacturaDetalleRepository extends \Doctrine\ORM\EntityRepository {
 //            $respuesta = "Existen detalles sin bodega o con codigo de bodega incorrecta";
 //        }
         if ($respuesta == "") {
-            $validarExistencia = $em->getRepository('InventarioBundle:KardexArticulo')->validarExistencia($codigoMovimiento, $codigo, $cantidad);
+            $validarExistencia = $em->getRepository('InventarioBundle:KardexArticulo')->validarExistencia($periodo, $codigo, $cantidad, $fecha);
             if ($validarExistencia == FALSE) {
                 $respuesta = "Cantidades con existencias insuficientes";
             }

@@ -12,117 +12,174 @@ use Doctrine\ORM\EntityRepository;
  */
 class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
 
-    public function actualizarSaldos($codigo) {
+    public function actualizarSaldos($codigo, $periodo) {
         $em = $this->getEntityManager();
         $kardex1 = new \InventarioBundle\Entity\KardexArticulo();
-        $kardex1 = $em->getRepository('InventarioBundle:KardexArticulo')->findAll($codigo);
+        $kardex1 = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoArticuloFk' => $codigo));
         $articulo = count($kardex1) - 1;
 
+
+        $periodo2 = $periodo - 1;
+        $cierresperiodo = new \InventarioBundle\Entity\SaldosArticulos();
+        //poner una validacion por articulo en saldos
+        $cierresperiodo = $em->getRepository('InventarioBundle:SaldosArticulos')->findBy(array('periodo' => $periodo2));
+
+        $kardex = new \InventarioBundle\Entity\KardexArticulo();
+        $Saldo = new \InventarioBundle\Entity\SaldosArticulos();
+        $kardexRegistroAnterior = new \InventarioBundle\Entity\KardexArticulo();
+        $kardexRegistroActual = new \InventarioBundle\Entity\KardexArticulo();
         for ($i = 0; $i <= $articulo; $i++) {
 
             if ($i == 0) {
-                $dql = "SELECT pd.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo pd  "
-                        . "WHERE pd.codigoArticuloFk = " . $codigo;
+
+                $dql = "SELECT mk.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo mk  "
+                        . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodo
+                        . " ORDER by mk.fechaMovimiento ASC";
                 $query = $em->createQuery($dql);
                 $arrayResultado = $query->getResult();
                 $codigoKardexPk = $arrayResultado[$i]['kardex'];
 
-                $kardex = new \InventarioBundle\Entity\KardexArticulo();
+                //saldo actual 
+
                 $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->find($codigoKardexPk);
-                $inicial = $kardex->getSaldoAnterior();
+
+
+                if ($cierresperiodo == null) {
+                    $saldoFinalAnterior = 0;
+                    $costoPromedioAnterior = 0;
+                } else {
+                    $dql2 = "SELECT sa.codigoSaldosArticulosPk as saldos FROM InventarioBundle:SaldosArticulos sa  "
+                            . "WHERE sa.codigoArticuloFk = " . $codigo . " " . " AND sa.periodo = " . $periodo2;
+                    $query = $em->createQuery($dql2);
+                    $arrayResultado2 = $query->getResult();
+                    $codigoSaldosPk = $arrayResultado2[$i]['saldos'];
+
+                    //consulta a la tabla de saldos del mes anterior
+
+                    $Saldo = $em->getRepository('InventarioBundle:SaldosArticulos')->find($codigoSaldosPk);
+                    $saldoFinalAnterior = $Saldo->getSaldoFinal();
+                    $costoPromedioAnterior = $Saldo->getCostoPromedio();
+                }
+
+
+                //costo mas la entradas
+                $costoPromedio = $kardex->getCostoPromedio();
+                $costoUnitario = $kardex->getCostoUnitario();
+                $saldoAnterior = $kardex->getSaldoAnterior();
                 $entradas = $kardex->getEntradas();
                 $salidas = $kardex->getSalidas();
-                $final = $kardex->setSaldoFinal($inicial + $entradas - $salidas);
-                $em->persist($final);
-                $em->flush();
+
+                if ($saldoFinalAnterior < 0) {
+                    $inicial = $saldoFinalAnterior;
+                    $inicial = $kardex->setSaldoAnterior($inicial);
+                    $final = $kardex->setSaldoFinal($inicial + $entradas - $salidas);
+                }
+
+                if ($saldoFinalAnterior >= 0) {
+                    $inicial = $saldoFinalAnterior;
+                    $kardex->setSaldoAnterior($saldoFinalAnterior);
+                    $kardex->setSaldoFinal($inicial + $entradas - $salidas);
+
+                    if ($entradas > 0) {
+                        $costoPromedioActualEntradas = $costoUnitario * $entradas;
+                        $costoAnteriorMASActual = $costoPromedioAnterior + $costoPromedioActualEntradas;
+                        $kardex->setCostoPromedio($costoAnteriorMASActual);
+                    }
+                    if ($salidas > 0) {
+                        $costoPromedioUnitario = $costoPromedioAnterior / $saldoFinalAnterior;
+                        $costoAnteriorMENOSActual = $costoPromedioUnitario * $salidas;
+                        $kardex->setCostoUnitario($costoPromedioUnitario);
+                        $kardex->setCostoPromedio($costoAnteriorMENOSActual);
+                    }
+                }
+                $em->persist($kardex);
+//                $em->flush();
             }
 
             if ($i > 0) {
 
                 //query para consultar el Pk de la tabla kardex articulos
-                $dql = "SELECT pd.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo pd  "
-                        . "WHERE pd.codigoArticuloFk = " . $codigo;
+                $dql = "SELECT mk.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo mk  "
+                        . "WHERE mk.codigoArticuloFk = " . $codigo . " " . " ORDER by mk.fechaMovimiento ASC";
                 $query = $em->createQuery($dql);
                 $arrayResultado = $query->getResult();
 
                 //consulta registro anterior
                 $registroAnterior = $i - 1;
                 $codigoKardexPkRegistroAnterior = $arrayResultado[$registroAnterior]['kardex'];
-                $kardexRegistroAnterior = new \InventarioBundle\Entity\KardexArticulo();
                 $kardexRegistroAnterior = $em->getRepository('InventarioBundle:KardexArticulo')->find($codigoKardexPkRegistroAnterior);
-                $inicialAnterior = $kardexRegistroAnterior->getSaldoFinal();
+                $saldoFinalAnterior = $kardexRegistroAnterior->getSaldoFinal();
+                $costoPromedioAnterior = $kardexRegistroAnterior->getCostoPromedio();
 
                 //registro actual
                 $registroActual = $i;
                 $codigoKardexPkRegistroActual = $arrayResultado[$registroActual]['kardex'];
-                $kardexRegistroActual = new \InventarioBundle\Entity\KardexArticulo();
-
                 $kardexRegistroActual = $em->getRepository('InventarioBundle:KardexArticulo')->find($codigoKardexPkRegistroActual);
+
+                //costo mas la entradas
+                $costoUnitario = $kardexRegistroActual->getCostoUnitario();
                 $entradas = $kardexRegistroActual->getEntradas();
                 $salidas = $kardexRegistroActual->getSalidas();
-                $inicial = $kardexRegistroActual->setSaldoAnterior($inicialAnterior);
-                $finalActual = $kardexRegistroActual->setSaldoFinal($inicialAnterior + $entradas - $salidas);
-                $em->persist($finalActual);
-                $em->flush();
+
+                if ($saldoFinalAnterior < 0) {
+                    $inicial = $saldoFinalAnterior;
+                    $inicial = $kardexRegistroActual->setSaldoAnterior($inicial);
+                    $final = $kardexRegistroActual->setSaldoFinal($inicial + $entradas - $salidas);
+                }
+
+                if ($saldoFinalAnterior >= 0) {
+                    $inicial = $saldoFinalAnterior;
+                    $kardexRegistroActual->setSaldoAnterior($saldoFinalAnterior);
+                    $kardexRegistroActual->setSaldoFinal($inicial + $entradas - $salidas);
+
+                    if ($entradas > 0) {
+                        $costoPromedioActualEntradas = $costoUnitario * $entradas;
+                        $costoAnteriorMASActual = $costoPromedioAnterior + $costoPromedioActualEntradas;
+                        $kardexRegistroActual->setCostoPromedio($costoAnteriorMASActual);
+                    }
+                    if ($salidas > 0) {
+                        $costoPromedioUnitario = $costoPromedioAnterior / $saldoFinalAnterior;
+                        $costoSalida = $costoPromedioUnitario * $salidas;
+                        $costofinal = $costoPromedioAnterior - $costoSalida;
+                        $kardexRegistroActual->setCostoUnitario($costoPromedioUnitario);
+                        $kardexRegistroActual->setCostoPromedio($costofinal);
+                    }
+                }
+                $em->persist($kardexRegistroActual);
+//                $em->flush();
             }
-        }
+        } $em->flush();
     }
-
-
-//    public function consultaEntrada($periodo, $articulo) {
-//        $em = $this->getEntityManager();
-//        $dql = "SELECT SUM(pd.entradas) as entradas FROM InventarioBundle:KardexArticulo pd  "
-//                . "WHERE pd.codigoArticuloFk = " . $articulo . " " . "AND pd.periodoMovimiento = " . $periodo;
-//        $query = $em->createQuery($dql);
-//        $arrayResultado = $query->getResult();
-//        $salEntradas = $arrayResultado[0]['entradas'];
-//        if ($salEntradas == null) {
-//            $salEntradas = 0;
-//        }
-//        return $salEntradas;
-//    }
-//
-//    public function consultaSalida($periodo, $articulo) {
-//        $em = $this->getEntityManager();
-//        $dql = "SELECT SUM(pd.salidas) as salidas FROM InventarioBundle:KardexArticulo pd  "
-//                . "WHERE pd.codigoArticuloFk = " . $articulo . " " . "AND pd.periodoMovimiento = " . $periodo;
-//        $query = $em->createQuery($dql);
-//        $arrayResultado = $query->getResult();
-//        $salEntradas = $arrayResultado[0]['salidas'];
-//        if ($salEntradas == null) {
-//            $salEntradas = 0;
-//        }
-//        return $salEntradas;
-//    }
 
     public function eliminarMovimiento($arrSeleccionados, $codigoFactura) {
         $em = $this->getEntityManager();
+        $consulta = new \InventarioBundle\Entity\KardexArticulo();
+        $consulta = $em->getRepository('InventarioBundle:KardexArticulo')->findOneBy(array('codigoFacturaDetalleFk' => $arrSeleccionados));
+        $periodo = $consulta->getPeriodoMovimiento();
+
         foreach ($arrSeleccionados as $arrSeleccionados) {
             $arKardexCon = new \InventarioBundle\Entity\KardexArticulo();
             $arKardexCon = $em->getRepository('InventarioBundle:KardexArticulo')->findOneBy(array('codigoFacturaDetalleFk' => $arrSeleccionados));
-            $art = $arKardexCon->getArticuloRel()->getCodigoArticuloPk();
-            $arArticulo = new \InventarioBundle\Entity\Articulo(); $arArticulo = $em->getRepository('InventarioBundle:Articulo')->find($art);
+            $codigo = $arKardexCon->getArticuloRel()->getCodigoArticuloPk();
 
 
             if (count($arKardexCon) == 1) {
                 if ($arKardexCon->getEntradas() > 0) {
                     $cantidad = $arKardexCon->getEntradas();
-                    $existencia = $arArticulo->getExistencia();
                     $arKardexCon->setEntradas($cantidad - $cantidad);
                     $arKardexCon->setSaldoFinal($cantidad - $arKardexCon->getSaldoAnterior());
-                    $arArticulo->setExistencia($existencia - $cantidad);
                 }
                 if ($arKardexCon->getSalidas() > 0) {
                     $cantidad = $arKardexCon->getSalidas();
                     $existencia = $arArticulo->getExistencia();
                     $arKardexCon->setSalidas($cantidad - $cantidad);
                     $arKardexCon->setSaldoFinal($cantidad + $arKardexCon->getSaldoAnterior());
-                    $arArticulo->setExistencia($existencia + $cantidad);
                 }
                 $em->remove($arKardexCon);
             }
             $em->flush();
         }
+        $saldos = $this->actualizarSaldos($codigo, $periodo);
     }
 
     public function ingresarMovimiento($codigoFactura, $codigo, $arMovimientoDetalle) {
@@ -148,52 +205,104 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
                     $arKardex->setArticuloRel($arArticulo);
                     $arKardex->setFechaMovimiento($arFacturaDetalleAct->getFacturaRel()->getFechaMovimiento());
                     $arKardex->setPeriodoMovimiento($arFacturaDetalleAct->getFacturaRel()->getFechaMovimiento()->format('Ym'));
-
+                    $periodo = $arFacturaDetalleAct->getFacturaRel()->getFechaMovimiento()->format('Ym');
                     //costo promedio y unitario
-                    $arKardex->setCostoUnitario($arFacturaDetalleAct->getVrSubTotalUnitario());
-                    $arKardex->setCostoPromedio($arFacturaDetalleAct->getVrSubTotal());
-
                     //variables para validadar si el comprobante afecta inventario, sumando O restando
                     $afectaInventario = $arFacturaDetalleAct->getFacturaRel()->getComprobanteRel()->getAfectaInventario();
                     $suma = $arFacturaDetalleAct->getFacturaRel()->getComprobanteRel()->getSuma();
                     $resta = $arFacturaDetalleAct->getFacturaRel()->getComprobanteRel()->getResta();
                     if ($afectaInventario == 1 && $suma == 1) {
 
-                        $arKardex->setSaldoAnterior($arArticulo->getExistencia());
+                        $arKardex->setSaldoAnterior('0');
                         $arKardex->setEntradas($arFacturaDetalleAct->getCantidad());
                         $arKardex->setSalidas('0');
                         $arKardex->setSaldoFinal($arFacturaDetalleAct->getCantidad() + $arKardex->getSaldoAnterior());
-                        $arArticulo->setExistencia($arArticulo->getExistencia() + $arFacturaDetalleAct->getCantidad());
+                        $arKardex->setCostoUnitario($arFacturaDetalleAct->getVrSubTotalUnitario());
+                        $arKardex->setCostoPromedio($arFacturaDetalleAct->getVrSubTotal());
                     }
                     if ($afectaInventario == 1 && $resta == 1) {
-                        $arKardex->setSaldoAnterior($arArticulo->getExistencia());
+                        $arKardex->setSaldoAnterior('0');
                         $arKardex->setSalidas($arFacturaDetalleAct->getCantidad());
                         $arKardex->setEntradas('0');
                         $arKardex->setSaldoFinal($arKardex->getSaldoAnterior() - $arFacturaDetalleAct->getCantidad());
-                        $arArticulo->setExistencia($arArticulo->getExistencia() - $arFacturaDetalleAct->getCantidad());
+                        $arKardex->setCostoUnitario('0');
+                        $arKardex->setCostoPromedio('0');
                     }
 
                     $em->persist($arKardex);
                     $em->flush();
-                    $saldos = $this->actualizarSaldos($codigo);
                 }
+                $saldos = $this->actualizarSaldos($codigo, $periodo);
             }
         }
     }
 
-    public function validarExistencia($codigoFactura, $codigo, $cantidad) {
+    public function validarExistencia($periodo, $codigo, $cantidad, $fecha) {
         $em = $this->getEntityManager();
-        $validado = TRUE;
+        $validado = FALSE;
+
+        $configuracion = new \GeneralBundle\Entity\Configuracion();
+        $configuracion = $em->getRepository('GeneralBundle:Configuracion')->find(1);
+        $periodo = $configuracion->getPeriodoActual();
+
         $arMovimientoDetalle = new \InventarioBundle\Entity\Articulo();
-        $arMovimientoDetalle = $this->consultaEntrada($periodo, $articulo);
         $arMovimientoDetalle = $em->getRepository('InventarioBundle:Articulo')->findOneBy(array('codigoArticuloPk' => $codigo));
         if ($arMovimientoDetalle->getManejaKardex() == 1) {
-            $existencia = $arMovimientoDetalle->getExistencia();
 
-            if ($existencia >= $cantidad) {
-                $validado = TRUE;
-            } else {
-                $validado = FALSE;
+            $periodo2 = $periodo - 1;
+
+            $kardex = new \InventarioBundle\Entity\KardexArticulo();
+
+            $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoArticuloFk' => $codigo, 'periodoMovimiento' => $periodo));
+            $movimientosKardex = count($kardex);
+
+            $saldos = new \InventarioBundle\Entity\SaldosArticulos();
+            $saldos = $em->getRepository('InventarioBundle:SaldosArticulos')->findBy(array('codigoArticuloFk' => $codigo, 'periodo' => $periodo2));
+            $movimientosSaldos = count($saldos);
+
+            if ($movimientosSaldos == 1 && $movimientosKardex == 0) {
+                $dql2 = "SELECT sa.codigoSaldosArticulosPk as saldos FROM InventarioBundle:SaldosArticulos sa  "
+                        . "WHERE sa.codigoArticuloFk = " . $codigo . " " . " AND sa.periodo = " . $periodo2;
+                $query = $em->createQuery($dql2);
+                $arrayResultado2 = $query->getResult();
+                $codigoSaldosArticulosPk = $arrayResultado2[0]['saldos'];
+                $saldos = $em->getRepository('InventarioBundle:SaldosArticulos')->findOneBy(array('codigoSaldosArticulosPk' => $codigoSaldosArticulosPk));
+                $existencias = $saldos->getSaldoFinal();
+                if ($existencias > $cantidad) {
+                    $validado = TRUE;
+                } else {
+                    $validado = FALSE;
+                }
+            }
+            if ($movimientosSaldos == 1 && $movimientosKardex > 0) {
+                $dql2 = "SELECT sa.codigoSaldosArticulosPk as saldos FROM InventarioBundle:SaldosArticulos sa  "
+                        . "WHERE sa.codigoArticuloFk = " . $codigo . " " . " AND sa.periodo = " . $periodo2;
+                $query = $em->createQuery($dql2);
+                $arrayResultado2 = $query->getResult();
+                $codigoSaldosArticulosPk = $arrayResultado2[0]['saldos'];
+                $saldos = $em->getRepository('InventarioBundle:SaldosArticulos')->findOneBy(array('codigoSaldosArticulosPk' => $codigoSaldosArticulosPk));
+                $existenciasSaldos = $saldos->getSaldoFinal();
+
+                $strFecha = $fecha->format('Y-m-d');
+
+                $dql = "SELECT mk.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo mk  "
+                        . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodo . "" . "AND mk.fechaMovimiento <=" . "'$strFecha'"
+                        . "ORDER by mk.fechaMovimiento DESC, mk.codigoKardexArticuloPk DESC ";
+                $query = $em->createQuery($dql);
+                $arrayResultado = $query->getResult();
+                $codigoSaldoKardexPk = $arrayResultado[0]['kardex'];
+                $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->findOneBy(array('codigoKardexArticuloPk' => $codigoSaldoKardexPk));
+                $existenciasKardex = $kardex->getSaldoFinal();
+
+                if ($existenciasSaldos > 0 && $existenciasKardex > 0) {
+                    $validado = TRUE;
+                }
+                if ($existenciasSaldos == 0 && $existenciasKardex > 0) {
+                    $validado = TRUE;
+                }
+                if ($existenciasSaldos == 0 && $existenciasKardex == 0) {
+                    $validado = FALSE;
+                }
             }
         }
 

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Configuracion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Codigoconfiguracionpk</th>
+                <td>{{ configuracion.codigoConfiguracionPk }}</td>
+            </tr>
+            <tr>
+                <th>Tipodocumento</th>
+                <td>{{ configuracion.tipoDocumento }}</td>
+            </tr>
+            <tr>
+                <th>Horaapertura</th>
+                <td>{% if configuracion.horaApertura %}{{ configuracion.horaApertura|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Horacierre</th>
+                <td>{% if configuracion.horaCierre %}{{ configuracion.horaCierre|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('configuracion_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

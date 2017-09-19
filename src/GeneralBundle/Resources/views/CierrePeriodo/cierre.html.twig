@@ -1,0 +1,32 @@
+{% extends '::base_sin_menu.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <h1>Cierre de periodo</h1>
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Periodo Actual<input type="text" value="{{ arCierre.periodoActual}}" readOnly="ReadOnly" size="5"/></th>
+                    </tr>
+                    <tr>
+                        <th>Inventario<input type="checkbox" size="10" /></th>
+                        <th>Cartera<input type="checkbox" /></th>
+                        <th>Contabilidad<input type="checkbox" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" value="{{ arCierre.ultimoCierreInventario }}" readOnly="ReadOnly" size="10"/></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            {{form_widget(form.BtnCerrarPeriodo)}}
+            {{ form_end(form)}}
+        </div>
+    </div>
+
+{% endblock %}

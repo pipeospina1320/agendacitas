@@ -18,34 +18,34 @@ class Articulo {
     private $codigoArticuloPk;
 
     /**
-     * @ORM\Column(name="codigo_articulo", type="string", nullable=true)
+     * @ORM\Column(name="codigo_articulo", type="string")
      */
     private $codigoArticulo;
 
     /**
-     * @ORM\Column(name="codigo_marca_articulo_fk", type="integer", length=11, nullable=true)
+     * @ORM\Column(name="nombre_articulo", type="string")
      */
-    private $codigoMarcaArticuloFk;
+    private $nombreArticulo;
 
     /**
-     * @ORM\Column(name="codigo_grupo_articulo_fk", type="integer",length=11, nullable=true)
+     * @ORM\Column(name="codigo_grupo_articulo_fk", type="integer", length=11)
      */
     private $codigoGrupodArticuloFk;
 
     /**
-     * @ORM\Column(name="codigo_unidad_manejo_fk", type="integer",length=11, nullable=true)
+     * @ORM\Column(name="codigo_marca_articulo_fk", type="integer", nullable=true)
+     */
+    private $codigoMarcaArticuloFk;
+
+    /**
+     * @ORM\Column(name="codigo_unidad_manejo_fk", type="integer", length=11)
      */
     private $codigoUnidadManejoFk;
 
     /**
-     * @ORM\Column(name="codigo_tarifa_iva_fk", type="integer",length=11, nullable=true)
+     * @ORM\Column(name="codigo_tarifa_iva_fk", type="integer", length=11)
      */
     private $codigoTarifaIvaFk;
-
-    /**
-     * @ORM\Column(name="existencia", type="float")
-     */
-    private $existencia;
 
     /**
      * @ORM\Column(name="descripcion_articulo", type="string", nullable=true)
@@ -53,7 +53,7 @@ class Articulo {
     private $descripcionArticulo;
 
     /**
-     * @ORM\Column(name="iva_incluido", type="boolean")
+     * @ORM\Column(name="iva_incluido", type="boolean" , nullable=true)
      */
     private $ivaIncluido = true;
 
@@ -63,7 +63,7 @@ class Articulo {
     private $manejaKardex = true;
 
     /**
-     * @ORM\Column(name="estado_activo", type="boolean")
+     * @ORM\Column(name="estado_activo", type="boolean", nullable=true)
      */
     private $estadoActivo = true;
 
@@ -73,12 +73,7 @@ class Articulo {
     private $codigoBarras;
 
     /**
-     * @ORM\Column(name="nombre_articulo", type="string", nullable=true)
-     */
-    private $nombreArticulo;
-
-    /**
-     * @ORM\Column(name="precio_1", type="string", nullable=true)
+     * @ORM\Column(name="precio_1", type="string")
      */
     private $precio1;
 
@@ -116,6 +111,7 @@ class Articulo {
      */
     private $tarifaIvaRel;
 
+    
 
     /**
      * Get codigoArticuloPk
@@ -152,27 +148,27 @@ class Articulo {
     }
 
     /**
-     * Set codigoMarcaArticuloFk
+     * Set nombreArticulo
      *
-     * @param integer $codigoMarcaArticuloFk
+     * @param string $nombreArticulo
      *
      * @return Articulo
      */
-    public function setCodigoMarcaArticuloFk($codigoMarcaArticuloFk)
+    public function setNombreArticulo($nombreArticulo)
     {
-        $this->codigoMarcaArticuloFk = $codigoMarcaArticuloFk;
+        $this->nombreArticulo = $nombreArticulo;
 
         return $this;
     }
 
     /**
-     * Get codigoMarcaArticuloFk
+     * Get nombreArticulo
      *
-     * @return integer
+     * @return string
      */
-    public function getCodigoMarcaArticuloFk()
+    public function getNombreArticulo()
     {
-        return $this->codigoMarcaArticuloFk;
+        return $this->nombreArticulo;
     }
 
     /**
@@ -197,6 +193,30 @@ class Articulo {
     public function getCodigoGrupodArticuloFk()
     {
         return $this->codigoGrupodArticuloFk;
+    }
+
+    /**
+     * Set codigoMarcaArticuloFk
+     *
+     * @param integer $codigoMarcaArticuloFk
+     *
+     * @return Articulo
+     */
+    public function setCodigoMarcaArticuloFk($codigoMarcaArticuloFk)
+    {
+        $this->codigoMarcaArticuloFk = $codigoMarcaArticuloFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoMarcaArticuloFk
+     *
+     * @return integer
+     */
+    public function getCodigoMarcaArticuloFk()
+    {
+        return $this->codigoMarcaArticuloFk;
     }
 
     /**
@@ -245,30 +265,6 @@ class Articulo {
     public function getCodigoTarifaIvaFk()
     {
         return $this->codigoTarifaIvaFk;
-    }
-
-    /**
-     * Set existencia
-     *
-     * @param float $existencia
-     *
-     * @return Articulo
-     */
-    public function setExistencia($existencia)
-    {
-        $this->existencia = $existencia;
-
-        return $this;
-    }
-
-    /**
-     * Get existencia
-     *
-     * @return float
-     */
-    public function getExistencia()
-    {
-        return $this->existencia;
     }
 
     /**
@@ -389,30 +385,6 @@ class Articulo {
     public function getCodigoBarras()
     {
         return $this->codigoBarras;
-    }
-
-    /**
-     * Set nombreArticulo
-     *
-     * @param string $nombreArticulo
-     *
-     * @return Articulo
-     */
-    public function setNombreArticulo($nombreArticulo)
-    {
-        $this->nombreArticulo = $nombreArticulo;
-
-        return $this;
-    }
-
-    /**
-     * Get nombreArticulo
-     *
-     * @return string
-     */
-    public function getNombreArticulo()
-    {
-        return $this->nombreArticulo;
     }
 
     /**

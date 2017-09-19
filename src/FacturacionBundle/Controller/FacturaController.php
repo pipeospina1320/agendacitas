@@ -132,11 +132,11 @@ class FacturaController extends Controller {
                 if ($form->get('BtnEliminarDetalle')->isClicked()) {
                     $arrSeleccionados = $request->request->get('ChkSeleccionar');
                     $em->getRepository('FacturacionBundle:FacturaDetalle')->eliminarSeleccionados($arrSeleccionados, $codigoFactura);
+//                    return $this->render('FacturacionBundle:Factura:detalle.html.twig', array('codigoFactura' => $codigoFactura));
                     return $this->redirect($this->generateUrl('factura_detalle', array('codigoFactura' => $codigoFactura)));
                 }
                 if ($form->get('BtnAddArticulo')->isClicked()) {
                     $arrControles = $request->request->All();
-
                     $this->addArticulo($arrControles, $codigoFactura);
                     return $this->redirect($this->generateUrl('factura_detalle', array('codigoFactura' => $codigoFactura)));
                 }
@@ -246,17 +246,6 @@ class FacturaController extends Controller {
         return $dateNuevaFecha;
     }
 
-    private function formularioDetalleNuevo() {
-//        $session = new session;
-        $form = $this->createFormBuilder()
-                ->add('TxtNombreArticulo', TextType::class, array('label' => 'Nombre', 'data' => (''), 'required' => false))
-                ->add('TxtCodigoArticulo', TextType::class, array('label' => 'Codigo', 'data' => (''), 'required' => false))
-                ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar',))
-                ->add('BtnGuardar', SubmitType::class, array('label' => 'Guardar',))
-                ->getForm();
-        return $form;
-    }
-
     private function filtrar($form) {
         $this->strNombre = $form->get('TxtNombreArticulo')->getData();
         $this->strCodigo = $form->get('TxtCodigoArticulo')->getData();
@@ -273,48 +262,51 @@ class FacturaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $arFactura = new \FacturacionBundle\Entity\Factura();
         $arFactura = $em->getRepository('FacturacionBundle:Factura')->find($codigoFactura);
+
         // codigo articulo
         $codigo = $arrControles['TxtCodigoArticulo'];
         $cantidad = $arrControles['TxtCantidad'];
+        $fecha = $arFactura->getFechaMovimiento();
+        $periodo = $arFactura->getFechaMovimiento()->format('Ym');
         
         if ($arFactura->getComprobanteRel()->getSuma() == 1) {
             $respuesta = $em->getRepository('FacturacionBundle:FacturaDetalle')->validarEntrada($codigoFactura, $codigo);
+        } else {
+            $arFactura->getComprobanteRel()->getResta();
+            $respuesta = $em->getRepository('FacturacionBundle:FacturaDetalle')->validarSalida($periodo, $codigo, $cantidad, $fecha);
         }
-
-        if (($arFactura->getComprobanteRel()->getResta()) == 1) {
-            $respuesta = $em->getRepository('FacturacionBundle:FacturaDetalle')->validarSalida($codigoFactura, $codigo, $cantidad);
-            if ($respuesta != "") {
-                echo $respuesta;
-            }
-        }
-        $arMovimientoDetalle = new \FacturacionBundle\Entity\FacturaDetalle();
-        $arArticulo = new \InventarioBundle\Entity\Articulo();
-        if ($arrControles['TxtCodigoArticulo'] != '') {
-            $codigo = $arrControles['TxtCodigoArticulo'];
+        if ($respuesta != "") {
+            echo $respuesta;
+        } else {
+            $arMovimientoDetalle = new \FacturacionBundle\Entity\FacturaDetalle();
             $arArticulo = new \InventarioBundle\Entity\Articulo();
-            $arArticulo = $em->getRepository('InventarioBundle:Articulo')->find($codigo);
-            $arFactura = new \FacturacionBundle\Entity\Factura();
-            $arFactura = $em->getRepository('FacturacionBundle:Factura')->find($codigoFactura);
-            $cantidad = $arrControles['TxtCantidad'];
-            $vrUnitario = $arrControles['VrUnitario'];
-            $dscto = $arrControles['Dscto'];
-            $subTotalUnitario = $arrControles['SubTotalUnitario'];
-            $totalNeto = $arrControles['TotalNeto'];
-            $arMovimientoDetalle->setFacturaRel($arFactura);
-            $arMovimientoDetalle->setArticuloRel($arArticulo);
-            $arMovimientoDetalle->setCantidad($cantidad);
-            $arMovimientoDetalle->setVrUnitario($vrUnitario);
-            $arMovimientoDetalle->setPorDscto($dscto);
-            $arMovimientoDetalle->setPorIva($arMovimientoDetalle->getArticuloRel()->getTarifaIvaRel()->getPorcentajeIva());
-            $em->persist($arMovimientoDetalle);
+            if ($arrControles['TxtCodigoArticulo'] != '') {
+                $codigo = $arrControles['TxtCodigoArticulo'];
+                $arArticulo = new \InventarioBundle\Entity\Articulo();
+                $arArticulo = $em->getRepository('InventarioBundle:Articulo')->find($codigo);
+                $arFactura = new \FacturacionBundle\Entity\Factura();
+                $arFactura = $em->getRepository('FacturacionBundle:Factura')->find($codigoFactura);
+                $cantidad = $arrControles['TxtCantidad'];
+                $vrUnitario = $arrControles['VrUnitario'];
+                $dscto = $arrControles['PorDscto'];
+                $subTotalUnitario = $arrControles['SubTotalUnitario'];
+                $totalNeto = $arrControles['TotalNeto'];
+                $arMovimientoDetalle->setFacturaRel($arFactura);
+                $arMovimientoDetalle->setArticuloRel($arArticulo);
+                $arMovimientoDetalle->setCantidad($cantidad);
+                $arMovimientoDetalle->setVrUnitario($vrUnitario);
+                $arMovimientoDetalle->setPorDscto($dscto);
+                $arMovimientoDetalle->setPorIva($arMovimientoDetalle->getArticuloRel()->getTarifaIvaRel()->getPorcentajeIva());
+                $em->persist($arMovimientoDetalle);
 
-            $em->flush();
-            $em->getRepository('FacturacionBundle:FacturaDetalle')->liquidar($codigoFactura);
-            if ($arArticulo->getManejaKardex() == 1) {
-                $em->getRepository('InventarioBundle:KardexArticulo')->ingresarMovimiento($codigoFactura, $codigo, $arMovimientoDetalle);
+                $em->flush();
+                $em->getRepository('FacturacionBundle:FacturaDetalle')->liquidar($codigoFactura);
+                if ($arArticulo->getManejaKardex() == 1) {
+                    $em->getRepository('InventarioBundle:KardexArticulo')->ingresarMovimiento($codigoFactura, $codigo, $arMovimientoDetalle);
+                }
             }
-            
         }
     }
 
+          
 }
