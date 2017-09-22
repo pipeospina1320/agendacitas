@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gen_configuracion")
  * @ORM\Entity(repositoryClass="GeneralBundle\Repository\ConfiguracionRepository")
  */
-class Configuracion
-{
+class Configuracion {
+
     /**
      * @ORM\Column(name="codigo_configuracion_pk", type="integer", length=10)
      * @ORM\Id
@@ -19,33 +19,59 @@ class Configuracion
     private $codigoConfiguracionPk;
 
     /**
-     * @ORM\Column(name="tipo_documento" ,type="string", length=10)
+     * @ORM\Column(name="nit_empresa" ,type="float")
      */
-    private $tipoDocumento;
-    
+    private $nitEmpresa;
+
     /**
-     * @ORM\Column(name="hora_apertura", type="time")
+     * @ORM\Column(name="nombre_comercial" ,type="string")
+     */
+    private $nombreComercial;
+
+    /**
+     * @ORM\Column(name="razon_social" ,type="string")
+     */
+    private $razonSocial;
+
+    /**
+     * @ORM\Column(name="direccion" , type="string")
+     */
+    private $direccion;
+
+    /**
+     * @ORM\Column(name="telefono", type="string")
+     */
+    private $telefono;
+
+    /**
+     * @ORM\Column(name="tipo_regimen_fk", type="integer")
+     */
+    private $tipoRegimenFk;
+
+    /**
+     * @ORM\Column(name="hora_apertura", type="time" ,nullable=true)
      */
     private $horaApertura;
-    
+
     /**
      * 
-     * @ORM\Column(name="hora_cierre", type="time")
+     * @ORM\Column(name="hora_cierre", type="time", nullable=true)
      */
     private $horaCierre;
-    
-      /**
+
+    /**
      * 
      * @ORM\Column(name="ultimo_cierre_inventario", type="float")
      */
     private $ultimoCierreInventario;
 
-        /**
+    /**
      * 
      * @ORM\Column(name="periodo_actual", type="float")
      */
     private $periodoActual;
-   
+
+  
 
     /**
      * Set codigoConfiguracionPk
@@ -72,27 +98,147 @@ class Configuracion
     }
 
     /**
-     * Set tipoDocumento
+     * Set nitEmpresa
      *
-     * @param string $tipoDocumento
+     * @param float $nitEmpresa
      *
      * @return Configuracion
      */
-    public function setTipoDocumento($tipoDocumento)
+    public function setNitEmpresa($nitEmpresa)
     {
-        $this->tipoDocumento = $tipoDocumento;
+        $this->nitEmpresa = $nitEmpresa;
 
         return $this;
     }
 
     /**
-     * Get tipoDocumento
+     * Get nitEmpresa
+     *
+     * @return float
+     */
+    public function getNitEmpresa()
+    {
+        return $this->nitEmpresa;
+    }
+
+    /**
+     * Set nombreComercial
+     *
+     * @param string $nombreComercial
+     *
+     * @return Configuracion
+     */
+    public function setNombreComercial($nombreComercial)
+    {
+        $this->nombreComercial = $nombreComercial;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreComercial
      *
      * @return string
      */
-    public function getTipoDocumento()
+    public function getNombreComercial()
     {
-        return $this->tipoDocumento;
+        return $this->nombreComercial;
+    }
+
+    /**
+     * Set razonSocial
+     *
+     * @param string $razonSocial
+     *
+     * @return Configuracion
+     */
+    public function setRazonSocial($razonSocial)
+    {
+        $this->razonSocial = $razonSocial;
+
+        return $this;
+    }
+
+    /**
+     * Get razonSocial
+     *
+     * @return string
+     */
+    public function getRazonSocial()
+    {
+        return $this->razonSocial;
+    }
+
+    /**
+     * Set direccion
+     *
+     * @param string $direccion
+     *
+     * @return Configuracion
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return string
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * Set telefono
+     *
+     * @param string $telefono
+     *
+     * @return Configuracion
+     */
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get telefono
+     *
+     * @return string
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * Set tipoRegimenFk
+     *
+     * @param integer $tipoRegimenFk
+     *
+     * @return Configuracion
+     */
+    public function setTipoRegimenFk($tipoRegimenFk)
+    {
+        $this->tipoRegimenFk = $tipoRegimenFk;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoRegimenFk
+     *
+     * @return integer
+     */
+    public function getTipoRegimenFk()
+    {
+        return $this->tipoRegimenFk;
     }
 
     /**

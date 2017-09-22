@@ -44,8 +44,9 @@
         {% endblock %}
     </head>
 
-    <body>
-        {% block body %}
+
+    {% block body %}
+        <body>
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
@@ -58,32 +59,33 @@
                             {% endif %} 
                             <div class="panel-body">
                                 <form role="form" action="{{ path('login') }}" method="post">
-                                    
-                                        <div class="form-group has-feedback">
-                                            <input class="form-control" placeholder="Usuario" name="_username" type="text" autofocus>
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        </div>
-                                        <div class="form-group has-feedback">
-                                            <input type="password" id="password" name="_password" class="form-control" placeholder="Contraseña">
-                                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-8">
-                                                <div class="checkbox icheck">
-                                                    <label>
-                                                        <input name="remember" type="checkbox">Recordarme
-                                                    </label>
-                                                </div>
+
+                                    <div class="form-group has-feedback">
+                                        <input class="form-control" placeholder="Usuario" name="_username" type="text" autofocus>
+                                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        <input type="password" id="password" name="_password" class="form-control" placeholder="Contraseña">
+                                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <div class="checkbox icheck">
+                                                <label>
+                                                    <input name="remember" type="checkbox">Recordarme
+                                                </label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-lg btn-success btn-block">Ingresar</button>
-                                    
+                                    </div>
+                                    <button type="submit" class="btn btn-lg btn-success btn-block">Ingresar</button>
+
                                 </form>
                             </div>
                         </div>
                     </div> 
                 </div>
             </div>
-        {% endblock %}
-    </body>
+        </body>
+    {% endblock %}
+
 </html>

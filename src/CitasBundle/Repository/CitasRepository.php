@@ -15,8 +15,11 @@ class CitasRepository extends EntityRepository {
     public function obtenerCitas() {
         $em = $this->getEntityManager();
         $arCitas = $em->getRepository('CitasBundle:Citas')->findAll();
-//        $query = $em->createQuery('SELECT * FROM citas'); {
-
+//        $dql = "SELECT * as citas FROM CitasBundle:Citas";
+//        $query = $em->createQuery($dql);
+//         $arrayResultado = $query->getResult();
+//                $codigoKardexPk = count($arrayResultado);
+        if($arCitas > 0) {
             // creamos un array
             $datos = array();
 
@@ -24,15 +27,14 @@ class CitasRepository extends EntityRepository {
             $i = 0;
 
             // Ejecutamos nuestra sentencia sql
-//            $e = $conexion->query($sql);
+            $e = $em->createQuery('SELECT * FROM citas');
 
-        foreach ($arCitas as $arCita){
+            foreach ($arCitas as $arCita) {
                 $datos[$i] = $arCita;
                 $i++;
-        }
+            }
 //            while ($row = $e->fetch_array()) { // realizamos un ciclo while para traer los eventos encontrados en la base de dato
 //                // Alimentamos el array con los datos de los eventos
-//            
 //            }
 
             // Transformamos los datos encontrado en la BD al formato JSON
@@ -40,9 +42,10 @@ class CitasRepository extends EntityRepository {
                     array(
                         "success" => 1,
                         "result" => $datos
-                    )
-            );
+                    ));
+        } else {
+            echo "no hay datos";
         }
     }
 
-
+}

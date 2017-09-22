@@ -14,7 +14,6 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
         $em = $this->getEntityManager();
         $arCierre = new \GeneralBundle\Entity\Configuracion();
         $arCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
-
         $articulos = new \InventarioBundle\Entity\Articulo();
         $articulos = $em->getRepository('InventarioBundle:Articulo')->findAll();
 

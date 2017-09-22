@@ -5,9 +5,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <h1 class="page-header">Facturas</h1>
-                </div> 
-
-
+                </div>
             </div>
             <section class="content"> 
                 {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
@@ -134,7 +132,6 @@
                         <div class="table-responsive">
                             <table  class="table table-striped table-bordered table-condensed">
                                 <tr>
-                                    {# <th>Id</th>#}
                                     <th>Articulo</th>
                                     <th>Bodega</th>
                                     <th>Cantidad</th>
@@ -151,7 +148,6 @@
                                 </tr>
                                 {% for arFacturaDetalle in arFacturaDetalle %}
                                     <tr>
-                                        {#                                        <td>{{ arFacturaDetalle.codigoFacturaDetallePk}}<input type="hidden" name="LblCodigo[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}"></td>#}
                                         <td >{{ arFacturaDetalle.articuloRel.nombreArticulo}}</td>
                                         <td></td>
                                         <td>{{ arFacturaDetalle.cantidad | number_format(0, '.', ',')}}</td>
@@ -166,76 +162,11 @@
                                         <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}" /></td>
                                     </tr>
                                 {% endfor%}
-
-                         {#       <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>SubTotal</td>
-                                    <td>{{ arFactura.vrSubtotal | number_format(0, '.', ',')}}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Descuento</td>
-                                    <td>{{ arFactura.vrDscto | number_format(0, '.', ',')}}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>total</td>
-                                    <td>{{ arFactura.valorTotal | number_format(0, '.', ',')}}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>total</td>
-                                    <td>{{ arFactura.valorTotal | number_format(0, '.', ',')}}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>#}
                             </table>
-                            {#<div class="col-md-3 col-md-offset-9">Subtotal ---      {{ arFactura.vrSubtotal | number_format(0, '.', ',')}}</div>
-                            <div class="col-md-3 col-md-offset-9">{{ arFactura.vrSubtotal | number_format(0, '.', ',')}}</div>#}
                         </div>
-                        {% if arFactura.estadoImpreso == 0 %}
-                            <div class="btn-group">
-                                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('factura_detalle_articulo', {'codigoFactura': arFactura.codigoFacturaPk, 'campoCodigo': 'form_TxtCodigoItem', 'campoNombre': 'form_TxtNombreItem'})}}', 'buscarItem', 600, 900)">Buscar Art</a>
-                            </div>
                             <div class="btn-group">
                                 {{ form_widget(form.BtnEliminarDetalle)}}
                             </div>
-
-                        {% endif %}
                         <div class="btn-group">
 
                         </div>

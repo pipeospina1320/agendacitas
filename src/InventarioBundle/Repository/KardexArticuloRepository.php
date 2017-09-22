@@ -15,8 +15,8 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
     public function actualizarSaldos($codigo, $periodo) {
         $em = $this->getEntityManager();
         $kardex1 = new \InventarioBundle\Entity\KardexArticulo();
-        $kardex1 = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoArticuloFk' => $codigo));
-        $articulo = count($kardex1) - 1;
+        $kardex1 = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoArticuloFk' => $codigo, 'periodoMovimiento' => $periodo));
+        $articulo = count($kardex1);
 
 
         $periodo2 = $periodo - 1;
@@ -28,7 +28,8 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
         $Saldo = new \InventarioBundle\Entity\SaldosArticulos();
         $kardexRegistroAnterior = new \InventarioBundle\Entity\KardexArticulo();
         $kardexRegistroActual = new \InventarioBundle\Entity\KardexArticulo();
-        for ($i = 0; $i <= $articulo; $i++) {
+
+        for ($i = 0; $i < $articulo; $i++) {
 
             if ($i == 0) {
 
@@ -38,11 +39,12 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
                 $query = $em->createQuery($dql);
                 $arrayResultado = $query->getResult();
                 $codigoKardexPk = $arrayResultado[$i]['kardex'];
-
-                //saldo actual 
+                //saldo actual
 
                 $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->find($codigoKardexPk);
 
+//                $dql = $em->getRepository('InventarioBundle:KardexArticulo')->
+//                findOneBy(array('codigoArticuloFk' => $codigo, 'periodoMovimiento' => $periodo), array('fechaMovimiento' => 'ASC'));
 
                 if ($cierresperiodo == null) {
                     $saldoFinalAnterior = 0;
@@ -69,6 +71,8 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
                 $entradas = $kardex->getEntradas();
                 $salidas = $kardex->getSalidas();
 
+//                var_dump($costoPromedio);
+//                exit();
                 if ($saldoFinalAnterior < 0) {
                     $inicial = $saldoFinalAnterior;
                     $inicial = $kardex->setSaldoAnterior($inicial);
@@ -93,7 +97,7 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
                     }
                 }
                 $em->persist($kardex);
-//                $em->flush();
+                $em->flush();
             }
 
             if ($i > 0) {
@@ -146,9 +150,9 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
                     }
                 }
                 $em->persist($kardexRegistroActual);
-//                $em->flush();
+                $em->flush();
             }
-        } $em->flush();
+        }
     }
 
     public function eliminarMovimiento($arrSeleccionados, $codigoFactura) {
@@ -171,7 +175,6 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
                 }
                 if ($arKardexCon->getSalidas() > 0) {
                     $cantidad = $arKardexCon->getSalidas();
-                    $existencia = $arArticulo->getExistencia();
                     $arKardexCon->setSalidas($cantidad - $cantidad);
                     $arKardexCon->setSaldoFinal($cantidad + $arKardexCon->getSaldoAnterior());
                 }
@@ -187,14 +190,12 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
         $arFacturaDetalle = new \FacturacionBundle\Entity\FacturaDetalle();
         $arFacturaDetalle = $em->getRepository('FacturacionBundle:FacturaDetalle')->findBy(array('codigoFacturaFk' => $codigoFactura));
         $arFacturaDetalleAct = new \FacturacionBundle\Entity\FacturaDetalle();
-
         $arFacturaDetalleAct = $em->getRepository('FacturacionBundle:FacturaDetalle')->findOneBy(array('codigoFacturaDetallePk' => $arMovimientoDetalle));
         $arKardexCon = new \InventarioBundle\Entity\KardexArticulo();
         $arKardexCon = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoFacturaDetalleFk' => $arFacturaDetalleAct));
 
         if (count($arKardexCon) == 0) {
             $arArticulo = new \InventarioBundle\Entity\Articulo();
-
             $arArticulo = $em->getRepository('InventarioBundle:Articulo')->find($codigo);
 
             if (($arFacturaDetalleAct->getFacturaRel()->getComprobanteRel()->getAfectaInventario()) == 1) {
@@ -252,7 +253,6 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
             $periodo2 = $periodo - 1;
 
             $kardex = new \InventarioBundle\Entity\KardexArticulo();
-
             $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoArticuloFk' => $codigo, 'periodoMovimiento' => $periodo));
             $movimientosKardex = count($kardex);
 

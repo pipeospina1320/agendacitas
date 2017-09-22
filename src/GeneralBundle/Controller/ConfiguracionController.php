@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 class ConfiguracionController extends Controller {
@@ -19,26 +20,20 @@ class ConfiguracionController extends Controller {
      */
     public function listaAction() {
         $em = $this->getDoctrine()->getManager();
-        $arConfiguracions = $em->getRepository('GeneralBundle:Configuracion')->findAll();
+        $arConfiguracion = new \GeneralBundle\Entity\Configuracion();
+        
+        $arConfiguracion = $em->getRepository('GeneralBundle:Configuracion')->find(1);
+        
+        $arConfiguracion = $this->createFormBuilder()
+                ->add('nitEmpresa', TextType::class, array('data' => $arConfiguracion->getNitEmpresa(), 'required' => true))
+                ->add('nombreComercial', TextType::class, array('data' => $arConfiguracion->getNombreComercial(), 'required' => true ))
+                ->getForm();
 
-
-        return $this->render('GeneralBundle:Configuracion:index.html.twig', array(
-                    'configuracions' => $arConfiguracions,
+        return $this->render('GeneralBundle:Configuracion:configuracion.html.twig', array(
+                    'arConfiguracion' => $arConfiguracion->createView(),
         ));
     }
 
-    /**
-     * Finds and displays a configuracion entity.
-     *
-     * @Route("configuracion/{codigoConfiguracionPk}", name="configuracion_show")
-     * @Method("GET")
-     */
-    public function mostrarAction(Configuracion $configuracion) {
-
-        return $this->render('GeneralBundle:Configuracion:show.html.twig', array(
-                    'configuracion' => $configuracion,
-        ));
-    }
 
     /**
      * Finds and displays a configuracion entity.
@@ -49,7 +44,6 @@ class ConfiguracionController extends Controller {
     public function cierreAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $arCierre = new \GeneralBundle\Entity\Configuracion();
-        
         $arCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
         $periodoActual = $arCierre->getPeriodoActual();
         $form = $this->formularioDetalle($arCierre);
