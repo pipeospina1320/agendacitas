@@ -4,34 +4,42 @@ namespace FacturacionBundle\Controller;
 
 use FacturacionBundle\Entity\Factura;
 use FacturacionBundle\Entity\FacturaDetalle;
-use InventarioBundle\Controller\Buscar\ArticuloController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Doctrine\ORM\EntityRepository;
 
 class FacturaController extends Controller {
 
     var $strDqlLista = "";
-    var $strCodigo = "";
-    var $strNombre = "";
 
     /**
      * Lists all cita entities.
      *
      * @Route("factura/", name="factura_lista")
-     * @Method("GET")
+     * 
      */
-    public function listaAction() {
+    public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $arFactura = new \FacturacionBundle\Entity\Factura();
-        $arFactura = $em->getRepository('FacturacionBundle:Factura')->findAll();
-
+        $paginator = $this->get('knp_paginator');
+        $form = $this->formularioFiltro();
+        $form->handleRequest($request);
+        $this->listar();
+        if ($form->isValid()) {
+            if ($form->get('BtnFiltrar')->isClicked()) {
+                $this->filtrar($form);
+                $this->listar();
+            }
+        }
+        $arFactura = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('FacturacionBundle:Factura:lista.html.twig', array(
                     'arFactura' => $arFactura,
+                    'form' => $form->createView()
         ));
     }
 
@@ -43,13 +51,11 @@ class FacturaController extends Controller {
     public function nuevoAction(Request $request, $codigoFactura, $codigoMovimiento) {
         $em = $this->getDoctrine()->getManager();
         $arFactura = new \FacturacionBundle\Entity\Factura();
-
         if ($codigoFactura != 0) {
             $arFactura = $em->getRepository('FacturacionBundle:Factura')->find($codigoFactura);
         } else {
             $arFactura->setFechaMovimiento(new \DateTime('now'));
         }
-
         $form = $this->createForm('FacturacionBundle\Form\FacturaType', $arFactura);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -62,14 +68,21 @@ class FacturaController extends Controller {
                         $arFactura->setClienteRel($arTercero);
                         $formaPago = $form->get('formaPagoRel')->getData();
                         $centroCosto = $form->get('centroCostoRel')->getData();
+//                        $dias = $arFactura->getFormaPagoRel()->getPlazoDias();
+                        $fechaVencimiento = $this->sumarDiasFecha($arFactura->getFormaPagoRel()->getPlazoDias(), $arFactura->getFechaMovimiento());
+                        
                         $arFactura->setFormaPagoRel($formaPago);
                         $arFactura->setCentroCostoRel($centroCosto);
-//                        $fechaVencimiento = $arFactura->getFechaMovimiento();
-                        $fechaVencimiento = $this->sumarDiasFecha($arFactura->getFormaPagoRel()->getPlazoDias(), $arFactura->getFechaMovimiento());
                         $arFactura->setFechaVencimiento($fechaVencimiento);
-                        $dias = $arFactura->getFormaPagoRel()->getPlazoDias();
-//                        var_dump($dias);
-//                        exit;
+                        $arFactura->setNumeroDocumento('0');
+                        $arFactura->setValorReteFuente('0');
+                        $arFactura->setValorReteIva('0');
+                        $arFactura->setValorTotal('0');
+                        $arFactura->setVrBaseIva('0');
+                        $arFactura->setVrDscto('0');
+                        $arFactura->setVrIva('0');
+                        $arFactura->setVrSubtotal('0');
+                        $arFactura->setVrSubtotalDescto('0');
                         $em->persist($arFactura);
                         $em->flush();
 
@@ -120,19 +133,17 @@ class FacturaController extends Controller {
         $arArticulo = new \InventarioBundle\Entity\Articulo();
         $arFactura = $em->getRepository('FacturacionBundle:Factura')->find($codigoFactura);
         $form = $this->formularioDetalle($arFactura);
-        if ($codigoFactura != 0) {
-            $arFacturaDetalle = $em->getRepository('FacturacionBundle:FacturaDetalle')->find($codigoFactura);
-        } else {
-            $arFacturaDetalle->setFacturaRel($arFactura);
-        }
+//        if ($codigoFactura != 0) {
+//            $arFacturaDetalle = $em->getRepository('FacturacionBundle:FacturaDetalle')->find($codigoFactura);
+//        } else {
+//            $arFacturaDetalle->setFacturaRel($arFactura);
+//        }
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 if ($form->get('BtnEliminarDetalle')->isClicked()) {
                     $arrSeleccionados = $request->request->get('ChkSeleccionar');
                     $em->getRepository('FacturacionBundle:FacturaDetalle')->eliminarSeleccionados($arrSeleccionados, $codigoFactura);
-//                    return $this->render('FacturacionBundle:Factura:detalle.html.twig', array('codigoFactura' => $codigoFactura));
-//                    return $this->redirect($this->generateUrl('factura_detalle', array('codigoFactura' => $codigoFactura)));
                 }
                 if ($form->get('BtnAddArticulo')->isClicked()) {
                     $arrControles = $request->request->All();
@@ -188,16 +199,27 @@ class FacturaController extends Controller {
         return $dateNuevaFecha;
     }
 
-    private function filtrar($form) {
-        $this->strNombre = $form->get('TxtNombreArticulo')->getData();
-        $this->strCodigo = $form->get('TxtCodigoArticulo')->getData();
+    private function listar() {
+        $session = new session;
+        $em = $this->getDoctrine()->getManager();
+        $this->strDqlLista = $em->getRepository('FacturacionBundle:Factura')->listaDql(
+                $session->get('filtroNumeroDocumento')
+        );
     }
 
-    private function lista() {
-        $em = $this->getDoctrine()->getManager();
-        $this->strDqlLista = $em->getRepository('InventarioBundle:Articulo')->listaDQL(
-                $this->strNombre, $this->strCodigo
-        );
+    private function filtrar($form) {
+        $session = new session;
+        $session->set('filtroNumeroDocumento', $form->get('txtNumeroDocumento')->getData());
+    }
+
+    private function formularioFiltro() {
+        $form = $this->createFormBuilder()
+//               
+                ->add('txtNumeroDocumento', NumberType::class, array('label' => 'Numero'))
+                ->add('BtnExcel', SubmitType::class, array('label' => 'Excel'))
+                ->add('BtnFiltrar', SubmitType::class, array('label' => 'Filtrar'))
+                ->getForm();
+        return $form;
     }
 
     private function addArticulo($arrControles, $codigoFactura) {

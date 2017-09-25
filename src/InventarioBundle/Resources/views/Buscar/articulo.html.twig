@@ -19,20 +19,16 @@
     <div class="panel panel-default">
         <div class="panel-heading">Filtros de busqueda</div>
         <div class="panel-body">                
-            <div class="form-group form-group-sm">  
-                <label for="form_TxtNombreArticulo" class="col-sm-3 control-label">Nombre:</label>
-           
-                <div class="col-sm-9">                  
-                    {{ form_widget(form.TxtNombreArticulo , { 'attr': {'class': 'form-control','autofocus':'autofocus', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}
-                </div>  
-
-            </div>                       
-            <div class="form-group form-group-sm">  
-                <label for="form_TxtCodigoItem" class="col-sm-3 control-label">Codigo:</label>
-                <div class="col-sm-9">                  
+            <div class="form-group form-group-sm"> 
+                <label for="form_TxtCodigoItem" class="col-sm-2 control-label">Codigo:</label>
+                <div class="col-sm-2">                  
                     {{ form_widget(form.TxtCodigoArticulo, { 'attr': {'class': 'form-control'} }) }}
-                </div>      
-            </div>   
+                </div> 
+                <label for="form_TxtNombreArticulo" class="col-sm-2 control-label">Nombre:</label>
+                <div class="col-sm-2">                  
+                    {{ form_widget(form.TxtNombreArticulo , { 'attr': {'class': 'form-control','autofocus':'autofocus', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}
+                </div>
+            </div>  
             <div class="form-group form-group-sm">
                 <div class="col-sm-offset-2 col-sm-10">
                     {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
@@ -42,15 +38,17 @@
     </div>        
     <table  class="table table-striped-alt table-bordered">            
         <tr>
-            <th>{{ knp_pagination_sortable(arItems, 'CODIGO', 'i.codigoArticuloPk') }}</th>                
-            <th>{{ knp_pagination_sortable(arItems, 'NOMBRE', 'i.nombreArticulo') }}</th>                                                
+            <th>{{ knp_pagination_sortable(arItem, 'CODIGO', 'i.codigoArticuloPk') }}</th>                
+            <th>{{ knp_pagination_sortable(arItem, 'NOMBRE', 'i.nombreArticulo') }}</th> 
+            <th>GRUPO</th> 
             <th></th>
         </tr>
-        {% for arItems in arItems %}
+        {% for arItem in arItem %}
             <tr>
-                <td><input type="hidden" name="LblCodigo[]" value="{{ arItems.codigoArticuloPk }}">{{ arItems.codigoArticuloPk }} </td>                
-                <td>{{ arItems.nombreArticulo }}</td>                                                                
-                <td style="text-align: center"><a href="javascript:selTercero('{{ arItems.codigoArticuloPk }}','{{ arItems.nombreArticulo }}','{{ campoCodigo }}','{{ campoNombre }}')" ><img src="{{ asset('imagenes/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>                                                
+                <td><input type="hidden" name="LblCodigo[]" value="{{ arItem.codigoArticuloPk }}">{{ arItem.codigoArticuloPk }} </td>                
+                <td>{{ arItem.nombreArticulo }}</td>
+                <td>{{ arItem.grupoArticuloRel.nombreGrupoArticulo }}</td>  
+                <td style="text-align: center"><a href="javascript:selTercero('{{ arItem.codigoArticuloPk }}','{{ arItem.nombreArticulo }}','{{ campoCodigo }}','{{ campoNombre }}')" ><img src="{{ asset('imagenes/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>                                                
             </tr>
         {% endfor %} 
     </table>                                         
@@ -59,10 +57,10 @@
     <!-- Botones Menu Items -->
     <div class="btn-toolbar">            
         <div class="btn-group" style="float: left">
-            <div class="btn btn-default btn-sm">Registros <span class="badge">{{ arItems.getTotalItemCount }}</span></div>                        
+            <div class="btn btn-default btn-sm">Registros <span class="badge">{{ arItem.getTotalItemCount }}</span></div>                        
         </div>     
         <div class="btn-group btn-sm" style="float: left;margin-left: 0px;padding-top: 0px;">
-            {{ knp_pagination_render(arItems) }}       
+            {{ knp_pagination_render(arItem) }}       
         </div>            
     </div>          
     <!-- Fin Botones Menu Items -->

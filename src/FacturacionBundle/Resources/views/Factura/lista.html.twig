@@ -1,62 +1,102 @@
 {% extends '::base.html.twig' %}
-{% block body %}
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-md-4">
-                    <h1 class="page-header">Facturas</h1>
+{% block content %}
+    <section class="content"> 
+        <div class="row">
+            <div class="col-md-4">
+                <h1 class="page-header">Facturas</h1>
+            </div>  
+        </div>
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros de busqueda</div>
+            <div class="panel-body">
+                <div class="form-group form-group-sm">
+                    <label for="form_TxtNombre" class="col-sm-2 control-label">Numero Factura</label>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    {{ form_widget(form.txtNumeroDocumento, { 'attr': {'class': 'form-control'} }) }} 
+                                </div>
+                            </div>                             
+                        </div>
+                    </div>
                 </div>  
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Lista
-                        </div>
-                        <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="citas" style="width: 100%;">
-                                <thead>    
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>No.</th>
-                                        <th>Fecha</th>
-                                        <th>Comprobante</th>
-                                        <th>Cliente</th>
-                                        <th>SubTotal</th>
-                                        <th>Iva</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>  
-                                <tbody>
-                                    {% for arFactura in arFactura %}
-                                        <tr>
-                                            <td><input type="hidden" value="{{ arFactura.codigoFacturaPk }}">{{ arFactura.codigoFacturaPk }} </td>
-                                            <td>{{ arFactura.numeroDocumento}}</td>
-                                            <td>{% if arFactura.fechaMovimiento %}{{ arFactura.fechaMovimiento|date('d-m-Y') }}{% endif %}</td>
-                                            <td>{{ arFactura.comprobanteRel.nombreComprobante  }}</td>
-                                            <td>{{ arFactura.clienteRel.primerNombre }}</td>
-                                            <td>{{ arFactura.vrSubtotal}}</td>
-                                            <td>{{ arFactura.vrIva}}</td>
-                                            <td>{{ arFactura.valorTotal}}</td>
-                                            <td>
-                                                <a class="fa fa-edit fa-align-center fa-1x" href="{{ path('factura_editar', { 'codigoFactura': arFactura.codigoFacturaPk }) }}"></a>
-                                            </td>
-                                            <td>
-                                                <a class="fa fa-share fa-align-center fa-1x" href="{{ path('factura_detalle', { 'codigoFactura': arFactura.codigoFacturaPk }) }}"></a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>    
-                            </table>
-                        </div>
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        {{ form_widget(form.BtnFiltrar, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Lista
+                    </div>
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="citas" style="width: 100%;">
+                            <thead>    
+                                <tr>
+                                    <th>{{ knp_pagination_sortable(arFactura, 'ID', 'f.codigoFacturaPk') }}</th>
+                                    <th>No.</th>
+                                    <th>Fecha</th>
+                                    <th>Comprobante</th>
+                                    <th>Cliente</th>
+                                    <th>SubTotal</th>
+                                    <th>Iva</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>  
+                            <tbody>
+                                {% for arFactura in arFactura %}
+                                    <tr>
+                                        <td>{{ arFactura.codigoFacturaPk }} </td>
+                                        <td>{{ arFactura.numeroDocumento}}</td>
+                                        <td>{% if arFactura.fechaMovimiento %}{{ arFactura.fechaMovimiento|date('d-m-Y') }}{% endif %}</td>
+                                        <td>{{ arFactura.comprobanteRel.nombreComprobante  }}</td>
+                                        <td>{{ arFactura.clienteRel.primerNombre }}</td>
+                                        <td>{{ arFactura.vrSubtotal | number_format (0 , '.', ',')}}</td>
+                                        <td>{{ arFactura.vrIva | number_format (0 , '.',',')}}</td>
+                                        <td>{{ arFactura.valorTotal | number_format (0, '.' , ',')}}</td>
+                                        <td>
+                                            <a class="fa fa-edit fa-align-center fa-1x" href="{{ path('factura_editar', { 'codigoFactura': arFactura.codigoFacturaPk }) }}"></a>
+                                        </td>
+                                        <td>
+                                            <a class="fa fa-share fa-align-center fa-1x" href="{{ path('factura_detalle', { 'codigoFactura': arFactura.codigoFacturaPk }) }}"></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-toolbar">            
+            <div class="btn-group" style="float: left">
+                <div class="btn btn-default btn-sm">Registros <span class="badge">{{ arFactura.getTotalItemCount }}</span></div>                        
+            </div>     
+            <div class="btn-group btn-sm" style="float: left;margin-left: 0px;padding-top: 0px;">
+                {{ knp_pagination_render(arFactura) }}       
+            </div>            
+        </div> 
+
+        <div class="btn-toolbar" style="float: right">
             <div class="btn-group">
                 <a class="btn btn-default btn-sm" href="{{ path('factura_nuevo',{'codigoFactura': 0, 'codigoMovimiento': 0 }) }}">Nuevo</a>
             </div>
+            <div class="btn-group">
+                {{ form_widget(form.BtnExcel, { 'attr': {'class': 'btn btn-default btn-sm', 'style':'float:right'} }) }}
+            </div>
         </div>
-    {% endblock %}
+    </div>
+
+
+    {{ form_end(form) }}
+</section>
+{% endblock %}
 

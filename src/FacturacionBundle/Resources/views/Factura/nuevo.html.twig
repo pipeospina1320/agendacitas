@@ -1,70 +1,68 @@
 {% extends '::base.html.twig' %}
-{% block body %}
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-md-4">
-                    <h1 class="page-header">Facturas</h1>
-                </div> 
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Datos cita
-                </div>
-                <div class="panel-body">
-                    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
-                    <div class="form-group form-group-sm">
-                        <label class="col-md-1 control-label">Comprobante</label>
-                        <div class="col-md-3">
-                            {{ form_widget(form.comprobanteRel) }}
-                        </div>
-                        <label class="col-md-1 control-label">Fecha</label>
-                        <div class="col-md-2">
-                            {{ form_widget(form.fechaMovimiento) }}
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm">
-                        <label class="col-md-1 control-label">Cliente</label>
-                        <div class="col-md-2">
-                            <div class="input-group"> 
-                                <input id="txtCedula"  name="txtCedula"  type="text" class="form-control" value="{{ arFactura.clienteRel.numDocumento | default('')}}" required="true"/>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group"> 
-                                <input id="txtNombreCorto"  name="txtNombreCorto"  type="text" class="form-control" value="{{ arCliente.clienteRel.primerNombre | default('') }}" readOnly="ReadOnly" />
-                                <span class="input-group-btn">                                        
-                                    <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_cliente', { 'campoNit': 'txtCedula', 'campoNombre': 'txtNombreCorto' }) }}', 'buscarCliente', 600, 800)">Buscar</a>
-                                </span>
-                            </div>
-                        </div>
-
-
-                        <label class="col-md-2 control-label">centro costo</label>
-                        <div class="col-md-2">
-                            {{ form_widget(form.centroCostoRel) }}
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm">
-                        <label class="col-sm-1 control-label">Vendedor</label>
-                        <div class="col-sm-4">
-                            {{ form_widget(form.codigoVendedorFk) }}
-                        </div>
-                    </div>
-                        
-                </div>
-            </div>
-  
-            <div class="btn-toolbar" style="float: right">
-                <div class="col-sm-5">
-                    <input class="btn btn-primary" type="submit" value="Guardar" />
-                </div>
-                <div class="col-sm-4">
-                    <a class="btn btn-default" href="{{ path('factura_lista') }}">Volver</a>
-                </div>
+{% block content %}
+    <section class="content"> 
+        <div class="row">
+            <div class="col-md-4">
+                <h1 class="page-header">Facturas</h1>
             </div> 
-                {{ form_end(form) }}
         </div>
-    </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Datos cita
+            </div>
+            <div class="panel-body">
+                {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+                <div class="form-group form-group-sm">
+                    <label class="col-md-1 control-label">Comprobante</label>
+                    <div class="col-md-3">
+                        {{ form_widget(form.comprobanteRel) }}
+                    </div>
+                    <label class="col-md-1 control-label">Fecha</label>
+                    <div class="col-md-2">
+                        {{ form_widget(form.fechaMovimiento) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label class="col-md-1 control-label">Cliente</label>
+                    <div class="col-md-2">
+                        <div class="input-group"> 
+                            <input id="txtCedula"  name="txtCedula"  type="text" class="form-control" value="{{ arFactura.clienteRel.numDocumento | default('')}}" required="true"/>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group"> 
+                            <input id="txtNombreCorto"  name="txtNombreCorto"  type="text" class="form-control" value="{{ arCliente.clienteRel.primerNombre | default('') }}" readOnly="ReadOnly" />
+                            <span class="input-group-btn">                                        
+                                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_cliente', { 'campoNit': 'txtCedula', 'campoNombre': 'txtNombreCorto' }) }}', 'buscarCliente', 600, 800)">Buscar</a>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <label class="col-md-2 control-label">centro costo</label>
+                    <div class="col-md-2">
+                        {{ form_widget(form.centroCostoRel) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-1 control-label">Vendedor</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.codigoVendedorFk) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="btn-toolbar" style="float: right">
+            <div class="col-sm-5">
+                <input class="btn btn-primary" type="submit" value="Guardar" />
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-default" href="{{ path('factura_lista') }}">Volver</a>
+            </div>
+        </div> 
+        {{ form_end(form) }}
+    </section>
 {% endblock %}
 

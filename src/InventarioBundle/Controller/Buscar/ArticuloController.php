@@ -35,7 +35,7 @@ class ArticuloController extends Controller {
         }
         $arItem = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('InventarioBundle:Buscar:articulo.html.twig', array(
-                    'arItems' => $arItem,
+                    'arItem' => $arItem,
                     'campoCodigo' => $campoCodigo,
                     'campoNombre' => $campoNombre,
                     'form' => $form->createView()
@@ -64,13 +64,6 @@ class ArticuloController extends Controller {
         $this->strCodigo = $form->get('TxtCodigoArticulo')->getData();
     }
 
-    /**
-     * @Route("burcar/", name="buscar_articulo_dql")
-     */
-    public function buscarAction($campoCodigo, $campoNombre) {
-        $em = $this->getDoctrine()->getManager();
-        $this->strDqlLista = $em->getRepository('InventarioBundle:Articulo')->listaDQL(
-                $this->strNombre, $this->strCodigo);
-    }
+ 
 
 }

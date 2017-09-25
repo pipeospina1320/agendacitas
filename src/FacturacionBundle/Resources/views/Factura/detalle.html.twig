@@ -1,195 +1,182 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-md-4">
-                    <h1 class="page-header">Facturas</h1>
+    <section class="content"> 
+        <div class="row">
+            <div class="col-md-4">
+                <h1 class="page-header">Facturas</h1>
+            </div>
+        </div>
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">Información</div>
+            <div class="panel-body">
+                <table width="90%" class="table table-responsive table-bordered">
+                    <tr>
+                        <td>Comprobante:</td>
+                        <td class="td-in-well">{{ arFactura.comprobanteRel.nombreComprobante }}</td>
+                        <td>Numero Factura:</td>
+                        <td class="td-in-well">{{ arFactura.numeroDocumento }}</td>
+                        <td>Fecha:</td>
+                        <td class="td-in-well">{{ arFactura.fechaMovimiento |date("Y/m/d") }}</td>
+                        <td >Sub-total:</td>
+                        <td align="right">{{ arFactura.vrSubtotal | number_format(0, '.', ',')}}</td>
+                    </tr>
+                    <tr>                   
+                        <td>Cliente:</td>
+                        <td class="td-in-well">{{ arFactura.clienteRel.primerNombre }}</td>
+                        <td>C-costo</td>
+                        <td class="td-in-well">{{arFactura.centroCostoRel.nombreCentroCosto}}</td>
+                        <td>Vence:</td>
+                        <td class="td-in-well">{{ arFactura.fechaVencimiento |date("Y/m/d") }}</td>
+                        <td>Dscto</td>
+                        <td align="right">{{ arFactura.vrDscto | number_format(0, '.',',')}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Vendedor:</td>
+                        <td class="td-in-well"></td> 
+                        <td></td>
+                        <td class="td-in-well"></td>
+                        <td>Plazo pago:</td>
+                        <td class="td-in-well"></td>
+                        <td>Iva:</td>
+                        <td align="right">{{ arFactura.vrIva | number_format(0, '.', ',')}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="td-in-well"></td>
+                        <td></td>
+                        <td class="td-in-well"></td>                       
+                        <td>Total:</td>
+                        <td align="right">{{arFactura.valorTotal | number_format(0,'.' , ',')}}</td>    
+                    </tr>         
+                </table>
+            </div>
+        </div>
+
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Datos articulo</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive">
+                        <tr>
+                            <td>Codigo:</td>
+                            <td size="10">Bodega</td>
+                            <td>UND</td>
+                            <td>Cantidad</td>
+                            <td>Vr Unitario</td>
+                            <td>% Dscto</td>
+                            <td>Sub-Total unitario</td>
+                            <td>% iva</td>
+                            <td>Neto unitario</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input id="TxtCodigoArticulo"  name="TxtCodigoArticulo" placeholder="hola" type="text"  value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" required="true" size="15"/>
+                                <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_articulo', { 'campoCodigo': 'TxtCodigoArticulo', 'campoNombre': 'TxtNombreArticulo' }) }}', 'buscarItem', 600, 900)">...</a>
+                            </td>
+
+                            <td class="col-sm-1"><input name="TxtBodega" type="text" value="" size="10"/></td>
+                            <td class="col-sm-2"><input name="UndManejo" value="{{ arArticulo.codigoUnidadManejoFk }}" readOnly="ReadOnly" size="5"/></td>
+                            <td class="col-sm-2"><input name="TxtCantidad" type="text" value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('') }}" size="5"/></td>
+                            <td class="col-sm-2"><input name="VrUnitario" type="text" value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}"size="10"/></td>
+                            <td class="col-sm-1"><input name="PorDscto" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('0')}}" size="3"/></td>
+                            <td class="col-sm-2"><input name="SubTotalUnitario" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" size="10" readOnly="readOnly"/></td>
+                            <td class="col-sm-1"><input name="iva" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" size="3" readOnly="readOnly"/></td>
+                            <td class="col-sm-2"><input name="TotalNeto" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" size="15" readOnly="readOnly"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-1">
+                                <input id="TxtNombreArticulo"  name="TxtNombreArticulo"  type="text" value="{{ arCliente.clienteRel.primerNombre | default('') }}" readOnly="ReadOnly" />
+                            </td>
+                            <td>{{form_widget(form.BtnAddArticulo)}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <section class="content"> 
-                {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
-                <div class="panel panel-default">
-                    <div class="panel-heading">Información</div>
-                    <div class="panel-body">
-                        <table width="90%" class="table table-responsive table-bordered">
-                            <tr>
-                                <td>Numero:</td>
-                                <td class="td-in-well">{{ arFactura.numeroDocumento }}</td>
-                                <td>Fecha:</td>
-                                <td class="td-in-well">{{ arFactura.fechaMovimiento |date("Y/m/d") }}</td>
-                                <td >Sub-total:</td>
-                                <td align="right">{{ arFactura.vrSubtotal | number_format(0, '.', ',')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Comprobante:</td>
-                                <td class="td-in-well">{{ arFactura.comprobanteRel.nombreComprobante }}</td>
-                                <td>Vence:</td>
-                                <td class="td-in-well">{{ arFactura.fechaVencimiento |date("Y/m/d") }}</td>                       
-                                <td>Base Gravable:</td>
-                                <td align="right"></td>
-                            </tr>
+        </div>
 
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#registros" data-toggle="tab">Registros</a></li>
+            <li><a href="#imputacion" data-toggle="tab">Imputacion Contable</a></li>
+            <li><a href="#saldos" data-toggle="tab">Saldos Factura</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="registros">
+                <div id="registros" style="width: 100%"><br>
+                    <div class="table-responsive">
+                        <table  class="table table-striped table-bordered table-condensed">
                             <tr>
-                                <td></td>
-                                <td class="td-in-well"></td>
-                                <td>Plazo pago:</td>
-                                <td class="td-in-well"></td>
-                                <td>Iva:</td>
-                                <td align="right">{{ arFactura.vrIva | number_format(0, '.', ',')}}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td class="td-in-well"></td>
-                                <td></td>
-                                <td class="td-in-well"></td>                       
-                                <td>ReteIva:</td>
-                                <td align="right">{{ arFactura.valorReteIva | number_format(0, '.', ',')}}</td>                    
+                                <th>Articulo</th>
+                                <th>Bodega</th>
+                                <th>Cantidad</th>
+                                <th>Vr unitario</th>
+                                <th>% Dscto</th>
+                                <th>Dscto</th>
+                                <th class="col-md-1">Sub-total unitario</th>
+                                <th>Subtotal</th>
+                                <th>Iva</th>
+                                <th>Neto Total</th>
+                                <th></th>
+                                <th></th>
 
                             </tr>
-                            <tr>
-                                <td>Cliente:</td>
-                                <td class="td-in-well">{{ arFactura.clienteRel.primerNombre }}</td>
-                                <td>Usuario:</td>
-                                <td class="td-in-well"></td> 
-                                <td>ReteFte:</td>
-                                <td align="right">{{ arFactura.valorReteFuente | number_format(0, '.', ',')}}</td>                      
-                            </tr>
-                            <tr>
-                                <td>Observacion:</td>
-                                <td class="td-in-well"></td>
-                                <td>Tipo Impresion:</td>
-                                <td class="td-in-well"></td> 
-                                <td>Total:</td>
-                                <td align="right">{{arFactura.valorTotal | number_format(0,'.' , ',')}}</td>
-                            </tr>                
+                            {% for arFacturaDetalle in arFacturaDetalle %}
+                                <tr>
+                                    <td >{{ arFacturaDetalle.articuloRel.nombreArticulo}}</td>
+                                    <td></td>
+                                    <td>{{ arFacturaDetalle.cantidad | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.vrUnitario | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.porDscto | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.vrdscto | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.vrSubTotalUnitario | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.vrSubTotal | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.vrIva | number_format(0, '.', ',')}}</td>
+                                    <td>{{ arFacturaDetalle.vrTotalNeto | number_format(0, '.', ',')}}</td> 
+                                    <td><input type="submit" name="BtnEditar[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}" /></td>
+                                    <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}" /></td>
+                                </tr>
+                            {% endfor%}
                         </table>
                     </div>
-                </div>
-            </section>
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
-            <section class="content"> 
-                <div class="panel panel-default">
-                    <div class="panel-heading">Datos articulo</div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-responsive">
-                                <tr>
-                                    <td>Codigo:</td>
-                                    <td size="10">Bodega</td>
-                                    <td>UND</td>
-                                    <td>Cantidad</td>
-                                    <td>Vr Unitario</td>
-                                    <td>% Dscto</td>
-                                    <td>Sub-Total unitario</td>
-                                    <td>% iva</td>
-                                    <td>Neto unitario</td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input id="TxtCodigoArticulo"  name="TxtCodigoArticulo" placeholder="hola" type="text"  value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" required="true" size="15"/>
-                                        <a class="btn btn-default btn-sm" href="javascript:abrirVentana3('{{ path('buscar_articulo', { 'campoCodigo': 'TxtCodigoArticulo', 'campoNombre': 'TxtNombreArticulo' }) }}', 'buscarItem', 600, 900)">...</a>
-                                    </td>
-
-                                    <td class="col-sm-1"><input name="TxtBodega" type="text" value="" size="10"/></td>
-                                    <td class="col-sm-2"><input name="UndManejo" value="{{ arArticulo.codigoUnidadManejoFk }}" readOnly="ReadOnly" size="5"/></td>
-                                    <td class="col-sm-2"><input name="TxtCantidad" type="text" value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('') }}" size="5"/></td>
-                                    <td class="col-sm-2"><input name="VrUnitario" type="text" value="{{ arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}"size="10"/></td>
-                                    <td class="col-sm-1"><input name="PorDscto" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('0')}}" size="3"/></td>
-                                    <td class="col-sm-2"><input name="SubTotalUnitario" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" size="10" readOnly="readOnly"/></td>
-                                    <td class="col-sm-1"><input name="iva" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" size="3" readOnly="readOnly"/></td>
-                                    <td class="col-sm-2"><input name="TotalNeto" type="text" value="{{arFacturaDetalle.articuloRel.codigoArticuloPk | default('')}}" size="15" readOnly="readOnly"/></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">
-                                        <input id="TxtNombreArticulo"  name="TxtNombreArticulo"  type="text" value="{{ arCliente.clienteRel.primerNombre | default('') }}" readOnly="ReadOnly" />
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </table>
-                            {{form_widget(form.BtnAddArticulo)}}
-                        </div>
+                    <div class="btn-group">
+                        {{ form_widget(form.BtnEliminarDetalle)}}
                     </div>
-                </div>
-            </section>
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#registros" data-toggle="tab">Registros</a></li>
-                <li><a href="#imputacion" data-toggle="tab">Imputacion Contable</a></li>
-                <li><a href="#saldos" data-toggle="tab">Saldos Factura</a></li>
-            </ul>
-            <div class="tab-content">
+                    <div class="btn-group">
 
-                <div class="tab-pane active" id="registros">
-                    <div id="registros" style="width: 100%"><br>
-                        <div class="table-responsive">
-                            <table  class="table table-striped table-bordered table-condensed">
-                                <tr>
-                                    <th>Articulo</th>
-                                    <th>Bodega</th>
-                                    <th>Cantidad</th>
-                                    <th>Vr unitario</th>
-                                    <th>% Dscto</th>
-                                    <th>Dscto</th>
-                                    <th class="col-md-1">Sub-total unitario</th>
-                                    <th>Subtotal</th>
-                                    <th>Iva</th>
-                                    <th>Neto Total</th>
-                                    <th></th>
-                                    <th></th>
-
-                                </tr>
-                                {% for arFacturaDetalle in arFacturaDetalle %}
-                                    <tr>
-                                        <td >{{ arFacturaDetalle.articuloRel.nombreArticulo}}</td>
-                                        <td></td>
-                                        <td>{{ arFacturaDetalle.cantidad | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.vrUnitario | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.porDscto | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.vrdscto | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.vrSubTotalUnitario | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.vrSubTotal | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.vrIva | number_format(0, '.', ',')}}</td>
-                                        <td>{{ arFacturaDetalle.vrTotalNeto | number_format(0, '.', ',')}}</td> 
-                                        <td><input type="submit" name="BtnEditar[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}" /></td>
-                                        <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arFacturaDetalle.codigoFacturaDetallePk }}" /></td>
-                                    </tr>
-                                {% endfor%}
-                            </table>
-                        </div>
-                            <div class="btn-group">
-                                {{ form_widget(form.BtnEliminarDetalle)}}
-                            </div>
-                        <div class="btn-group">
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane" id="imputacion">
-                    <!-- Menu Encabezado Movimiento -->
-                    <div id="imputacion" style="width: 100%"><br>
-                        <table  class="table table-striped table-bordered table-condensed table-hover">
-                            <tr>
-                                <th>CÓDIGO</th>
-                                <th>NOMBRE</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-
-                        </table> 
                     </div>
                 </div>
             </div>
 
-            {{ form_end(form)}}
+            <div class="tab-pane" id="imputacion">
+                <!-- Menu Encabezado Movimiento -->
+                <div id="imputacion" style="width: 100%"><br>
+                    <table  class="table table-striped table-bordered table-condensed table-hover">
+                        <tr>
+                            <th>CÓDIGO</th>
+                            <th>NOMBRE</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                    </table> 
+                </div>
+            </div>
         </div>
-    </div>
+
+        {{ form_end(form)}}
+    </section>
 {% endblock %}
