@@ -28,7 +28,7 @@ class Factura1 extends \FPDF_FPDF {
 
     public function Header() {
         $this->GenerarEncabezadoFactura(self::$em);
-//        $arConfiguracion = new \Brasa\GeneralBundle\Entity\GenConfiguracion();
+//        $arConfiguracion = new \GeneralBundle\Entity\GenConfiguracion();
 //        $arConfiguracion = self::$em->getRepository('BrasaGeneralBundle:GenConfiguracion')->find(1);
 //        $arConfiguracionTurno = new \Brasa\TurnoBundle\Entity\TurConfiguracion();
 //        $arConfiguracionTurno = self::$em->getRepository('BrasaTurnoBundle:TurConfiguracion')->find(1);
@@ -72,8 +72,8 @@ class Factura1 extends \FPDF_FPDF {
             $this->Ln(4);
         }
 
-        //$this->SetMargins(4, 1, 10);
-        //$this->Rect(135, 26, 73, 20);
+        $this->SetMargins(4, 1, 10);
+        $this->Rect(135, 26, 73, 20);
         $this->ln(1);
         $this->SetY(27);
 
@@ -81,15 +81,15 @@ class Factura1 extends \FPDF_FPDF {
         $this->SetFont('Arial', 'B', 8);
         foreach ($List1 as $col) {
             $this->SetX(150);
-            $this->Cell(10, 3, $col, 0, 0, 'L');
+            $this->Cell(5, 3, $col, 0, 0, 'L');
             $this->Ln();
         }
 
         $List1 = array('',
             $arFactura->getFechaMovimiento()->format('Y-m-d'),
-            $arFactura->getFechaVencimiento()->format('Y-m-d'));
-//            $arFactura->getClienteRel()->getFormaPagoRel()->getNombre(),
-//            $arFactura->getClienteRel()->getPlazoPago(),
+            $arFactura->getFechaVencimiento()->format('Y-m-d'),
+            $arFactura->getFormaPagoRel()->getNombreFormaPago(),
+            $arFactura->getFormaPagoRel()->getPlazoDias());
 //            $arFactura->getSoporte());
         $this->SetXY(175,25);
         $this->SetFont('Arial', '', 14);        

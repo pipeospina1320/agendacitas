@@ -16,10 +16,10 @@ td.titulo {
 }
 
 .table > tbody > tr > th {
-    background-color:  #b8d8ea;
+    background-color:  #D3D3D3;
 }
 
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
     margin-bottom: 5px; 
-    border: 1px solid #3c8dbc;
+    border: 1px solid #868686;
 }

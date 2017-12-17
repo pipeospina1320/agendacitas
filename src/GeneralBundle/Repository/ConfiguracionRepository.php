@@ -16,15 +16,13 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
         $arCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
         $articulos = new \InventarioBundle\Entity\Articulo();
         $articulos = $em->getRepository('InventarioBundle:Articulo')->findAll();
-
-
         $kardex = new \InventarioBundle\Entity\KardexArticulo();
         $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->findAll();
-
+        $fechaActual = (new \DateTime('now'))->format('Ym');
 
         $periodoAnterior = $periodoActual - 1;
 
-        //consuta ultimo cierre inventario en configuracion
+//consuta ultimo cierre inventario en configuracion
         $ultimoCierreInventario = $arCierre->getUltimoCierreInventario();
 
         $dql = "SELECT COUNT(mk.codigoKardexArticuloPk) as kardex FROM InventarioBundle:KardexArticulo mk  "
@@ -36,8 +34,6 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
         if ($ultimoCierreInventario == $periodoAnterior) {
             echo "periodo ya cerrado";
         } else {
-
-
             foreach ($articulos as $codigoArticulo) {
                 $articulos = $em->getRepository('InventarioBundle:Articulo')->findOneBy(array('codigoArticuloPk' => $codigoArticulo));
                 if ($articulos->getManejaKardex() == 1) {
@@ -73,7 +69,7 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
                         $numeroRegistros = $arrayResultado[0]['kardex'];
 
                         if ($numeroRegistros == 0) {
-                            //saldos 
+//saldos 
                             $saldos->setArticuloRel($articulo);
                             $saldos->setPeriodo($periodoAnterior);
                             $saldos->setSaldoInicial('0');
@@ -119,19 +115,19 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
                             $arrayResultado = $query->getResult();
                             $costoPromedio = $arrayResultado[0]['costoPromedio'];
 
-                            //saldos 
+//saldos 
                             $saldos->setSaldoInicial($saldoInicial);
                             $saldos->setEntradas($entradas);
                             $saldos->setSalidas($salidas);
                             $saldoFinal = $saldoInicial + $entradas - $salidas;
                             $saldos->setSaldoFinal($saldoFinal);
                             $saldos->setCostoPromedio($costoPromedio);
-                            $saldos->setCostoPromedioAnterior('0');
+//                            $saldos->setCostoPromedioAnterior('0');
                             $costoUnitario = $costoPromedio / $saldoFinal;
                             $saldos->setCostoUnitario($costoUnitario);
-                            $saldos->setCostoUnitarioAnterior('0');
+//                            $saldos->setCostoUnitarioAnterior('0');
                             $saldos->setUltimoCosto('0');
-                            $saldos->setUltimoCostoAnterior('0');
+//                            $saldos->setUltimoCostoAnterior('0');
                             $em->persist($saldos);
                             $em->flush();
                         }
@@ -142,6 +138,5 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
             $em->persist($saldos);
             $em->flush();
         }
-    }
 
 }

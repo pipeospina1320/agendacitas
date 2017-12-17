@@ -45,10 +45,10 @@ class FacturaController extends Controller {
 
     /**
      * 
-     * @Route("factura/nuevo/{codigoFactura}/{codigoMovimiento}", name="factura_nuevo")
+     * @Route("factura/nuevo/{codigoFactura}", name="factura_nuevo")
      * @Method({"GET", "POST"})
      */
-    public function nuevoAction(Request $request, $codigoFactura, $codigoMovimiento) {
+    public function nuevoAction(Request $request, $codigoFactura) {
         $em = $this->getDoctrine()->getManager();
         $arFactura = new \FacturacionBundle\Entity\Factura();
         if ($codigoFactura != 0) {
@@ -70,7 +70,7 @@ class FacturaController extends Controller {
                         $centroCosto = $form->get('centroCostoRel')->getData();
 //                        $dias = $arFactura->getFormaPagoRel()->getPlazoDias();
                         $fechaVencimiento = $this->sumarDiasFecha($arFactura->getFormaPagoRel()->getPlazoDias(), $arFactura->getFechaMovimiento());
-                        
+
                         $arFactura->setFormaPagoRel($formaPago);
                         $arFactura->setCentroCostoRel($centroCosto);
                         $arFactura->setFechaVencimiento($fechaVencimiento);
@@ -148,11 +148,22 @@ class FacturaController extends Controller {
                 if ($form->get('BtnAddArticulo')->isClicked()) {
                     $arrControles = $request->request->All();
                     $this->addArticulo($arrControles, $codigoFactura);
-//                    return $this->redirect($this->generateUrl('factura_detalle', array('codigoFactura' => $codigoFactura)));
+                    return $this->redirect($this->generateUrl('factura_detalle', array('codigoFactura' => $codigoFactura)));
                 }
                 if ($form->get('BtnImprimir')->isClicked()) {
+                    $consecutivo = $arFactura->getComprobanteRel()->getUltimoConsecutivo();
+                    $comprobante = new \GeneralBundle\Entity\Comprobante();
+                    $estadoImpreso = $arFactura->getEstadoImpreso();
+                    if ($estadoImpreso == 0) {
+                        $numeroFactura = $consecutivo + 1;
+                        $consecutivo1 = $arFactura->setNumeroDocumento($numeroFactura);
+//                        $consecutivo = $comprobante->setUltimoConsecutivo($numeroFactura);
+                        $em->persist($consecutivo1);
+                        $em->flush();
+                    }
                     $objFactura = new \FacturacionBundle\Formatos\Factura1();
                     $objFactura->Generar($em, $codigoFactura);
+                    return $this->redirect($this->generateUrl('factura_detalle', array('codigoFactura' => $codigoFactura)));
                 }
 //
 //                $em->persist($arFacturaDetalle);
@@ -162,7 +173,6 @@ class FacturaController extends Controller {
         }
         $arFacturaDetalle = new \FacturacionBundle\Entity\FacturaDetalle();
         $arFacturaDetalle = $em->getRepository('FacturacionBundle:FacturaDetalle')->findBy(array('codigoFacturaFk' => $codigoFactura));
-
         return $this->render('FacturacionBundle:Factura:detalle.html.twig', array(
                     'arFactura' => $arFactura,
                     'arFacturaDetalle' => $arFacturaDetalle,

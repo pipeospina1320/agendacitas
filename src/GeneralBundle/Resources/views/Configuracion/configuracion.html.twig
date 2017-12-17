@@ -1,16 +1,15 @@
 {% extends '::base.html.twig' %}
 
-{% block body %}
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <h1>Configuracion</h1>
-            {{ form_start(arConfiguracion, { 'attr': {'class': 'form-horizontal'} }) }}
+{% block content %}
+    <div class="row">
+        <h1>Configuracion</h1>
+        {{ form_start(arConfiguracion, { 'attr': {'class': 'form-horizontal'} }) }}
 
-            {{ form_widget(arConfiguracion.nitEmpresa, { 'attr': {'class': 'form-control'} }) }}
-            
-            {{form_widget(arConfiguracion.nombreComercial,{ 'attr': {'class' :'form-control'} }) }}
-            
-            
-            {{ form_end(arConfiguracion) }}
+        {{ form_widget(arConfiguracion.nitEmpresa, { 'attr': {'class': 'form-control'} }) }}
 
-        {% endblock %}
+        {{form_widget(arConfiguracion.nombreComercial,{ 'attr': {'class' :'form-control'} }) }}
+
+
+        {{ form_end(arConfiguracion) }}
+    </div>
+{% endblock %}
