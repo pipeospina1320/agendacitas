@@ -18,7 +18,7 @@ class ConfiguracionController extends Controller {
      * @Route("configuracion/", name="configuracion")
      * @Method("GET")
      */
-    public function listaAction() {
+    public function listaAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $arConfiguracion = new \GeneralBundle\Entity\Configuracion();
         
@@ -45,6 +45,7 @@ class ConfiguracionController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $arCierre = new \GeneralBundle\Entity\Configuracion();
         $arCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
+        $periodoActual =  $arCierre->setPeriodoActual((new \DateTime('now'))->format('Ym'));
         $periodoActual = $arCierre->getPeriodoActual();
         $form = $this->formularioDetalle($arCierre);
         $form->handleRequest($request);
@@ -52,6 +53,7 @@ class ConfiguracionController extends Controller {
             if ($form->isValid()) {
                 if ($form->get('BtnCerrarPeriodo')->isClicked()) {
                     $arrControles = $request->request->All();
+                    $periodoActual = $arrControles['TxtPeriodo'];
                     $em->getRepository('GeneralBundle:Configuracion')->cerrarPeriodo($periodoActual);
                     return $this->redirect($this->generateUrl('cierre_periodo'));
                 }
@@ -70,7 +72,6 @@ class ConfiguracionController extends Controller {
     private function formularioDetalle($ar) {
 
         $arrCerrarPeriodo = array('label' => 'Cerrar Perido', 'disabled' => false);
-
 
         $form = $this->createFormBuilder()
                 ->add('BtnCerrarPeriodo', SubmitType::class, $arrCerrarPeriodo)

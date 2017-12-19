@@ -12,26 +12,28 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
 
     public function cerrarPeriodo($periodoActual) {
         $em = $this->getEntityManager();
-        $arCierre = new \GeneralBundle\Entity\Configuracion();
+        //$arCierre = new \GeneralBundle\Entity\Configuracion();
         $arCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
-        $articulos = new \InventarioBundle\Entity\Articulo();
+        //$articulos = new \InventarioBundle\Entity\Articulo();
         $articulos = $em->getRepository('InventarioBundle:Articulo')->findAll();
-        $kardex = new \InventarioBundle\Entity\KardexArticulo();
+        //$kardex = new \InventarioBundle\Entity\KardexArticulo();
         $kardex = $em->getRepository('InventarioBundle:KardexArticulo')->findAll();
-        $fechaActual = (new \DateTime('now'))->format('Ym');
+        //$fechaActual = (new \DateTime('now'))->format('Ym');
 
-        $periodoAnterior = $periodoActual - 1;
+        $periodoCierre = $periodoActual;
 
 //consuta ultimo cierre inventario en configuracion
         $ultimoCierreInventario = $arCierre->getUltimoCierreInventario();
 
         $dql = "SELECT COUNT(mk.codigoKardexArticuloPk) as kardex FROM InventarioBundle:KardexArticulo mk  "
-                . "WHERE mk.periodoMovimiento = " . $periodoAnterior
+                . "WHERE mk.periodoMovimiento = " . $periodoCierre
                 . " ORDER by mk.fechaMovimiento ASC";
         $query = $em->createQuery($dql);
         $arrayResultado = $query->getResult();
         $codigoKardexPk = $arrayResultado[0]['kardex'];
-        if ($ultimoCierreInventario == $periodoAnterior) {
+        
+        
+        if ($ultimoCierreInventario == $periodoCierre) {
             echo "periodo ya cerrado";
         } else {
             foreach ($articulos as $codigoArticulo) {
@@ -41,9 +43,8 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
                         $articulo = new \InventarioBundle\Entity\Articulo();
                         $articulo = $em->getRepository('InventarioBundle:Articulo')->findOneBy(array('codigoArticuloPk' => $codigoArticulo));
                         $saldos = new \InventarioBundle\Entity\SaldosArticulos();
-
                         $saldos->setArticuloRel($articulo);
-                        $saldos->setPeriodo($periodoAnterior);
+                        $saldos->setPeriodo($periodoActual);
                         $saldos->setSaldoInicial('0');
                         $saldos->setEntradas('0');
                         $saldos->setSalidas('0');
@@ -62,7 +63,7 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
                         $saldos = new \InventarioBundle\Entity\SaldosArticulos();
 
                         $dql = "SELECT COUNT(mk.codigoKardexArticuloPk) as kardex FROM InventarioBundle:KardexArticulo mk  "
-                                . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoAnterior
+                                . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoActual
                                 . " ORDER by mk.fechaMovimiento ASC";
                         $query = $em->createQuery($dql);
                         $arrayResultado = $query->getResult();
@@ -71,7 +72,7 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
                         if ($numeroRegistros == 0) {
 //saldos 
                             $saldos->setArticuloRel($articulo);
-                            $saldos->setPeriodo($periodoAnterior);
+                            $saldos->setPeriodo($periodoActual);
                             $saldos->setSaldoInicial('0');
                             $saldos->setEntradas('0');
                             $saldos->setSalidas('0');
@@ -85,31 +86,31 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
 
                         if ($numeroRegistros > 0) {
                             $saldos->setArticuloRel($articulo);
-                            $saldos->setPeriodo($periodoAnterior);
+                            $saldos->setPeriodo($periodoActual);
 
                             $dql = "SELECT mk.saldoAnterior as kardex FROM InventarioBundle:KardexArticulo mk  "
-                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoAnterior
+                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoActual
                                     . " ORDER by mk.fechaMovimiento ASC";
                             $query = $em->createQuery($dql);
                             $arrayResultado = $query->getResult();
                             $saldoInicial = $arrayResultado[0]['kardex'];
 
                             $dql = "SELECT SUM(mk.salidas) as salidas FROM InventarioBundle:KardexArticulo mk  "
-                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoAnterior
+                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoActual
                                     . " ORDER by mk.fechaMovimiento ASC";
                             $query = $em->createQuery($dql);
                             $arrayResultado = $query->getResult();
                             $salidas = $arrayResultado[0]['salidas'];
 
                             $dql = "SELECT SUM(mk.entradas) as entradas FROM InventarioBundle:KardexArticulo mk  "
-                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoAnterior
+                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoActual
                                     . " ORDER by mk.fechaMovimiento ASC";
                             $query = $em->createQuery($dql);
                             $arrayResultado = $query->getResult();
                             $entradas = $arrayResultado[0]['entradas'];
 
                             $dql = "SELECT mk.costoPromedio as costoPromedio FROM InventarioBundle:KardexArticulo mk  "
-                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoAnterior
+                                    . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoActual
                                     . " ORDER by mk.fechaMovimiento DESC";
                             $query = $em->createQuery($dql);
                             $arrayResultado = $query->getResult();
@@ -134,9 +135,10 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository {
                     }
                 }
             }
-            $arCierre->setUltimoCierreInventario($periodoAnterior);
+            $arCierre->setUltimoCierreInventario($periodoActual);
             $em->persist($saldos);
             $em->flush();
         }
+    }
 
 }
