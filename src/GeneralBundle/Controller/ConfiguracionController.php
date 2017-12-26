@@ -45,16 +45,15 @@ class ConfiguracionController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $arCierre = new \GeneralBundle\Entity\Configuracion();
         $arCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
-        $periodoActual =  $arCierre->setPeriodoActual((new \DateTime('now'))->format('Ym'));
-        $periodoActual = $arCierre->getPeriodoActual();
+        $periodoCierre =  $arCierre->setPeriodoActual((new \DateTime('now'))->format('Ym'));
         $form = $this->formularioDetalle($arCierre);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 if ($form->get('BtnCerrarPeriodo')->isClicked()) {
                     $arrControles = $request->request->All();
-                    $periodoActual = $arrControles['TxtPeriodo'];
-                    $em->getRepository('GeneralBundle:Configuracion')->cerrarPeriodo($periodoActual);
+                    $periodoCierre = $arrControles['TxtPeriodo'];
+                    $em->getRepository('GeneralBundle:Configuracion')->cerrarPeriodo($periodoCierre);
                     return $this->redirect($this->generateUrl('cierre_periodo'));
                 }
                 $em->persist($arFacturaDetalle);
