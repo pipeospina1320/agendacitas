@@ -1,97 +1,105 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        {#        <meta name="viewport" content="width=device-width, initial-scale=1">#}
-        {#        <meta name="description" content="">#}
-        {#        <meta name="author" content="">#}
-        <title>{% block title %}Agenda Citas App{% endblock %}</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {#        <meta name="viewport" content="width=device-width, initial-scale=1">#}
+    {#        <meta name="description" content="">#}
+    {#        <meta name="author" content="">#}
+    <title>{% block title %}Agenda Citas App{% endblock %}</title>
+
+
+    {% block stylesheets %}
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- MetisMenu CSS -->
+        {#            <link href="{{ asset('metisMenu/metisMenu.min.css') }}" rel="stylesheet">#}
+
+        <!-- Custom CSS -->
+        <link href="{{ asset('dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+        <!-- Morris Charts CSS -->
+        <link href="{{ asset('morrisjs/morris.css') }}" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+        <!-- DataTables CSS -->
+        {#            <link href="{{ asset('datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">#}
+
+        <!-- DataTables Responsive CSS -->
+        {#            <link href="{{ asset('datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">#}
+
+        <!-- imagenes bootstrap CSS -->
+        <link href="{{ asset('imagenes/botstrap/') }}" rel="stylesheet">
+
+    {% endblock %}
+</head>
+
+
+<body>
+{% block body %}
 
 
 
-        {% block stylesheets %}
+    <header class="main-header">
+        {% include 'menu.html.twig' %}
+        {% include 'barraNavegacion.html.twig' %}
 
-            <!-- Bootstrap Core CSS -->
-            <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    </header>
+    <div id="wrapper">
+        <div id="page-wrapper">
 
-            <!-- MetisMenu CSS -->
-            {#            <link href="{{ asset('metisMenu/metisMenu.min.css') }}" rel="stylesheet">#}
-
-            <!-- Custom CSS -->
-            <link href="{{ asset('dist/css/sb-admin-2.css') }}" rel="stylesheet">
-
-            <!-- Morris Charts CSS -->
-            <link href="{{ asset('morrisjs/morris.css') }}" rel="stylesheet">
-
-            <!-- Custom Fonts -->
-            <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-
-            <!-- DataTables CSS -->
-            {#            <link href="{{ asset('datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">#}
-
-            <!-- DataTables Responsive CSS -->
-            {#            <link href="{{ asset('datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">#}
-
-            <!-- imagenes bootstrap CSS -->
-            <link href="{{ asset('imagenes/botstrap/') }}" rel="stylesheet">
-
-        {% endblock %}
-    </head>
-
-
-
-    <body>
-        {% block body %}
-
-            <header class="main-header">
-                {% include 'menu.html.twig' %}
-                {% include 'barraNavegacion.html.twig' %}
-
-            </header>
-            <div id="wrapper">
-                <div id="page-wrapper">
-                    {% block content %}
-
-                    {% endblock %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div id="error" class="alert alert-danger fade in">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <p>{{ flashMessage | raw }}</p>
                 </div>
-            </div>
-        {% endblock %}
+            {% endfor %}
 
-        {% block javascripts %}
-            <!-- /#wrapper -->
+            {% block content %}
 
-            <!-- jQuery -->
-            <script src="{{ asset('jquery/jquery.min.js') }}"></script>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
 
-            <!-- Bootstrap Core JavaScript -->
-            <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}"></script>
+{% block javascripts %}
+    <!-- /#wrapper -->
 
-            <!-- Metis Menu Plugin JavaScript -->
-            <script src="{{ asset('metisMenu/metisMenu.min.js')}}"></script>
+    <!-- jQuery -->
+    <script src="{{ asset('jquery/jquery.min.js') }}"></script>
 
-            <script src="{{ asset('js/general.js') }}"></script>
-            <!-- Morris Charts JavaScript -->
-            {#            <script src="{{ asset('raphael/raphael.min.js') }}"></script>#}
-            {#            <script src="{{ asset('morrisjs/morris.min.js') }}"></script>#}
-            {#            <script src="{{ asset ('data/morris-data.js') }}"></script>#}
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
-            <!-- DataTables JavaScript -->
-            <script src="{{ asset('datatables/js/jquery.dataTables.min.js')}}"></script>
-            <script src="{{ asset('datatables-plugins/dataTables.bootstrap.min.js')}}"></script>
-            <script src="{{ asset ('datatables-responsive/dataTables.responsive.js') }}"></script>
-            {#     <script>
-                     $(document).ready(function () {
-                         $('#dataTables-example').DataTable({
-                             responsive: true
-                         });
-                     });
-                 </script>#}
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{ asset('metisMenu/metisMenu.min.js') }}"></script>
 
-            <!-- Custom Theme JavaScript -->
-            <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-        {% endblock %} 
+    <script src="{{ asset('js/general.js') }}"></script>
+    <!-- Morris Charts JavaScript -->
+    {#            <script src="{{ asset('raphael/raphael.min.js') }}"></script>#}
+    {#            <script src="{{ asset('morrisjs/morris.min.js') }}"></script>#}
+    {#            <script src="{{ asset ('data/morris-data.js') }}"></script>#}
 
-    </body>
+    <!-- DataTables JavaScript -->
+    <script src="{{ asset('datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset ('datatables-responsive/dataTables.responsive.js') }}"></script>
+    {#     <script>
+             $(document).ready(function () {
+                 $('#dataTables-example').DataTable({
+                     responsive: true
+                 });
+             });
+         </script>#}
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+{% endblock %}
+
+</body>
 </html>

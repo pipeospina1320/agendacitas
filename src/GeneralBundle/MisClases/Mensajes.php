@@ -1,8 +1,10 @@
 <?php
 namespace GeneralBundle\MisClases;
+
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class Mensajes {
+class Mensajes
+{
 
     /**
      * Construye los parametros requeridos para generar un mensaje
@@ -10,10 +12,12 @@ class Mensajes {
      * @param string $strMensaje El mensaje que se mostrara
      * @param string $vista la vista donde se mostrara el mensaje
      */
-    public function Mensaje($strTipo, $strMensaje) {
+    public function Mensaje($strTipo, $strMensaje)
+    {
         $session = new Session();
-        $session->getFlashBag()->add($strTipo, $strMensaje);                
+        $session->getFlashBag()->add($strTipo, $strMensaje);
     }
 }
+
 ?>
 

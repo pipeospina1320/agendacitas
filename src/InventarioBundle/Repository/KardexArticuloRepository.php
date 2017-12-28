@@ -285,9 +285,9 @@ class KardexArticuloRepository extends \Doctrine\ORM\EntityRepository {
 
                 $strFecha = $fecha->format('Y-m-d');
 
-                $dql = "SELECT mk.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo mk  "
-                        . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodo . "" . "AND mk.fechaMovimiento <=" . "'$strFecha'"
-                        . "ORDER by mk.fechaMovimiento DESC, mk.codigoKardexArticuloPk DESC ";
+                $dql = "SELECT ka.codigoKardexArticuloPk as kardex FROM InventarioBundle:KardexArticulo ka  "
+                        . "WHERE ka.codigoArticuloFk = " . $codigo . " " . "AND ka.periodoMovimiento = " . $periodo . " ". "AND ka.fechaMovimiento <=" . "'$strFecha'"
+                        . "ORDER by ka.fechaMovimiento DESC, ka.codigoKardexArticuloPk DESC ";
                 $query = $em->createQuery($dql);
                 $arrayResultado = $query->getResult();
                 $codigoSaldoKardexPk = $arrayResultado[0]['kardex'];
