@@ -1,6 +1,5 @@
 {% extends '::base.html.twig' %}
 {% block content %}
-
     <section class="content">
         <div class="row">
             <div class="col-sm-4">
@@ -60,7 +59,7 @@
                         <td></td>
                         <td class="td-in-well"></td>
                         <td>Plazo pago:</td>
-                        <td class="td-in-well"></td>
+                        <td class="td-in-well">{{ arFactura.formaPagoRel.plazoDias | number_format(0) }}</td>
                         <td>Iva:</td>
                         <td align="right">{{ arFactura.vrIva | number_format(0, '.', ',')}}</td>
                     </tr>

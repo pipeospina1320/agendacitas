@@ -1,7 +1,9 @@
 <?php
 
 namespace InventarioBundle\Repository;
+
 use Doctrine\ORM\EntityRepository;
+use InventarioBundle\Entity\KardexArticulo;
 
 
 /**
@@ -12,18 +14,46 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticuloRepository extends EntityRepository
 {
-    public function listaDql($strNombre = "", $strCodigo = "") {
-        $dql   = "SELECT i FROM InventarioBundle:Articulo i WHERE i.codigoArticuloPk <> 0";        
-        if($strCodigo != "") {
-            $dql .= " AND i.codigoArticuloPk = " . $strCodigo;
+    public function listaDql($strNombre = "", $strCodigo = "")
+    {
+        $dql = "SELECT a, k FROM InventarioBundle:Articulo a JOIN a.kardexArticuloRel k  JOIN a.saldosArticulos s WHERE a.codigoArticuloPk <> 0";
+        if ($strCodigo != "") {
+            $dql .= " AND a.codigoArticuloPk = " . $strCodigo;
         }
-        if($strNombre != "") {
-            $dql .= " AND i.nombreArticulo like '%" . $strNombre. "%'";
+        if ($strNombre != "") {
+            $dql .= " AND a.nombreArticulo like '%" . $strNombre . "%'";
         }
-        $dql .= " ORDER BY i.nombreArticulo ASC";
-        
-        return $dql;
-    } 
+        $dql .= " ORDER BY a.nombreArticulo ASC";
 
-           
+        return $dql;
+    }
+
+    public function SaldoArticulos()
+    {
+        $em = $this->getEntityManager();
+        $UltimoCierre = $em->getRepository('GeneralBundle:Configuracion')->find(1);
+        $UltimoCierre = $UltimoCierre->getUltimoCierreInventario();
+        $periodoActual = (new \DateTime('now'))->format('Ym');
+        $fechaActual = (new \DateTime('now'))->format('Y-m-j');
+
+        if ($UltimoCierre < $periodoActual)
+        {
+
+            $saldoKardex = $em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('periodoMovimiento' => $UltimoCierre));
+
+            $dql = "SELECT k.saldoFinal as saldo FROM InventarioBundle:KardexArticulo k  "
+                . "WHERE  k.periodoMovimiento = " . $UltimoCierre . " " . "AND k.codigoArticuloFk <> 0"
+                . " ORDER by k.fechaMovimiento ASC";
+            $query = $em->createQuery($dql);
+            $saldo = $query->getResult();
+           // $saldo = $arrayResultado[0]['saldo'];
+
+//            $dql = "SELECT k.saldoFinal as saldo FROM InventarioBundle:KardexArticulo k  "
+//                . "WHERE  k.periodoMovimiento = " . $UltimoCierre . " " . " AND k.fechaMovimiento = " . $fechaActual
+//                . " ORDER by k.fechaMovimiento ASC";
+
+            return $saldo;
+        }
+    }
+
 }

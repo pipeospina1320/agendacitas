@@ -64,7 +64,6 @@ class ConfiguracionController extends Controller
                         $objMensaje->Mensaje("error", $respuesta);
                     }
                     return $this->redirect($this->generateUrl('cierre_periodo'));
-                    //return $this->redirect($this->generateUrl('cierre_periodo', array('periodoCierre' => $periodoCierre)));
                 }
             }
         }

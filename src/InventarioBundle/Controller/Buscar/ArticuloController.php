@@ -2,6 +2,7 @@
 
 namespace InventarioBundle\Controller\Buscar;
 
+use InventarioBundle\Repository\ArticuloRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,17 +26,20 @@ class ArticuloController extends Controller {
         $form = $this->formularioLista();
         $form->handleRequest($request);
         $this->lista();
+       // $saldo = $em->getRepository('InventarioBundle:Articulo')->SaldoArticulos();
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 if ($form->get('BtnFiltrar')->isClicked()) {
                     $this->filtrarLista($form);
                     $this->lista();
+                    //$em->getRepository('InventarioBundle:Articulo')->SaldoArticulos();
                 }
             }
         }
         $arItem = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->get('page', 1), 20);
         return $this->render('InventarioBundle:Buscar:articulo.html.twig', array(
                     'arItem' => $arItem,
+                    //'arSaldo' => $saldo,
                     'campoCodigo' => $campoCodigo,
                     'campoNombre' => $campoNombre,
                     'form' => $form->createView()

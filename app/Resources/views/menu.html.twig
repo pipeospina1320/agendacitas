@@ -1,94 +1,98 @@
-<aside class="main-sidebar">
-    <section class="sidebar">
-{#        <div class="navbar-default sidebar" role="navigation">#}
-            {#        <div class="sidebar-nav navbar-collapse">#}
-            <ul class="nav" id="side-menu">
-                <li class="sidebar-search">
-                    <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
+{#<aside class="main-sidebar">#}
+    {#<section class="sidebar">#}
+<nav class="navbar navbar-default sidebar" role="navigation">
+    {#        <div class="navbar-default sidebar" role="navigation">#}
+    {#        <div class="sidebar-nav navbar-collapse">#}
+    <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-                    </div>
-                    <!-- /input-group -->
-                </li>
-                <li>
-                    <a><i class="fa fa-user"></i> Citas<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="{{ path('citas_lista') }}">Citas</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a><i class="fa fa-group"></i> Clientes<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="{{ path('cliente_lista') }}">Clientes</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a><i class="fa fa-briefcase"></i> Inventario<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#">Movimientos<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="#">Articulos</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Configuracion<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="{{ path('articulo_lista') }}">Articulos</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('grupo_lista') }}">Grupo</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('marca_lista') }}">Marca</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a><i class="fa fa-file-text-o"></i> Facturacion<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="{{ path('factura_lista') }}">Facturas</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a><i class="fa  fa-book"></i> Contabilidad<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#">Movimientos<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="#">Asientos Contables</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Configuracion<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="#">Plan de Cuentas</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('comprobante_lista') }}">Comprobantes</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-    </section>
-</aside>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a><i class="fa fa-user"></i> Citas<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ path('citas_lista') }}">Citas</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-group"></i> Clientes<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ path('cliente_lista') }}">Clientes</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-briefcase"></i> Inventario<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#">Movimientos<span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="#">Articulos</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Configuracion<span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="{{ path('articulo_lista') }}">Articulos</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('grupo_lista') }}">Grupo</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('marca_lista') }}">Marca</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-file-text-o"></i> Facturacion<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ path('factura_lista') }}">Facturas</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa  fa-book"></i> Contabilidad<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#">Movimientos<span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="#">Asientos Contables</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Configuracion<span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a href="#">Plan de Cuentas</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('comprobante_lista') }}">Comprobantes</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+{#</section>#}
+{#</aside>#}

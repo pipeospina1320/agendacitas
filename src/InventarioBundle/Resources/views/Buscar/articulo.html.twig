@@ -38,17 +38,19 @@
     </div>        
     <table  class="table table-bordered">            
         <tr>
-            <th>{{ knp_pagination_sortable(arItem, 'CODIGO', 'i.codigoArticuloPk') }}</th>                
-            <th>{{ knp_pagination_sortable(arItem, 'NOMBRE', 'i.nombreArticulo') }}</th> 
-            <th>GRUPO</th> 
+            <th>{{ knp_pagination_sortable(arItem, 'CODIGO', 'a.codigoArticuloPk') }}</th>
+            <th>{{ knp_pagination_sortable(arItem, 'NOMBRE', 'a.nombreArticulo') }}</th>
+            <th>GRUPO</th>
+            <th>EXISTENCIA</th>
             <th></th>
         </tr>
         {% for arItem in arItem %}
             <tr>
                 <td><input type="hidden" name="LblCodigo[]" value="{{ arItem.codigoArticuloPk }}">{{ arItem.codigoArticuloPk }} </td>                
                 <td>{{ arItem.nombreArticulo }}</td>
-                <td>{{ arItem.grupoArticuloRel.nombreGrupoArticulo }}</td>  
-                <td style="text-align: center"><a href="javascript:selTercero('{{ arItem.codigoArticuloPk }}','{{ arItem.nombreArticulo }}','{{ campoCodigo }}','{{ campoNombre }}')" ><img src="{{ asset('imagenes/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>                                                
+                <td>{{ arItem.grupoArticuloRel.nombreGrupoArticulo }}</td>
+                <td>{{ arIte,'a.saldoFinal' }}</td>
+                <td style="text-align: center"><a href="javascript:selTercero('{{ arItem.codigoArticuloPk }}','{{ arItem.nombreArticulo }}','{{ campoCodigo }}','{{ campoNombre }}')" ><img src="{{ asset('imagenes/bootstrap/glyphicons_198_ok.png') }}" width=20 height=20></a></td>
             </tr>
         {% endfor %} 
     </table>                                         

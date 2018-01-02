@@ -62,7 +62,7 @@ class FacturaController extends Controller {
             if ($form->isValid()) {
                 $arrControles = $request->request->All();
                 if ($arrControles['txtCedula'] != '') {
-                    $arTercero = new \GeneralBundle\Entity\Cliente();
+                    //$arTercero = new \GeneralBundle\Entity\Cliente();
                     $arTercero = $em->getRepository('GeneralBundle:Cliente')->findOneBy(array('numDocumento' => $arrControles['txtCedula']));
                     if (count($arTercero) > 0) {
                         $arFactura->setClienteRel($arTercero);

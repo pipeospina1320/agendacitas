@@ -38,14 +38,12 @@ class FacturaType extends AbstractType {
                     'choice_label' => 'nombreFormaPago',
                     'required' => true))
 
-                ->add('codigoVendedorFk', TextType::class, array('required' => true))
+                ->add('codigoVendedorFk', TextType::class)
                 
-                ->add('fechaMovimiento', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
-                
-               
-                
-               
-                ;
+                ->add('fechaMovimiento', DateType::class, array(
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd',
+                    'attr' => array('class' => 'date',)));
     }
  public function getBlockPrefix() {
         return 'form';

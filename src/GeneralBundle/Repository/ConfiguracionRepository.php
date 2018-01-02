@@ -32,7 +32,6 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository
             foreach ($arArticulos as $articulo) {
                 $codigoArticulo = $em->getRepository('InventarioBundle:Articulo')->findOneBy(array('codigoArticuloPk' => $articulo));
                 $saldoArticulo = $em->getRepository('InventarioBundle:SaldosArticulos')->findOneBy(array('codigoArticuloFk' => $codigoArticulo, 'periodo' => $periodoCierre));
-                //$saldoKardex = count($em->getRepository('InventarioBundle:KardexArticulo')->findby(array('codigoArticuloFk' => $codigoArticulo, 'periodoMovimiento' => $periodoCierre)));
 
                 if ($codigoArticulo->getManejaKardex() == 1) {
 
@@ -45,17 +44,17 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository
             foreach ($arArticulos as $articulo) {
                 $codigoArticulo = $em->getRepository('InventarioBundle:Articulo')->findOneBy(array('codigoArticuloPk' => $articulo));
                 $saldoArticulo = $em->getRepository('InventarioBundle:SaldosArticulos')->findOneBy(array('codigoArticuloFk' => $codigoArticulo, 'periodo' => $periodoCierre));
-                $saldoKardex = count($em->getRepository('InventarioBundle:KardexArticulo')->findby(array('codigoArticuloFk' => $codigoArticulo, 'periodoMovimiento' => $periodoCierre)));
+                $saldoKardex = $em->getRepository('InventarioBundle:KardexArticulo')->findby(array('codigoArticuloFk' => $codigoArticulo, 'periodoMovimiento' => $periodoCierre));
 
                 if ($codigoArticulo->getManejaKardex() == 1) {
 
                     if ($saldoArticulo == null) {
-                        if ($saldoKardex == 0) {
+                        if ($saldoKardex == null) {
                             $this->ingresarSaldosCero($codigoArticulo, $periodoCierre);
                         }
                     }
 
-                    if ($saldoKardex > 0) {
+                    if ($saldoKardex !== null) {
                         $this->consultaSaldosKardex($codigoArticulo, $periodoCierre);
                     }
                 }
@@ -72,13 +71,13 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $saldos = new \InventarioBundle\Entity\SaldosArticulos();
         $articulo = $em->getRepository('InventarioBundle:Articulo')->findOneBy(array('codigoArticuloPk' => $codigoArticulo));
-        $codigo = $articulo->getCodigoArticuloPk();
+        $codigoArticulo = $articulo->getCodigoArticuloPk();
 
 
         $numeroRegistros = count($em->getRepository('InventarioBundle:KardexArticulo')->findBy(array('codigoArticuloFk' => $codigoArticulo, 'periodoMovimiento' => $periodoCierre)));
 
         if ($numeroRegistros == 0) {
-            //saldos 
+            //insertar valores en cero
             $saldos->setArticuloRel($articulo);
             $saldos->setPeriodo($periodoCierre);
             $saldos->setSaldoInicial('0');
@@ -97,46 +96,43 @@ class ConfiguracionRepository extends \Doctrine\ORM\EntityRepository
             $saldos->setPeriodo($periodoCierre);
 
             $dql = "SELECT mk.saldoAnterior as kardex FROM InventarioBundle:KardexArticulo mk  "
-                . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
+                . "WHERE mk.codigoArticuloFk = " . $codigoArticulo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
                 . " ORDER by mk.fechaMovimiento ASC";
             $query = $em->createQuery($dql);
             $arrayResultado = $query->getResult();
             $saldoInicial = $arrayResultado[0]['kardex'];
 
             $dql = "SELECT SUM(mk.salidas) as salidas FROM InventarioBundle:KardexArticulo mk  "
-                . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
+                . "WHERE mk.codigoArticuloFk = " . $codigoArticulo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
                 . " ORDER by mk.fechaMovimiento ASC";
             $query = $em->createQuery($dql);
             $arrayResultado = $query->getResult();
             $salidas = $arrayResultado[0]['salidas'];
 
             $dql = "SELECT SUM(mk.entradas) as entradas FROM InventarioBundle:KardexArticulo mk  "
-                . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
+                . "WHERE mk.codigoArticuloFk = " . $codigoArticulo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
                 . " ORDER by mk.fechaMovimiento ASC";
             $query = $em->createQuery($dql);
             $arrayResultado = $query->getResult();
             $entradas = $arrayResultado[0]['entradas'];
 
             $dql = "SELECT mk.costoPromedio as costoPromedio FROM InventarioBundle:KardexArticulo mk  "
-                . "WHERE mk.codigoArticuloFk = " . $codigo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
+                . "WHERE mk.codigoArticuloFk = " . $codigoArticulo . " " . "AND mk.periodoMovimiento = " . $periodoCierre
                 . " ORDER by mk.fechaMovimiento DESC";
             $query = $em->createQuery($dql);
             $arrayResultado = $query->getResult();
             $costoPromedio = $arrayResultado[0]['costoPromedio'];
 
-            //saldos 
+            //insertar saldos
             $saldos->setSaldoInicial($saldoInicial);
             $saldos->setEntradas($entradas);
             $saldos->setSalidas($salidas);
             $saldoFinal = $saldoInicial + $entradas - $salidas;
             $saldos->setSaldoFinal($saldoFinal);
             $saldos->setCostoPromedio($costoPromedio);
-            //$saldos->setCostoPromedioAnterior('0');
             $costoUnitario = $costoPromedio / $saldoFinal;
             $saldos->setCostoUnitario($costoUnitario);
-            //$saldos->setCostoUnitarioAnterior('0');
             $saldos->setUltimoCosto('0');
-            //$saldos->setUltimoCostoAnterior('0');
             $em->persist($saldos);
             $em->flush();
         }
